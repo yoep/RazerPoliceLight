@@ -1,4 +1,5 @@
-﻿using Rage;
+﻿using System.Diagnostics.CodeAnalysis;
+using Rage;
 using Rage.Attributes;
 
 [assembly:
@@ -8,6 +9,8 @@ using Rage.Attributes;
 
 namespace RazerPoliceLights
 {
+    
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class EntryPoint
     {
         public static void Main()

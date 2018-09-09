@@ -1,26 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using Rage;
+using RazerPoliceLights.Effects;
 
 namespace RazerPoliceLights
 {
     public class VehicleListener
     {
         private readonly Ped _player;
+        private readonly List<IEffect> _deviceEffects;
 
         private PlayerState _oldPlayerState;
         private bool _oldSirenStateOn;
         private bool _sirenStateChanged;
         private bool _playerStateChanged;
 
-//        private readonly IKeyboard _chromaKeyboard;
-//        private readonly IMouse _chromaMouse;
-
         private VehicleListener()
         {
-            this._player = Game.LocalPlayer.Character;
-            this._oldPlayerState = PlayerState;
-//            this._chromaKeyboard = Chroma.Instance.Keyboard;
-//            this._chromaMouse = Chroma.Instance.Mouse;
+            _deviceEffects = new List<IEffect>(new IEffect[] {new KeyboardEffect(), new MouseEffect()});
+            _player = Game.LocalPlayer.Character;
+            _oldPlayerState = PlayerState;
         }
 
         public PlayerState PlayerState
@@ -42,7 +41,7 @@ namespace RazerPoliceLights
             }
             catch (Exception exception)
             {
-                Game.LogVerbose(exception.Message + Environment.NewLine + exception.StackTrace);
+                Game.LogTrivial(exception.Message + Environment.NewLine + exception.StackTrace);
             }
         }
 
@@ -64,13 +63,19 @@ namespace RazerPoliceLights
 
                 if (PlayerState == PlayerState.DRIVING)
                 {
-                    if (IsSirenOn)
+                    if (_sirenStateChanged && IsSirenOn)
                     {
-//                        _chromaMouse.SetBlinking(Color.Blue, Led.All);
+                        foreach (var deviceEffect in _deviceEffects)
+                        {
+                            deviceEffect.Play();
+                        }
                     }
-                    else
+                    else if(_sirenStateChanged)
                     {
-//                        _chromaMouse.Clear();
+                        foreach (var deviceEffect in _deviceEffects)
+                        {
+                            deviceEffect.Stop();
+                        }
                     }
                 }
 
@@ -80,10 +85,10 @@ namespace RazerPoliceLights
 
         private void UpdateStates()
         {
-            this._sirenStateChanged = IsSirenOn != _oldSirenStateOn;
-            this._playerStateChanged = PlayerState != _oldPlayerState;
-            this._oldSirenStateOn = IsSirenOn;
-            this._oldPlayerState = PlayerState;
+            _sirenStateChanged = IsSirenOn != _oldSirenStateOn;
+            _playerStateChanged = PlayerState != _oldPlayerState;
+            _oldSirenStateOn = IsSirenOn;
+            _oldPlayerState = PlayerState;
         }
 
         private bool IsPlayerDriving()
