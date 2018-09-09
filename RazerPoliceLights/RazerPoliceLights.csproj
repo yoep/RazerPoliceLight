@@ -32,12 +32,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\AbstractEffect.cs" />
     <Compile Include="Effects\IEffect.cs" />
     <Compile Include="Effects\KeyboardEffect.cs" />
     <Compile Include="Effects\MouseEffect.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="Pattern\ColorType.cs" />
+    <Compile Include="Pattern\EffectPattern.cs" />
+    <Compile Include="Pattern\EffectPatternException.cs" />
+    <Compile Include="Pattern\PatternRow.cs" />
     <Compile Include="PlayerState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\ColorSettings.cs" />
     <Compile Include="VehicleListener.cs" />
   </ItemGroup>
   <ItemGroup>

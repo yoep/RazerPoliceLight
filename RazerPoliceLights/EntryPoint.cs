@@ -9,17 +9,14 @@ using Rage.Attributes;
 
 namespace RazerPoliceLights
 {
-    
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class EntryPoint
     {
         public static void Main()
         {
-            Game.LogTrivial("Initializing RazerPoliceLights");
             while (Game.IsLoading)
                 GameFiber.Yield();
 
-            Game.LogTrivial("Creating new VehicleListener");
             GameFiber.StartNew(VehicleListener.Start);
         }
     }

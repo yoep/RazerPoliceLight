@@ -1,56 +1,98 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System;
+using System.Linq;
 using Corale.Colore.Core;
+using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
+using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
-    public class MouseEffect : IEffect
+    public class MouseEffect : AbstractEffect
     {
+        private readonly ColorSettings _colorSettings = ColorSettings.Instance;
         private readonly IMouse _chromaMouse;
-        private readonly List<Color> _colors = new List<Color>();
-        private readonly List<Color> _invertedColors = new List<Color>();
-        private Thread _thread;
-        private bool _isEffectRunning;
+        private readonly EffectPattern _effectPattern = CreatePatternEffect();
+
+        private int _effectCursor;
 
         public MouseEffect()
         {
             _chromaMouse = Chroma.Instance.Mouse;
-            Init();
         }
 
-        public void Play()
+        protected override void OnEffectTick()
         {
-            _isEffectRunning = true;
-            _thread = new Thread(() =>
-            {
-                var i = 0;
+            var columnSize = Constants.MaxColumns / _effectPattern.TotalColumns;
+            var columnStartIndex = 0;
+            var playPattern = _effectPattern.PatternRows.ElementAt(_effectCursor);
 
-                while (_isEffectRunning)
+            for (var patternColumn = 0; patternColumn < _effectPattern.TotalColumns; patternColumn++)
+            {
+                var columnEndIndex = columnStartIndex + columnSize;
+
+                if (IsMismatchingLastColumnEndIndex(patternColumn, columnEndIndex))
                 {
-                    i++;
-                    _chromaMouse.SetGrid(new CustomGrid(i % 2 == 0 ? _colors : _invertedColors));
-                    Thread.Sleep(200);
-                    if (i > 10)
-                        i = 0;
+                    columnEndIndex = Constants.MaxColumns;
                 }
-            }) {IsBackground = true};
-            _thread.Start();
-        }
 
-        public void Stop()
-        {
-            _isEffectRunning = false;
-            _chromaMouse.SetEffect(Effect.None);
-        }
+                for (var row = 0; row < Constants.MaxRows; row++)
+                {
+                    for (var column = columnStartIndex; column < columnEndIndex; column++)
+                    {
+                        _chromaMouse[row, column] =
+                            GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn));
+                    }
+                }
 
-        private void Init()
-        {
-            for (var i = 0; i < 63; i++)
-            {
-                _colors.Add(i % 2 == 0 ? Color.Blue : Color.Red);
-                _invertedColors.Add(i % 2 == 0 ? Color.Red : Color.Blue);
+                columnStartIndex = columnEndIndex;
             }
+
+            if (_effectCursor < _effectPattern.TotalPlaybackRows - 1)
+            {
+                _effectCursor++;
+            }
+            else
+            {
+                _effectCursor = 0;
+            }
+        }
+
+        protected override void OnEffectStop()
+        {
+            _chromaMouse.SetStatic(new Static(Led.All, _colorSettings.DefaultColor));
+        }
+
+        private bool IsMismatchingLastColumnEndIndex(int patternColumn, int columnEndIndex)
+        {
+            return patternColumn == _effectPattern.TotalColumns - 1 && columnEndIndex != Constants.MaxColumns;
+        }
+
+        private Color GetPlaybackColumnColor(ColorType colorType)
+        {
+            switch (colorType)
+            {
+                case ColorType.OFF:
+                    return Color.Black;
+                case ColorType.PRIMARY:
+                    return _colorSettings.PrimaryColor;
+                case ColorType.SECONDARY:
+                    return _colorSettings.SecondaryColor;
+                default:
+                    throw new ArgumentOutOfRangeException("colorType", colorType, null);
+            }
+        }
+
+        private static EffectPattern CreatePatternEffect()
+        {
+            return new EffectPattern(new PatternRow(ColorType.PRIMARY, ColorType.PRIMARY, ColorType.OFF, ColorType.OFF),
+                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF),
+                new PatternRow(ColorType.PRIMARY, ColorType.PRIMARY, ColorType.OFF, ColorType.OFF),
+                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF),
+                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.PRIMARY, ColorType.PRIMARY),
+                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF),
+                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.PRIMARY, ColorType.PRIMARY),
+                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF));
         }
     }
 }

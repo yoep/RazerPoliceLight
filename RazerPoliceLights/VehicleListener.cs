@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Rage;
 using RazerPoliceLights.Effects;
 
@@ -41,7 +42,11 @@ namespace RazerPoliceLights
             }
             catch (Exception exception)
             {
-                Game.LogTrivial(exception.Message + Environment.NewLine + exception.StackTrace);
+                if (!(exception is ThreadAbortException))
+                {
+                    Game.LogTrivial(exception.Message + Environment.NewLine + exception.StackTrace);
+                    Game.DisplayNotification("Razer Police Lights Keyboard plugin has crashed");
+                } //else, plugin is being unloaded
             }
         }
 
@@ -70,7 +75,7 @@ namespace RazerPoliceLights
                             deviceEffect.Play();
                         }
                     }
-                    else if(_sirenStateChanged)
+                    else if (_sirenStateChanged)
                     {
                         foreach (var deviceEffect in _deviceEffects)
                         {
