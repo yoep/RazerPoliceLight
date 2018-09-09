@@ -30,7 +30,11 @@ namespace RazerPoliceLights
 
         public bool IsSirenOn
         {
-            get { return GetPlayerVehicle().IsSirenOn; }
+            get
+            {
+                var playerVehicle = GetPlayerVehicle();
+                return playerVehicle != null && playerVehicle.IsSirenOn;
+            }
         }
 
         public static void Start()
@@ -56,35 +60,39 @@ namespace RazerPoliceLights
             {
                 UpdateStates();
 
-                if (_playerStateChanged)
-                {
-                    Game.LogVerbose("Player state changed to " + PlayerState);
-                }
-
-                if (_sirenStateChanged)
-                {
-                    Game.LogTrivial("Siren state changed to " + IsSirenOn);
-                }
-
                 if (PlayerState == PlayerState.DRIVING)
                 {
                     if (_sirenStateChanged && IsSirenOn)
                     {
-                        foreach (var deviceEffect in _deviceEffects)
-                        {
-                            deviceEffect.Play();
-                        }
+                        StartEffects();
                     }
                     else if (_sirenStateChanged)
                     {
-                        foreach (var deviceEffect in _deviceEffects)
-                        {
-                            deviceEffect.Stop();
-                        }
+                        StopEffects();
                     }
+                }
+                else if(_playerStateChanged)
+                {
+                    StopEffects();
                 }
 
                 GameFiber.Yield();
+            }
+        }
+
+        private void StartEffects()
+        {
+            foreach (var deviceEffect in _deviceEffects)
+            {
+                deviceEffect.Play();
+            }
+        }
+
+        private void StopEffects()
+        {
+            foreach (var deviceEffect in _deviceEffects)
+            {
+                deviceEffect.Stop();
             }
         }
 
