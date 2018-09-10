@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 using Corale.Colore.Core;
@@ -90,7 +91,7 @@ namespace RazerPoliceLights.Settings
                 throw new SettingsException(
                     "Speed multiplayer setting in the playback configuration is missing in the configuration file");
 
-            var speedMultiplayer = double.Parse(speedMultiplayerNode.InnerText);
+            var speedMultiplayer = double.Parse(speedMultiplayerNode.InnerText, CultureInfo.InvariantCulture);
 
             if (speedMultiplayer < 0)
             {
