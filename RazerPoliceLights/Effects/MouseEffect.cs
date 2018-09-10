@@ -1,37 +1,36 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Pattern.Predefined.Mouse;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
     public class MouseEffect : AbstractEffect
     {
-        private readonly ColorSettings _colorSettings = ColorSettings.Instance;
+        private readonly ColorSettings _colorSettings = SettingsManager.Instance.Settings.ColorSettings;
         private readonly IMouse _chromaMouse;
-        private readonly EffectPattern _effectPattern = CreatePatternEffect();
 
-        private int _effectCursor;
-
-        public MouseEffect()
+        public MouseEffect() : base(GetEffects())
         {
             _chromaMouse = Chroma.Instance.Mouse;
         }
 
         protected override void OnEffectTick()
         {
-            var columnSize = Constants.MaxColumns / _effectPattern.TotalColumns;
+            var effectPattern = GetEffectPattern();
+            var columnSize = Constants.MaxColumns / effectPattern.TotalColumns;
             var columnStartIndex = 0;
-            var playPattern = _effectPattern.PatternRows.ElementAt(_effectCursor);
+            var playPattern = effectPattern.PatternRows.ElementAt(EffectCursor);
 
-            for (var patternColumn = 0; patternColumn < _effectPattern.TotalColumns; patternColumn++)
+            for (var patternColumn = 0; patternColumn < effectPattern.TotalColumns; patternColumn++)
             {
                 var columnEndIndex = columnStartIndex + columnSize;
 
-                if (IsMismatchingLastColumnEndIndex(patternColumn, columnEndIndex))
+                if (IsMismatchingLastColumnEndIndex(effectPattern, Constants.MaxColumns, patternColumn, columnEndIndex))
                 {
                     columnEndIndex = Constants.MaxColumns;
                 }
@@ -48,51 +47,30 @@ namespace RazerPoliceLights.Effects
                 columnStartIndex = columnEndIndex;
             }
 
-            if (_effectCursor < _effectPattern.TotalPlaybackRows - 1)
+            if (EffectCursor < effectPattern.TotalPlaybackRows - 1)
             {
-                _effectCursor++;
+                EffectCursor++;
             }
             else
             {
-                _effectCursor = 0;
+                EffectCursor = 0;
             }
         }
 
         protected override void OnEffectStop()
         {
-            _chromaMouse.SetStatic(new Static(Led.All, _colorSettings.DefaultColor));
+            _chromaMouse.SetStatic(new Static(Led.All, _colorSettings.StandbyColor));
         }
 
-        private bool IsMismatchingLastColumnEndIndex(int patternColumn, int columnEndIndex)
+        private static List<EffectPattern> GetEffects()
         {
-            return patternColumn == _effectPattern.TotalColumns - 1 && columnEndIndex != Constants.MaxColumns;
-        }
-
-        private Color GetPlaybackColumnColor(ColorType colorType)
-        {
-            switch (colorType)
+            return new List<EffectPattern>
             {
-                case ColorType.OFF:
-                    return Color.Black;
-                case ColorType.PRIMARY:
-                    return _colorSettings.PrimaryColor;
-                case ColorType.SECONDARY:
-                    return _colorSettings.SecondaryColor;
-                default:
-                    throw new ArgumentOutOfRangeException("colorType", colorType, null);
-            }
-        }
-
-        private static EffectPattern CreatePatternEffect()
-        {
-            return new EffectPattern(new PatternRow(ColorType.PRIMARY, ColorType.PRIMARY, ColorType.OFF, ColorType.OFF),
-                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF),
-                new PatternRow(ColorType.PRIMARY, ColorType.PRIMARY, ColorType.OFF, ColorType.OFF),
-                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF),
-                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.PRIMARY, ColorType.PRIMARY),
-                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF),
-                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.PRIMARY, ColorType.PRIMARY),
-                new PatternRow(ColorType.OFF, ColorType.OFF, ColorType.OFF, ColorType.OFF));
+                LeftRightFlash.Get,
+                LeftRight.Get,
+                EvenOddFlash.Get,
+                EvenOdd.Get
+            };
         }
     }
 }

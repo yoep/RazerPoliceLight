@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<RazerPoliceLights>
+    <Playback>
+        <SpeedMultiplayer>1.0</SpeedMultiplayer>
+    </Playback>
+    <Colors>
+        <Standby R="255" G="0" B="0"/> <!-- Or you can use <Standby>red</Standby> -->
+        <Primary R="0" G="0" B="255"/> <!-- Or you can use <Primary>blue</Primary> -->
+        <Secondary R="255" G="0" B="0"/> <!-- Or you can use <Secondary>red</Secondary> -->
+        <!-- 
+        Valid values are (case-insensitive):
+         - black
+         - blue
+         - red
+         - orange
+         - yellow
+         - white
+        -->
+    </Colors>
+    <Patterns>
+        <Pattern Type="Keyboard">
+            
+        </Pattern>
+    </Patterns>
+</RazerPoliceLights>

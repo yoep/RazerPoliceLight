@@ -4,6 +4,7 @@ using Rage.Attributes;
 
 [assembly:
     Plugin("Razer Police Lights Keyboard",
+        PrefersSingleInstance = true,
         Description = "Razer Keyboard lighting effect",
         Author = "yoep")]
 

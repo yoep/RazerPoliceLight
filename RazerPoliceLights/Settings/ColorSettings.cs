@@ -4,28 +4,10 @@ namespace RazerPoliceLights.Settings
 {
     public class ColorSettings
     {
-        #region Constructors
+        public Color PrimaryColor { get; internal set; }
 
-        static ColorSettings()
-        {
-            Instance = new ColorSettings();
-        }
+        public Color SecondaryColor { get; internal set; }
 
-        private ColorSettings()
-        {
-            PrimaryColor = Color.Blue;
-            SecondaryColor = Color.Blue;
-            DefaultColor = Color.Red;
-        }
-
-        #endregion
-
-        public static ColorSettings Instance { get; private set; }
-
-        public Color PrimaryColor { get; private set; }
-
-        public Color SecondaryColor { get; private set; }
-        
-        public Color DefaultColor { get; private set; }
+        public Color StandbyColor { get; internal set; }
     }
 }

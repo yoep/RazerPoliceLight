@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Rage;
 using RazerPoliceLights.Effects;
+using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights
 {
@@ -19,7 +20,7 @@ namespace RazerPoliceLights
         private VehicleListener()
         {
             _deviceEffects = new List<IEffect>(new IEffect[] {new KeyboardEffect(), new MouseEffect()});
-            _player = Game.LocalPlayer.Character;
+            _player = GetPlayer();
             _oldPlayerState = PlayerState;
         }
 
@@ -41,6 +42,7 @@ namespace RazerPoliceLights
         {
             try
             {
+                SettingsManager.Instance.Load();
                 var vehicleListener = new VehicleListener();
                 vehicleListener.Listen();
             }
@@ -71,7 +73,7 @@ namespace RazerPoliceLights
                         StopEffects();
                     }
                 }
-                else if(_playerStateChanged)
+                else if (_playerStateChanged)
                 {
                     StopEffects();
                 }
@@ -107,13 +109,19 @@ namespace RazerPoliceLights
         private bool IsPlayerDriving()
         {
             var playerLastVehicle = GetPlayerVehicle();
-
-            return playerLastVehicle.Exists() && playerLastVehicle.Driver == _player;
+            return playerLastVehicle.Exists() && playerLastVehicle.Driver == GetPlayer();
         }
 
         private Vehicle GetPlayerVehicle()
         {
-            return _player.CurrentVehicle;
+            var player = GetPlayer();
+
+            return player != null ? player.CurrentVehicle : null;
+        }
+
+        private Ped GetPlayer()
+        {
+            return _player != null ? _player : Game.LocalPlayer.Character;
         }
     }
 }
