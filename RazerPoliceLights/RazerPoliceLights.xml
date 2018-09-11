@@ -2,7 +2,7 @@
 <RazerPoliceLights>
     <Playback>
         <Speed>1.0</Speed>
-        <EnableOnFoot>false</EnableOnFoot>
+        <LeaveLightsOn>false</LeaveLightsOn>
     </Playback>
     <Colors>
         <Standby R="255" G="0" B="0"/> <!-- Or you can use <Standby>red</Standby> -->
@@ -18,9 +18,25 @@
          - white
         -->
     </Colors>
-    <Patterns>
-        <Pattern Type="Keyboard">
-            
-        </Pattern>
-    </Patterns>
+    <Devices>
+        <!-- EnableScanMode allows the plugin to switch automatically between the patterns -->
+        <!-- Otherwise, the plugin will only use the first defined pattern -->
+        <Keyboard EnableScanMode="true">
+            <Patterns>
+                <Pattern>Alternate</Pattern>
+                <Pattern>AlternateFlash</Pattern>
+                <Pattern>AlternateAndFullFlash</Pattern>
+                <Pattern>EvenOdd</Pattern>
+                <Pattern>EvenOddFlash</Pattern>
+            </Patterns>
+        </Keyboard>
+        <Mouse EnableScanMode="true">
+            <Patterns>
+                <Pattern>Alternate</Pattern>
+                <Pattern>AlternateFlash</Pattern>
+                <Pattern>EvenOdd</Pattern>
+                <Pattern>EvenOddFlash</Pattern>
+            </Patterns>
+        </Mouse>
+    </Devices>
 </RazerPoliceLights>

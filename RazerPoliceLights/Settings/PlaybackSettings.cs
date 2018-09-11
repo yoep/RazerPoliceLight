@@ -4,6 +4,6 @@
     {
         public double SpeedModifier { get; set; }
         
-        public bool EnableOnFoot { get; set; }
+        public bool LeaveLightsOn { get; set; }
     }
 }

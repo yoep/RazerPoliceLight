@@ -3,6 +3,12 @@
     public interface IEffect
     {
         /// <summary>
+        /// Check if the effect is already playing.
+        /// </summary>
+        /// <returns>Returns true if the effect is already playing, else false.</returns>
+        bool IsPlaying();
+        
+        /// <summary>
         /// Start playing the device effect.
         /// </summary>
         void Play();

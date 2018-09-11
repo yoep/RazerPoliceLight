@@ -59,18 +59,18 @@ namespace RazerPoliceLights
 
                 if (PlayerState == PlayerState.DRIVING)
                 {
-                    if (_sirenStateChanged && IsSirenOn)
+                    if (_sirenStateChanged && IsSirenOn && !_effectsManager.IsPlaying())
                     {
                         StartEffects();
                     }
-                    else if (_sirenStateChanged)
+                    else if (_sirenStateChanged && _effectsManager.IsPlaying())
                     {
                         StopEffects();
                     }
                 }
                 else if (_playerStateChanged)
                 {
-                    if (!SettingsManager.Instance.Settings.PlaybackSettings.EnableOnFoot)
+                    if (!SettingsManager.Instance.Settings.PlaybackSettings.LeaveLightsOn)
                     {
                         StopEffects();
                     }

@@ -5,13 +5,11 @@ using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Pattern.Predefined.Mouse;
-using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
     internal class MouseEffect : AbstractEffect
     {
-        private readonly ColorSettings _colorSettings = SettingsManager.Instance.Settings.ColorSettings;
         private readonly IMouse _chromaMouse;
 
         internal MouseEffect() : base(GetEffects())
@@ -59,15 +57,20 @@ namespace RazerPoliceLights.Effects
 
         protected override void OnEffectStop()
         {
-            _chromaMouse.SetStatic(new Static(Led.All, _colorSettings.StandbyColor));
+            _chromaMouse.SetStatic(new Static(Led.All, Settings.ColorSettings.StandbyColor));
+        }
+
+        protected override bool IsScanModeEnabled()
+        {
+            return Settings.DeviceSettings.MouseSettings.IsScanEnabled;
         }
 
         private static List<EffectPattern> GetEffects()
         {
             return new List<EffectPattern>
             {
-                LeftRightFlash.Get,
-                LeftRight.Get,
+                AlternateFlash.Get,
+                Alternate.Get,
                 EvenOddFlash.Get,
                 EvenOdd.Get
             };

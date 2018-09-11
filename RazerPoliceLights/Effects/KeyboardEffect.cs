@@ -5,13 +5,11 @@ using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Pattern.Predefined.Keyboard;
-using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
     internal class KeyboardEffect : AbstractEffect
     {
-        private readonly ColorSettings _colorSettings = SettingsManager.Instance.Settings.ColorSettings;
         private readonly IKeyboard _chromaKeyboard;
 
         internal KeyboardEffect() : base(GetEffects())
@@ -59,16 +57,21 @@ namespace RazerPoliceLights.Effects
 
         protected override void OnEffectStop()
         {
-            _chromaKeyboard.SetStatic(new Static(_colorSettings.StandbyColor));
+            _chromaKeyboard.SetStatic(new Static(Settings.ColorSettings.StandbyColor));
+        }
+
+        protected override bool IsScanModeEnabled()
+        {
+            return Settings.DeviceSettings.KeyboardSettings.IsScanEnabled;
         }
 
         private static List<EffectPattern> GetEffects()
         {
             return new List<EffectPattern>
             {
-                LeftRightFlash.Get,
-                LeftRight.Get,
-                LeftRightFullFlash.Get,
+                AlternateFlash.Get,
+                Alternate.Get,
+                AlternateAndFullFlash.Get,
                 EvenOddFlash.Get,
                 EvenOdd.Get
             };

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RazerPoliceLights.Effects
 {
@@ -25,6 +26,11 @@ namespace RazerPoliceLights.Effects
         public List<IEffect> DevicEffects { get; private set; }
 
         #endregion
+
+        public bool IsPlaying()
+        {
+            return DevicEffects.Any(e => e.IsPlaying());
+        }
 
         public void Play()
         {

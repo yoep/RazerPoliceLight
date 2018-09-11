@@ -11,10 +11,10 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
+        protected readonly Settings.Settings Settings;
         protected int EffectCursor;
 
         private readonly List<EffectPattern> _effectPatterns;
-        private readonly Settings.Settings _settings;
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
         private bool _isEffectRunning;
@@ -22,7 +22,12 @@ namespace RazerPoliceLights.Effects
         protected AbstractEffect(List<EffectPattern> effectPatterns)
         {
             _effectPatterns = effectPatterns;
-            _settings = SettingsManager.Instance.Settings;
+            Settings = SettingsManager.Instance.Settings;
+        }
+
+        public bool IsPlaying()
+        {
+            return _isEffectRunning;
         }
 
         public void Play()
@@ -35,7 +40,7 @@ namespace RazerPoliceLights.Effects
                     while (_isEffectRunning)
                     {
                         OnEffectTick();
-                        Thread.Sleep((int) (100 * _settings.PlaybackSettings.SpeedModifier));
+                        Thread.Sleep((int) (100 * Settings.PlaybackSettings.SpeedModifier));
                     }
                 }
                 catch (Exception exception)
@@ -71,7 +76,7 @@ namespace RazerPoliceLights.Effects
                 return _currentPlayingEffect;
             }
 
-            if (EffectCursor == 0)
+            if (EffectCursor == 0 && IsScanModeEnabled())
             {
                 if (random.Next(0, 2) == 1)
                 {
@@ -89,9 +94,9 @@ namespace RazerPoliceLights.Effects
                 case ColorType.OFF:
                     return Color.Black;
                 case ColorType.PRIMARY:
-                    return _settings.ColorSettings.PrimaryColor;
+                    return Settings.ColorSettings.PrimaryColor;
                 case ColorType.SECONDARY:
-                    return _settings.ColorSettings.SecondaryColor;
+                    return Settings.ColorSettings.SecondaryColor;
                 default:
                     throw new ArgumentOutOfRangeException("colorType", colorType, null);
             }
@@ -117,5 +122,11 @@ namespace RazerPoliceLights.Effects
         /// Is invoked when the effect playback is stopped.
         /// </summary>
         protected abstract void OnEffectStop();
+
+        /// <summary>
+        /// Get if the scan mode for the device is enabled.
+        /// </summary>
+        /// <returns>Returns true if the scan mode is enabled.</returns>
+        protected abstract bool IsScanModeEnabled();
     }
 }
