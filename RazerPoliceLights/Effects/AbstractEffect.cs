@@ -35,7 +35,7 @@ namespace RazerPoliceLights.Effects
                     while (_isEffectRunning)
                     {
                         OnEffectTick();
-                        Thread.Sleep((int) (100 * _settings.PlaybackSettings.SpeedMulitplayer));
+                        Thread.Sleep((int) (100 * _settings.PlaybackSettings.SpeedModifier));
                     }
                 }
                 catch (Exception exception)
@@ -52,6 +52,13 @@ namespace RazerPoliceLights.Effects
             //End the thread by killing the infinite loop running in the thread
             _isEffectRunning = false;
             OnEffectStop();
+        }
+
+        public void OnUnload(bool isTerminating)
+        {
+            _isEffectRunning = false;
+            if (isTerminating)
+                _effectThread.Abort();
         }
 
         protected EffectPattern GetEffectPattern()

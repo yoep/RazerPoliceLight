@@ -9,12 +9,12 @@ using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
-    public class MouseEffect : AbstractEffect
+    internal class MouseEffect : AbstractEffect
     {
         private readonly ColorSettings _colorSettings = SettingsManager.Instance.Settings.ColorSettings;
         private readonly IMouse _chromaMouse;
 
-        public MouseEffect() : base(GetEffects())
+        internal MouseEffect() : base(GetEffects())
         {
             _chromaMouse = Chroma.Instance.Mouse;
         }

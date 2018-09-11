@@ -2,6 +2,8 @@
 {
     public class PlaybackSettings
     {
-        public double SpeedMulitplayer { get; set; }
+        public double SpeedModifier { get; set; }
+        
+        public bool EnableOnFoot { get; set; }
     }
 }

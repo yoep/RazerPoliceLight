@@ -63,7 +63,7 @@ namespace RazerPoliceLights.Settings
 
         #endregion
 
-        private ColorSettings ReadColorSettings(XmlDocument document)
+        private ColorSettings ReadColorSettings(XmlNode document)
         {
             var colorsNode = document.SelectSingleNode("RazerPoliceLights/Colors");
 
@@ -78,29 +78,35 @@ namespace RazerPoliceLights.Settings
             };
         }
 
-        private PlaybackSettings ReadPlaybackSettings(XmlDocument document)
+        private PlaybackSettings ReadPlaybackSettings(XmlNode document)
         {
             var playbackNode = document.SelectSingleNode("RazerPoliceLights/Playback");
 
             if (playbackNode == null)
                 throw new SettingsException("Playback settings configuration is missing in the configuration file");
 
-            var speedMultiplayerNode = playbackNode.SelectSingleNode("SpeedMultiplayer");
+            var speedMultiplayerNode = playbackNode.SelectSingleNode("Speed");
+            var enableOnFootNode = playbackNode.SelectSingleNode("EnableOnFoot");
 
             if (speedMultiplayerNode == null)
                 throw new SettingsException(
                     "Speed multiplayer setting in the playback configuration is missing in the configuration file");
+            if (speedMultiplayerNode == null)
+                throw new SettingsException(
+                    "Speed multiplayer setting in the playback configuration is missing in the configuration file");
 
-            var speedMultiplayer = double.Parse(speedMultiplayerNode.InnerText, CultureInfo.InvariantCulture);
+            var speedModifierNode = double.Parse(speedMultiplayerNode.InnerText, CultureInfo.InvariantCulture);
+            var enableOnFoot = bool.Parse(enableOnFootNode.InnerText);
 
-            if (speedMultiplayer < 0)
+            if (speedModifierNode < 0)
             {
                 throw new SettingsException("Speed multiplayer cannot be smaller than 0");
             }
 
             return new PlaybackSettings
             {
-                SpeedMulitplayer = speedMultiplayer
+                SpeedModifier = speedModifierNode,
+                EnableOnFoot = enableOnFoot
             };
         }
 

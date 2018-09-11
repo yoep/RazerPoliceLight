@@ -11,5 +11,11 @@
         /// Stop playing the device effect and restore it to it's initial state.
         /// </summary>
         void Stop();
+
+        /// <summary>
+        /// Is invoked when the plugin is being requested to terminate.
+        /// </summary>
+        /// <param name="isTerminating">Identifies if the unload is a termination.</param>
+        void OnUnload(bool isTerminating);
     }
 }

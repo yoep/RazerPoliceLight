@@ -12,7 +12,8 @@ namespace RazerPoliceLights.Settings
                 {
                     PlaybackSettings = new PlaybackSettings
                     {
-                        SpeedMulitplayer = 1
+                        SpeedModifier = 1,
+                        EnableOnFoot = false
                     },
                     ColorSettings = new ColorSettings
                     {

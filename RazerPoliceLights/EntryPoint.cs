@@ -1,12 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Rage;
 using Rage.Attributes;
+using RazerPoliceLights.Effects;
 
 [assembly:
     Plugin("Razer Police Lights Keyboard",
         PrefersSingleInstance = true,
         Description = "Razer Keyboard lighting effect",
-        Author = "yoep")]
+        Author = "yoep",
+        ExitPoint = "RazerPoliceLights.EntryPoint.OnUnload")]
 
 namespace RazerPoliceLights
 {
@@ -19,6 +21,11 @@ namespace RazerPoliceLights
                 GameFiber.Yield();
 
             GameFiber.StartNew(VehicleListener.Start);
+        }
+
+        public static void OnUnload(bool isTerminating)
+        {
+            EffectsManager.Instance.OnUnload(isTerminating);
         }
     }
 }

@@ -9,12 +9,12 @@ using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
-    public class KeyboardEffect : AbstractEffect
+    internal class KeyboardEffect : AbstractEffect
     {
         private readonly ColorSettings _colorSettings = SettingsManager.Instance.Settings.ColorSettings;
         private readonly IKeyboard _chromaKeyboard;
 
-        public KeyboardEffect() : base(GetEffects())
+        internal KeyboardEffect() : base(GetEffects())
         {
             _chromaKeyboard = Chroma.Instance.Keyboard;
         }

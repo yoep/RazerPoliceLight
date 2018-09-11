@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <RazerPoliceLights>
     <Playback>
-        <SpeedMultiplayer>1.0</SpeedMultiplayer>
+        <Speed>1.0</Speed>
+        <EnableOnFoot>false</EnableOnFoot>
     </Playback>
     <Colors>
         <Standby R="255" G="0" B="0"/> <!-- Or you can use <Standby>red</Standby> -->
