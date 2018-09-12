@@ -20,11 +20,12 @@ namespace RazerPoliceLights
             while (Game.IsLoading)
                 GameFiber.Yield();
 
-            GameFiber.StartNew(VehicleListener.Start);
+            GameFiber.StartNew(VehicleListener.Instance.Start);
         }
 
         public static void OnUnload(bool isTerminating)
         {
+            VehicleListener.Instance.Stop();
             EffectsManager.Instance.OnUnload(isTerminating);
         }
     }

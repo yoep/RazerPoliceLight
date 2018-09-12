@@ -21,7 +21,7 @@
     <Devices>
         <!-- EnableScanMode allows the plugin to switch automatically between the patterns -->
         <!-- Otherwise, the plugin will only use the first defined pattern -->
-        <Keyboard EnableScanMode="true">
+        <Keyboard Enabled="true" EnableScanMode="true">
             <Patterns>
                 <Pattern>Alternate</Pattern>
                 <Pattern>AlternateFlash</Pattern>
@@ -30,7 +30,7 @@
                 <Pattern>EvenOddFlash</Pattern>
             </Patterns>
         </Keyboard>
-        <Mouse EnableScanMode="true">
+        <Mouse Enabled="true" EnableScanMode="true">
             <Patterns>
                 <Pattern>Alternate</Pattern>
                 <Pattern>AlternateFlash</Pattern>

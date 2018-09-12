@@ -39,8 +39,10 @@
     <Compile Include="Effects\MouseEffect.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Pattern\ColorType.cs" />
+    <Compile Include="Pattern\DeviceType.cs" />
     <Compile Include="Pattern\EffectPattern.cs" />
     <Compile Include="Pattern\EffectPatternException.cs" />
+    <Compile Include="Pattern\EffectPatternManager.cs" />
     <Compile Include="Pattern\PatternRow.cs" />
     <Compile Include="Pattern\Predefined\Keyboard\EvenOdd.cs" />
     <Compile Include="Pattern\Predefined\Keyboard\EvenOddFlash.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Settings\KeyboardSettings.cs" />
     <Compile Include="Settings\Loaders\AbstractLoader.cs" />
     <Compile Include="Settings\Loaders\ColorSettingsLoader.cs" />
+    <Compile Include="Settings\Loaders\DevicePatternsSettingsLoader.cs" />
     <Compile Include="Settings\Loaders\DeviceSettingsLoader.cs" />
     <Compile Include="Settings\Loaders\PlaybackSettingsLoader.cs" />
     <Compile Include="Settings\MouseSettings.cs" />

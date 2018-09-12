@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using RazerPoliceLights.Pattern;
 
 namespace RazerPoliceLights.Settings.Loaders
 {
@@ -8,6 +9,7 @@ namespace RazerPoliceLights.Settings.Loaders
         private const string KeyboardPath = "Keyboard";
         private const string MousePath = "Mouse";
         private const string EnableScanModeAttribute = "EnableScanMode";
+        private const string EnabledAttribute = "Enabled";
 
         public static DeviceSettings Load(XmlNode document)
         {
@@ -25,17 +27,19 @@ namespace RazerPoliceLights.Settings.Loaders
             if (mouseNode == null)
                 throw new SettingsException("Mouse device settings configuration is missing in the configuration file");
             
-            
-
             return new DeviceSettings
             {
                 KeyboardSettings = new KeyboardSettings
                 {
-                    IsScanEnabled = bool.Parse(GetAttributeValue(keyboardNode, EnableScanModeAttribute))
+                    IsScanEnabled = GetBoolAttributeValue(keyboardNode, EnableScanModeAttribute, true),
+                    IsEnabled = GetBoolAttributeValue(keyboardNode, EnabledAttribute, true),
+                    EffectPatterns = DevicePatternsSettingsLoader.Load(keyboardNode, DeviceType.KEYBOARD)
                 },
                 MouseSettings = new MouseSettings
                 {
-                    IsScanEnabled = bool.Parse(GetAttributeValue(mouseNode, EnableScanModeAttribute))
+                    IsScanEnabled = GetBoolAttributeValue(mouseNode, EnableScanModeAttribute, true),
+                    IsEnabled = GetBoolAttributeValue(mouseNode, EnabledAttribute, true),
+                    EffectPatterns = DevicePatternsSettingsLoader.Load(mouseNode, DeviceType.MOUSE)
                 }
             };
         }

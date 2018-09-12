@@ -11,27 +11,31 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
-        protected readonly Settings.Settings Settings;
         protected int EffectCursor;
 
-        private readonly List<EffectPattern> _effectPatterns;
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
         private bool _isEffectRunning;
+        private int _playbackCount;
 
-        protected AbstractEffect(List<EffectPattern> effectPatterns)
-        {
-            _effectPatterns = effectPatterns;
-            Settings = SettingsManager.Instance.Settings;
-        }
+        #region Properties
 
         public bool IsPlaying()
         {
             return _isEffectRunning;
         }
 
+        protected Settings.Settings Settings => SettingsManager.Instance.Settings;
+
+        #endregion
+
+        #region Methods
+
         public void Play()
         {
+            if (IsDisabled)
+                return;
+
             _isEffectRunning = true;
             _effectThread = new Thread(() =>
             {
@@ -66,21 +70,30 @@ namespace RazerPoliceLights.Effects
                 _effectThread.Abort();
         }
 
+        #endregion
+
+        #region Functions
+
         protected EffectPattern GetEffectPattern()
         {
             var random = new Random();
 
             if (_currentPlayingEffect == null)
             {
-                _currentPlayingEffect = _effectPatterns.ElementAt(0);
+                _currentPlayingEffect = EffectPatterns.ElementAt(0);
                 return _currentPlayingEffect;
             }
 
             if (EffectCursor == 0 && IsScanModeEnabled())
             {
-                if (random.Next(0, 2) == 1)
+                if (_playbackCount > 3 && random.Next(0, 2) == 1)
                 {
-                    _currentPlayingEffect = _effectPatterns.ElementAt(random.Next(0, _effectPatterns.Count));
+                    _playbackCount = 0;
+                    _currentPlayingEffect = EffectPatterns.ElementAt(random.Next(0, EffectPatterns.Count));
+                }
+                else
+                {
+                    _playbackCount++;
                 }
             }
 
@@ -111,6 +124,8 @@ namespace RazerPoliceLights.Effects
             return patternColumn == effectPattern.TotalColumns - 1 && columnEndIndex != maxColumns;
         }
 
+        #endregion
+
         /// <summary>
         /// Is invoked on each effect tick.
         /// An effect tick is triggered each 100 miliseconds of the system time clock as the effect is running in a
@@ -128,5 +143,15 @@ namespace RazerPoliceLights.Effects
         /// </summary>
         /// <returns>Returns true if the scan mode is enabled.</returns>
         protected abstract bool IsScanModeEnabled();
+
+        /// <summary>
+        /// Get the activated effect patterns.
+        /// </summary>
+        protected abstract List<EffectPattern> EffectPatterns { get; }
+
+        /// <summary>
+        /// Get if this effect device is disabled.
+        /// </summary>
+        protected abstract bool IsDisabled { get; }
     }
 }

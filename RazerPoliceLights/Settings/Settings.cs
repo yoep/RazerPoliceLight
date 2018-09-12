@@ -1,4 +1,7 @@
-﻿using Corale.Colore.Core;
+﻿using System;
+using System.Linq;
+using Corale.Colore.Core;
+using RazerPoliceLights.Pattern;
 
 namespace RazerPoliceLights.Settings
 {
@@ -21,11 +24,15 @@ namespace RazerPoliceLights.Settings
             {
                 KeyboardSettings = new KeyboardSettings
                 {
-                    IsScanEnabled = true
+                    IsScanEnabled = true,
+                    IsEnabled = true,
+                    EffectPatterns = EffectPatternManager.Instance.KeyboardEffectPatterns.Values.ToList()
                 },
                 MouseSettings = new MouseSettings
                 {
-                    IsScanEnabled = true
+                    IsScanEnabled = true,
+                    IsEnabled = true,
+                    EffectPatterns = EffectPatternManager.Instance.MouEffectPatterns.Values.ToList()
                 }
             }
         };
@@ -33,7 +40,14 @@ namespace RazerPoliceLights.Settings
         public PlaybackSettings PlaybackSettings { get; set; }
 
         public ColorSettings ColorSettings { get; set; }
-        
+
         public DeviceSettings DeviceSettings { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Environment.NewLine}---{nameof(PlaybackSettings)}---{Environment.NewLine}{PlaybackSettings}" +
+                   $"{Environment.NewLine}---{nameof(ColorSettings)}---{Environment.NewLine}{ColorSettings}" +
+                   $"{Environment.NewLine}---{nameof(DeviceSettings)}---{Environment.NewLine}{DeviceSettings}";
+        }
     }
 }

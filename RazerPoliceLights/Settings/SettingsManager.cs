@@ -49,6 +49,7 @@ namespace RazerPoliceLights.Settings
                 };
                 
                 Game.DisplayNotification("Razer Police Lights Keyboard configuration loaded");
+                Game.LogTrivial(Settings.ToString());
             }
             catch (FileNotFoundException)
             {

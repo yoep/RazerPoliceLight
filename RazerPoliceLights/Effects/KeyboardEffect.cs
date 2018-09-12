@@ -12,13 +12,29 @@ namespace RazerPoliceLights.Effects
     {
         private readonly IKeyboard _chromaKeyboard;
 
-        internal KeyboardEffect() : base(GetEffects())
+        #region Constructors
+
+        internal KeyboardEffect()
         {
             _chromaKeyboard = Chroma.Instance.Keyboard;
         }
 
+        #endregion
+
+        #region Properties
+
+        protected override List<EffectPattern> EffectPatterns =>
+            Settings.DeviceSettings.KeyboardSettings.EffectPatterns;
+
+        protected override bool IsDisabled => !Settings.DeviceSettings.KeyboardSettings.IsEnabled;
+
+        #endregion
+
         protected override void OnEffectTick()
         {
+            if (IsDisabled)
+                return;
+            
             var effectPattern = GetEffectPattern();
             var columnSize = Constants.MaxColumns / effectPattern.TotalColumns;
             var columnStartIndex = 0;
@@ -63,18 +79,6 @@ namespace RazerPoliceLights.Effects
         protected override bool IsScanModeEnabled()
         {
             return Settings.DeviceSettings.KeyboardSettings.IsScanEnabled;
-        }
-
-        private static List<EffectPattern> GetEffects()
-        {
-            return new List<EffectPattern>
-            {
-                AlternateFlash.Get,
-                Alternate.Get,
-                AlternateAndFullFlash.Get,
-                EvenOddFlash.Get,
-                EvenOdd.Get
-            };
         }
     }
 }

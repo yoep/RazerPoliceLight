@@ -15,6 +15,14 @@ namespace RazerPoliceLights
         private bool _oldSirenStateOn;
         private bool _sirenStateChanged;
         private bool _playerStateChanged;
+        private bool _keepAlive = true;
+
+        #region Constructors
+
+        static VehicleListener()
+        {
+            Instance = new VehicleListener();
+        }
 
         private VehicleListener()
         {
@@ -22,9 +30,15 @@ namespace RazerPoliceLights
             _oldPlayerState = PlayerState;
         }
 
-        public PlayerState PlayerState => IsPlayerDriving() ? PlayerState.DRIVING : PlayerState.WALKING;
+        #endregion
 
-        public bool IsSirenOn
+        #region Getters & Setters
+
+        public static VehicleListener Instance { get; private set; }
+
+        private PlayerState PlayerState => IsPlayerDriving() ? PlayerState.DRIVING : PlayerState.WALKING;
+
+        private bool IsSirenOn
         {
             get
             {
@@ -33,13 +47,14 @@ namespace RazerPoliceLights
             }
         }
 
-        public static void Start()
+        #endregion
+
+        public void Start()
         {
             try
             {
                 SettingsManager.Instance.Load();
-                var vehicleListener = new VehicleListener();
-                vehicleListener.Listen();
+                Listen();
             }
             catch (Exception exception)
             {
@@ -51,9 +66,14 @@ namespace RazerPoliceLights
             }
         }
 
-        public void Listen()
+        public void Stop()
         {
-            while (true)
+            _keepAlive = false;
+        }
+
+        private void Listen()
+        {
+            while (_keepAlive)
             {
                 UpdateStates();
 
@@ -63,7 +83,7 @@ namespace RazerPoliceLights
                     {
                         StartEffects();
                     }
-                    else if (_sirenStateChanged && _effectsManager.IsPlaying())
+                    else if (_sirenStateChanged && !IsSirenOn && _effectsManager.IsPlaying())
                     {
                         StopEffects();
                     }
@@ -72,11 +92,13 @@ namespace RazerPoliceLights
                 {
                     if (!SettingsManager.Instance.Settings.PlaybackSettings.LeaveLightsOn)
                     {
-                        StopEffects();
+                        if (!IsSirenOn)
+                            StopEffects();
                     }
                 }
 
-                GameFiber.Yield();
+                if (_keepAlive)
+                    GameFiber.Yield();
             }
         }
 
@@ -116,9 +138,9 @@ namespace RazerPoliceLights
             {
                 return GetPlayer()?.CurrentVehicle;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                LogException(e);
+                //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
         }
@@ -129,9 +151,9 @@ namespace RazerPoliceLights
             {
                 return _player != null ? _player : Game.LocalPlayer.Character;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                LogException(e);
+                //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
         }
