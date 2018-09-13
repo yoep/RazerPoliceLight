@@ -2,10 +2,8 @@
 {
     public static class Alternate
     {
-        public static EffectPattern Get => new EffectPattern(
-            new PatternRow(ColorType.PRIMARY, ColorType.OFF),
-            new PatternRow(ColorType.PRIMARY, ColorType.OFF),
-            new PatternRow(ColorType.OFF, ColorType.SECONDARY),
-            new PatternRow(ColorType.OFF, ColorType.SECONDARY));
+        public static EffectPattern Get => new EffectPattern("Alternate", DeviceType.Mouse,
+            new PatternRow(2.0, ColorType.PRIMARY, ColorType.OFF),
+            new PatternRow(2.0, ColorType.OFF, ColorType.SECONDARY));
     }
 }

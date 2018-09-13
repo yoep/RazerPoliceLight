@@ -1,17 +1,24 @@
-﻿namespace RazerPoliceLights.Effects
+﻿using RazerPoliceLights.Pattern;
+
+namespace RazerPoliceLights.Effects
 {
     public interface IEffect
     {
         /// <summary>
-        /// Check if the effect is already playing.
+        /// Get if the effect is already playing.
         /// </summary>
-        /// <returns>Returns true if the effect is already playing, else false.</returns>
-        bool IsPlaying();
-        
+        bool IsPlaying { get; }
+
         /// <summary>
-        /// Start playing the device effect.
+        /// Start the playback of effects on the device.
         /// </summary>
         void Play();
+        
+        /// <summary>
+        /// Start the playback of the given effect pattern on the device.
+        /// </summary>
+        /// <param name="effectPattern">Set the effect pattern to play.</param>
+        void Play(EffectPattern effectPattern);
 
         /// <summary>
         /// Stop playing the device effect and restore it to it's initial state.

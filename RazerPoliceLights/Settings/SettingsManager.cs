@@ -45,7 +45,8 @@ namespace RazerPoliceLights.Settings
                 {
                     PlaybackSettings = PlaybackSettingsLoader.Load(document),
                     ColorSettings = ColorSettingsLoader.Load(document),
-                    DeviceSettings = DeviceSettingsLoader.Load(document)
+                    DeviceSettings = DeviceSettingsLoader.Load(document),
+                    EffectPatterns = EffectPatternLoad.Load(document)
                 };
                 
                 Game.DisplayNotification("Razer Police Lights Keyboard configuration loaded");

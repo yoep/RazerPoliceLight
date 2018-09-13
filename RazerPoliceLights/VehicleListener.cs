@@ -79,11 +79,11 @@ namespace RazerPoliceLights
 
                 if (PlayerState == PlayerState.DRIVING)
                 {
-                    if (_sirenStateChanged && IsSirenOn && !_effectsManager.IsPlaying())
+                    if (_sirenStateChanged && IsSirenOn && !_effectsManager.IsPlaying)
                     {
                         StartEffects();
                     }
-                    else if (_sirenStateChanged && !IsSirenOn && _effectsManager.IsPlaying())
+                    else if (_sirenStateChanged && !IsSirenOn && _effectsManager.IsPlaying)
                     {
                         StopEffects();
                     }
@@ -104,7 +104,7 @@ namespace RazerPoliceLights
 
         private void StartEffects()
         {
-            foreach (var deviceEffect in _effectsManager.DevicEffects)
+            foreach (var deviceEffect in _effectsManager.DeviceEffects)
             {
                 deviceEffect.Play();
             }
@@ -112,7 +112,7 @@ namespace RazerPoliceLights
 
         private void StopEffects()
         {
-            foreach (var deviceEffect in _effectsManager.DevicEffects)
+            foreach (var deviceEffect in _effectsManager.DeviceEffects)
             {
                 deviceEffect.Stop();
             }

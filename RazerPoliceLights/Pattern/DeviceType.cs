@@ -2,7 +2,8 @@
 {
     public enum DeviceType
     {
-        KEYBOARD,
-        MOUSE
+        All,
+        Keyboard,
+        Mouse
     }
 }

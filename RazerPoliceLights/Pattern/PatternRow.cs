@@ -4,19 +4,28 @@ namespace RazerPoliceLights.Pattern
 {
     public class PatternRow
     {
-        private readonly int _totalColums;
+        private readonly int _totalColumns;
 
-        public PatternRow(params ColorType[] colors)
+        /// <summary>
+        /// Initialize a new instance of PatternRow.
+        /// </summary>
+        /// <param name="speed">Set the speed factor of the pattern row.</param>
+        /// <param name="colors">Set the colors within the pattern.</param>
+        public PatternRow(double speed, params ColorType[] colors)
         {
-            _totalColums = colors.Length;
+            _totalColumns = colors.Length;
+            Speed = speed;
             ColorColumns = new List<ColorType>(colors);
         }
 
-        public int TotalColums
-        {
-            get { return _totalColums; }
-        }
+        #region Properties
+
+        public double Speed { get; private set; }
+
+        public int TotalColumns => _totalColumns;
 
         public List<ColorType> ColorColumns { get; private set; }
+
+        #endregion
     }
 }

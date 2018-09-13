@@ -33,13 +33,13 @@ namespace RazerPoliceLights.Settings.Loaders
                 {
                     IsScanEnabled = GetBoolAttributeValue(keyboardNode, EnableScanModeAttribute, true),
                     IsEnabled = GetBoolAttributeValue(keyboardNode, EnabledAttribute, true),
-                    EffectPatterns = DevicePatternsSettingsLoader.Load(keyboardNode, DeviceType.KEYBOARD)
+                    EffectPatterns = DevicePatternsSettingsLoader.Load(keyboardNode, DeviceType.Keyboard)
                 },
                 MouseSettings = new MouseSettings
                 {
                     IsScanEnabled = GetBoolAttributeValue(mouseNode, EnableScanModeAttribute, true),
                     IsEnabled = GetBoolAttributeValue(mouseNode, EnabledAttribute, true),
-                    EffectPatterns = DevicePatternsSettingsLoader.Load(mouseNode, DeviceType.MOUSE)
+                    EffectPatterns = DevicePatternsSettingsLoader.Load(mouseNode, DeviceType.Mouse)
                 }
             };
         }

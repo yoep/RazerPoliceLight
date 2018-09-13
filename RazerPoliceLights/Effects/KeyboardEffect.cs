@@ -4,7 +4,6 @@ using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Pattern.Predefined.Keyboard;
 
 namespace RazerPoliceLights.Effects
 {
@@ -30,21 +29,16 @@ namespace RazerPoliceLights.Effects
 
         #endregion
 
-        protected override void OnEffectTick()
+        protected override void OnEffectTick(PatternRow playPattern)
         {
-            if (IsDisabled)
-                return;
-            
-            var effectPattern = GetEffectPattern();
-            var columnSize = Constants.MaxColumns / effectPattern.TotalColumns;
+            var columnSize = Constants.MaxColumns / playPattern.TotalColumns;
             var columnStartIndex = 0;
-            var playPattern = effectPattern.PatternRows.ElementAt(EffectCursor);
 
-            for (var patternColumn = 0; patternColumn < effectPattern.TotalColumns; patternColumn++)
+            for (var patternColumn = 0; patternColumn < playPattern.TotalColumns; patternColumn++)
             {
                 var columnEndIndex = columnStartIndex + columnSize;
 
-                if (IsMismatchingLastColumnEndIndex(effectPattern, Constants.MaxColumns, patternColumn, columnEndIndex))
+                if (IsMismatchingLastColumnEndIndex(playPattern, Constants.MaxColumns, patternColumn, columnEndIndex))
                 {
                     columnEndIndex = Constants.MaxColumns;
                 }
@@ -59,15 +53,6 @@ namespace RazerPoliceLights.Effects
                 }
 
                 columnStartIndex = columnEndIndex;
-            }
-
-            if (EffectCursor < effectPattern.TotalPlaybackRows - 1)
-            {
-                EffectCursor++;
-            }
-            else
-            {
-                EffectCursor = 0;
             }
         }
 

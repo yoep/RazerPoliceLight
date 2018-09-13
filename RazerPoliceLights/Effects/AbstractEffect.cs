@@ -11,19 +11,15 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
-        protected int EffectCursor;
-
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
         private bool _isEffectRunning;
+        private int _effectCursor;
         private int _playbackCount;
 
         #region Properties
 
-        public bool IsPlaying()
-        {
-            return _isEffectRunning;
-        }
+        public bool IsPlaying => _isEffectRunning;
 
         protected Settings.Settings Settings => SettingsManager.Instance.Settings;
 
@@ -32,6 +28,11 @@ namespace RazerPoliceLights.Effects
         #region Methods
 
         public void Play()
+        {
+            Play(null);
+        }
+
+        public void Play(EffectPattern effectPattern)
         {
             if (IsDisabled)
                 return;
@@ -43,8 +44,11 @@ namespace RazerPoliceLights.Effects
                 {
                     while (_isEffectRunning)
                     {
-                        OnEffectTick();
-                        Thread.Sleep((int) (100 * Settings.PlaybackSettings.SpeedModifier));
+                        var pattern = effectPattern ?? GetEffectPattern();
+                        var patternRow = GetPatternRow(pattern);
+                        OnEffectTick(patternRow);
+                        UpdateEffectCursor(pattern);
+                        Thread.Sleep((int) (100 * Settings.PlaybackSettings.SpeedModifier * patternRow.Speed));
                     }
                 }
                 catch (Exception exception)
@@ -74,32 +78,6 @@ namespace RazerPoliceLights.Effects
 
         #region Functions
 
-        protected EffectPattern GetEffectPattern()
-        {
-            var random = new Random();
-
-            if (_currentPlayingEffect == null)
-            {
-                _currentPlayingEffect = EffectPatterns.ElementAt(0);
-                return _currentPlayingEffect;
-            }
-
-            if (EffectCursor == 0 && IsScanModeEnabled())
-            {
-                if (_playbackCount > 3 && random.Next(0, 2) == 1)
-                {
-                    _playbackCount = 0;
-                    _currentPlayingEffect = EffectPatterns.ElementAt(random.Next(0, EffectPatterns.Count));
-                }
-                else
-                {
-                    _playbackCount++;
-                }
-            }
-
-            return _currentPlayingEffect;
-        }
-
         protected Color GetPlaybackColumnColor(ColorType colorType)
         {
             switch (colorType)
@@ -116,12 +94,55 @@ namespace RazerPoliceLights.Effects
         }
 
         protected bool IsMismatchingLastColumnEndIndex(
-            EffectPattern effectPattern,
+            PatternRow patternRow,
             int maxColumns,
             int patternColumn,
             int columnEndIndex)
         {
-            return patternColumn == effectPattern.TotalColumns - 1 && columnEndIndex != maxColumns;
+            return patternColumn == patternRow.TotalColumns - 1 && columnEndIndex != maxColumns;
+        }
+
+        private EffectPattern GetEffectPattern()
+        {
+            var random = new Random();
+
+            if (_currentPlayingEffect == null)
+            {
+                _currentPlayingEffect = EffectPatterns.ElementAt(0);
+                return _currentPlayingEffect;
+            }
+
+            if (_effectCursor == 0 && IsScanModeEnabled())
+            {
+                if (_playbackCount > 3 && random.Next(0, 2) == 1)
+                {
+                    _playbackCount = 0;
+                    _currentPlayingEffect = EffectPatterns.ElementAt(random.Next(0, EffectPatterns.Count));
+                }
+                else
+                {
+                    _playbackCount++;
+                }
+            }
+
+            return _currentPlayingEffect;
+        }
+
+        private PatternRow GetPatternRow(EffectPattern effectPattern)
+        {
+            return effectPattern.PatternRows.ElementAt(_effectCursor);
+        }
+
+        private void UpdateEffectCursor(EffectPattern pattern)
+        {
+            if (_effectCursor < pattern.TotalPlaybackRows - 1)
+            {
+                _effectCursor++;
+            }
+            else
+            {
+                _effectCursor = 0;
+            }
         }
 
         #endregion
@@ -131,7 +152,8 @@ namespace RazerPoliceLights.Effects
         /// An effect tick is triggered each 100 miliseconds of the system time clock as the effect is running in a
         /// background thread and isn't aware of the game ticks.
         /// </summary>
-        protected abstract void OnEffectTick();
+        /// <param name="playPattern">Set the pattern the effect tick needs to process.</param>
+        protected abstract void OnEffectTick(PatternRow playPattern);
 
         /// <summary>
         /// Is invoked when the effect playback is stopped.

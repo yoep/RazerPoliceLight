@@ -7,7 +7,7 @@ namespace RazerPoliceLights.Settings
         public KeyboardSettings KeyboardSettings { get; set; }
         
         public MouseSettings MouseSettings { get; set; }
-
+       
         public override string ToString()
         {
             return $"----{nameof(KeyboardSettings)}----{Environment.NewLine}{KeyboardSettings}," +

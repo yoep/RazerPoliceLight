@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using Corale.Colore.Core;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Pattern.Predefined.Keyboard;
 
 namespace RazerPoliceLights.Settings
 {
@@ -26,13 +27,35 @@ namespace RazerPoliceLights.Settings
                 {
                     IsScanEnabled = true,
                     IsEnabled = true,
-                    EffectPatterns = EffectPatternManager.Instance.KeyboardEffectPatterns.Values.ToList()
+                    EffectPatterns = EffectPatternManager.Instance.GetByDevice(DeviceType.Keyboard)
                 },
                 MouseSettings = new MouseSettings
                 {
                     IsScanEnabled = true,
                     IsEnabled = true,
-                    EffectPatterns = EffectPatternManager.Instance.MouEffectPatterns.Values.ToList()
+                    EffectPatterns = EffectPatternManager.Instance.GetByDevice(DeviceType.Mouse)
+                }
+            },
+            EffectPatterns = new Dictionary<DeviceType, List<EffectPattern>>
+            {
+                {
+                    DeviceType.Keyboard, new List<EffectPattern>
+                    {
+                        Alternate.Get,
+                        AlternateAndFullFlash.Get,
+                        AlternateFlash.Get,
+                        EvenOdd.Get,
+                        EvenOddFlash.Get
+                    }
+                },
+                {
+                    DeviceType.Mouse, new List<EffectPattern>
+                    {
+                        Pattern.Predefined.Mouse.Alternate.Get,
+                        Pattern.Predefined.Mouse.AlternateFlash.Get,
+                        Pattern.Predefined.Mouse.EvenOdd.Get,
+                        Pattern.Predefined.Mouse.EvenOddFlash.Get
+                    }
                 }
             }
         };
@@ -43,11 +66,14 @@ namespace RazerPoliceLights.Settings
 
         public DeviceSettings DeviceSettings { get; set; }
 
+        public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
+
         public override string ToString()
         {
             return $"{Environment.NewLine}---{nameof(PlaybackSettings)}---{Environment.NewLine}{PlaybackSettings}" +
                    $"{Environment.NewLine}---{nameof(ColorSettings)}---{Environment.NewLine}{ColorSettings}" +
-                   $"{Environment.NewLine}---{nameof(DeviceSettings)}---{Environment.NewLine}{DeviceSettings}";
+                   $"{Environment.NewLine}---{nameof(DeviceSettings)}---{Environment.NewLine}{DeviceSettings}" +
+                   $"{Environment.NewLine}---{nameof(EffectPatterns)}---{Environment.NewLine}{EffectPatterns.Count}";
         }
     }
 }

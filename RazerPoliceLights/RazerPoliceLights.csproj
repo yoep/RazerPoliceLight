@@ -32,6 +32,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\PlaybackCommands.cs" />
+    <Compile Include="Commands\SettingsCommands.cs" />
     <Compile Include="Effects\AbstractEffect.cs" />
     <Compile Include="Effects\EffectsManager.cs" />
     <Compile Include="Effects\IEffect.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Settings\Loaders\ColorSettingsLoader.cs" />
     <Compile Include="Settings\Loaders\DevicePatternsSettingsLoader.cs" />
     <Compile Include="Settings\Loaders\DeviceSettingsLoader.cs" />
+    <Compile Include="Settings\Loaders\EffectPatternLoad.cs" />
     <Compile Include="Settings\Loaders\PlaybackSettingsLoader.cs" />
     <Compile Include="Settings\MouseSettings.cs" />
     <Compile Include="Settings\PlaybackSettings.cs" />

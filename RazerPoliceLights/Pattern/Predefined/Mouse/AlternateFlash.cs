@@ -2,14 +2,14 @@
 {
     public static class AlternateFlash
     {
-        public static EffectPattern Get => new EffectPattern(
-            new PatternRow(ColorType.PRIMARY,  ColorType.OFF),
-            new PatternRow(ColorType.OFF,  ColorType.OFF),
-            new PatternRow(ColorType.PRIMARY,  ColorType.OFF),
-            new PatternRow(ColorType.OFF,  ColorType.OFF),
-            new PatternRow(ColorType.OFF,  ColorType.SECONDARY),
-            new PatternRow(ColorType.OFF,  ColorType.OFF),
-            new PatternRow(ColorType.OFF,  ColorType.SECONDARY),
-            new PatternRow(ColorType.OFF,  ColorType.OFF));
+        public static EffectPattern Get => new EffectPattern("AlternateFlash", DeviceType.Mouse,
+            new PatternRow(1.0, ColorType.PRIMARY,  ColorType.OFF),
+            new PatternRow(1.0, ColorType.OFF,  ColorType.OFF),
+            new PatternRow(1.0, ColorType.PRIMARY,  ColorType.OFF),
+            new PatternRow(1.0, ColorType.OFF,  ColorType.OFF),
+            new PatternRow(1.0, ColorType.OFF,  ColorType.SECONDARY),
+            new PatternRow(1.0, ColorType.OFF,  ColorType.OFF),
+            new PatternRow(1.0, ColorType.OFF,  ColorType.SECONDARY),
+            new PatternRow(1.0, ColorType.OFF,  ColorType.OFF));
     }
 }

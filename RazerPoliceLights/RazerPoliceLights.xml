@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <RazerPoliceLights>
     <Playback>
-        <Speed>1.0</Speed>
+        <Speed>1.0</Speed> <!-- This is the speed factor, lower will speed up, higher will slow down -->
         <LeaveLightsOn>false</LeaveLightsOn>
     </Playback>
     <Colors>
@@ -39,4 +39,49 @@
             </Patterns>
         </Mouse>
     </Devices>
+    <Patterns>
+        <!-- See manual.pdf for info on how to use and create your own -->
+        <EffectPattern Name="Alternate" Device="Keyboard">
+            <Effect Speed="2.0">1,1,0,0</Effect>
+            <Effect Speed="2.0">0,0,2,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="AlternateAndFullFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="AlternateFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,2,2</Effect>
+            <Effect Speed="2.0">0,0,0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOdd" Device="Keyboard">
+            <Effect Speed="2.0">1,0,2,0</Effect>
+            <Effect Speed="2.0">0,1,0,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOddFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+        </EffectPattern>
+    </Patterns>
 </RazerPoliceLights>
