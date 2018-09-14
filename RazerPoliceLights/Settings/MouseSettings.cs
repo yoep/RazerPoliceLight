@@ -9,6 +9,8 @@ namespace RazerPoliceLights.Settings
 
         public bool IsEnabled { get; set; }
 
+        public bool AnimateVertically { get; set; }
+
         public List<EffectPattern> EffectPatterns { get; set; }
 
         public override string ToString()
@@ -16,7 +18,8 @@ namespace RazerPoliceLights.Settings
             return
                 $"{nameof(IsScanEnabled)}: {IsScanEnabled}, " +
                 $"{nameof(IsEnabled)}: {IsEnabled}, " +
-                $"{nameof(EffectPatterns)}: {EffectPatterns.Count}";
+                $"{nameof(AnimateVertically)}: {AnimateVertically}, " +
+                $"{nameof(EffectPatterns)}: {EffectPatterns.Count} activated effects";
         }
     }
 }

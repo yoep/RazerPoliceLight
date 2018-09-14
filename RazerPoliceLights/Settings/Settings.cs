@@ -73,7 +73,9 @@ namespace RazerPoliceLights.Settings
             return $"{Environment.NewLine}---{nameof(PlaybackSettings)}---{Environment.NewLine}{PlaybackSettings}" +
                    $"{Environment.NewLine}---{nameof(ColorSettings)}---{Environment.NewLine}{ColorSettings}" +
                    $"{Environment.NewLine}---{nameof(DeviceSettings)}---{Environment.NewLine}{DeviceSettings}" +
-                   $"{Environment.NewLine}---{nameof(EffectPatterns)}---{Environment.NewLine}{EffectPatterns.Count}";
+                   $"{Environment.NewLine}---{nameof(EffectPatterns)}---" +
+                   $"{Environment.NewLine}{DeviceType.Keyboard}: Total available patterns {EffectPatterns[DeviceType.Keyboard].Count}" +
+                   $"{Environment.NewLine}{DeviceType.Mouse}: Total available patterns {EffectPatterns[DeviceType.Mouse].Count}";
         }
     }
 }

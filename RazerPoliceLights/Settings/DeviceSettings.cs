@@ -10,8 +10,8 @@ namespace RazerPoliceLights.Settings
        
         public override string ToString()
         {
-            return $"----{nameof(KeyboardSettings)}----{Environment.NewLine}{KeyboardSettings}," +
-                   $"{Environment.NewLine}----{nameof(MouseSettings)}----{Environment.NewLine}{MouseSettings}";
+            return $"----{nameof(KeyboardSettings)}----{Environment.NewLine}{KeyboardSettings},{Environment.NewLine}" +
+                   $"----{nameof(MouseSettings)}----{Environment.NewLine}{MouseSettings}";
         }
     }
 }

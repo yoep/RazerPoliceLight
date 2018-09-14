@@ -45,7 +45,6 @@ namespace RazerPoliceLights.Settings.Loaders
 
                     foreach (XmlNode effectNode in effectPatternNode.ChildNodes)
                     {
-                        var patternColors = new List<ColorType>();
                         var effectPattern = GetNodeInnerValue(effectNode, EffectNodePath);
                         var speedValue = GetAttributeValue(effectNode, EffectSpeedAttribute);
                         double speed;
@@ -59,12 +58,15 @@ namespace RazerPoliceLights.Settings.Loaders
 
                         var patternTypes = effectPattern.Split(',');
 
-                        foreach (var patternType in patternTypes)
+                        if (patternTypes.Length > 0)
                         {
-                            GetColorType(patternType, patternColors, effectName);
+                            patternRows.Add(new PatternRow(speed, GetPatternColors(patternTypes)));
                         }
-
-                        patternRows.Add(new PatternRow(speed));
+                        else
+                        {
+                            Game.LogTrivial("Effect pattern cannot have 0 columns, ignoring effect line");
+                            DisplayNotification();
+                        }
                     }
 
                     EffectPatternManager.Instance.AddEffect(
@@ -84,23 +86,39 @@ namespace RazerPoliceLights.Settings.Loaders
             };
         }
 
-        private static void GetColorType(string patternType, ICollection<ColorType> patternColors, string effectName)
+        private static ColorType[] GetPatternColors(IEnumerable<string> patternTypes)
+        {
+            var patternColors = new List<ColorType>();
+
+            foreach (var patternType in patternTypes)
+            {
+                try
+                {
+                    patternColors.Add(GetColorType(patternType));
+                }
+                catch (ColorTypeException e)
+                {
+                    Game.LogTrivial(e.Message + Environment.NewLine + e);
+                    DisplayNotification();
+                }
+            }
+
+            return patternColors.ToArray();
+        }
+
+        private static ColorType GetColorType(string patternType)
         {
             switch (patternType)
             {
                 case "0":
-                    patternColors.Add(ColorType.OFF);
-                    break;
+                    return ColorType.OFF;
                 case "1":
-                    patternColors.Add(ColorType.PRIMARY);
-                    break;
+                    return ColorType.PRIMARY;
                 case "2":
-                    patternColors.Add(ColorType.SECONDARY);
-                    break;
+                    return ColorType.SECONDARY;
                 default:
-                    Game.LogTrivial("Effect '" + effectName + "' has an invalid pattern row color type");
-                    DisplayNotification();
-                    break;
+                    throw new ColorTypeException("Pattern type '" + patternType +
+                                                 "' is invalid, see manual for allowed values");
             }
         }
 

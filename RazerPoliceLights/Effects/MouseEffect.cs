@@ -32,27 +32,28 @@ namespace RazerPoliceLights.Effects
         protected override void OnEffectTick(PatternRow playPattern)
         {
             var columnSize = Constants.MaxColumns / playPattern.TotalColumns;
-            var columnStartIndex = 0;
+            var startIndex = 0;
 
             for (var patternColumn = 0; patternColumn < playPattern.TotalColumns; patternColumn++)
             {
-                var columnEndIndex = columnStartIndex + columnSize;
+                var columnEndIndex = startIndex + columnSize;
+                var rowEndIndex = startIndex + columnSize;
 
-                if (IsMismatchingLastColumnEndIndex(playPattern, Constants.MaxColumns, patternColumn, columnEndIndex))
-                {
+                if (IsMismatchingLastEndIndex(playPattern, Constants.MaxColumns, patternColumn, columnEndIndex))
                     columnEndIndex = Constants.MaxColumns;
-                }
+                if (IsMismatchingLastEndIndex(playPattern, Constants.MaxRows, patternColumn, columnEndIndex))
+                    rowEndIndex = Constants.MaxRows;
 
-                for (var row = 0; row < Constants.MaxRows; row++)
+                if (Settings.DeviceSettings.MouseSettings.AnimateVertically)
                 {
-                    for (var column = columnStartIndex; column < columnEndIndex; column++)
-                    {
-                        _chromaMouse[row, column] =
-                            GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn));
-                    }
+                    AnimateVertical(playPattern, startIndex, rowEndIndex, patternColumn);
+                    startIndex = rowEndIndex;
                 }
-
-                columnStartIndex = columnEndIndex;
+                else
+                {
+                    AnimateHorizontal(playPattern, startIndex, columnEndIndex, patternColumn);
+                    startIndex = columnEndIndex;
+                }
             }
         }
 
@@ -64,6 +65,30 @@ namespace RazerPoliceLights.Effects
         protected override bool IsScanModeEnabled()
         {
             return Settings.DeviceSettings.MouseSettings.IsScanEnabled;
+        }
+
+        private void AnimateHorizontal(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)
+        {
+            for (var row = 0; row < Constants.MaxRows; row++)
+            {
+                for (var column = startIndex; column < endIndex; column++)
+                {
+                    _chromaMouse[row, column] =
+                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn));
+                }
+            }
+        }
+        
+        private void AnimateVertical(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)
+        {
+            for (var column = 0; column < Constants.MaxColumns; column++)
+            {
+                for (var row = startIndex; row < endIndex; row++)
+                {
+                    _chromaMouse[row, column] =
+                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn));
+                }
+            }
         }
     }
 }

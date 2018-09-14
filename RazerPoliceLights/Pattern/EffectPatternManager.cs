@@ -34,7 +34,8 @@ namespace RazerPoliceLights.Pattern
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("name cannot be empty");
-            return EffectPatterns.First(e => e.SupportedDevice == deviceType && e.Name == name);
+            return EffectPatterns.FirstOrDefault(e => e.SupportedDevice == deviceType &&
+                                                      e.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public List<EffectPattern> GetByDevice(DeviceType deviceType)

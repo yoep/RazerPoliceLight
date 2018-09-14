@@ -39,16 +39,20 @@ namespace RazerPoliceLights.Settings
 
             try
             {
-                document.Load(FileName);
+                using (var xmlReader = XmlReader.Create(FileName, new XmlReaderSettings {IgnoreComments = true}))
+                {
+                    document.Load(xmlReader);
+                }
 
                 Settings = new Settings
                 {
                     PlaybackSettings = PlaybackSettingsLoader.Load(document),
                     ColorSettings = ColorSettingsLoader.Load(document),
-                    DeviceSettings = DeviceSettingsLoader.Load(document),
-                    EffectPatterns = EffectPatternLoad.Load(document)
+                    //order below is important
+                    EffectPatterns = EffectPatternLoad.Load(document), 
+                    DeviceSettings = DeviceSettingsLoader.Load(document)
                 };
-                
+
                 Game.DisplayNotification("Razer Police Lights Keyboard configuration loaded");
                 Game.LogTrivial(Settings.ToString());
             }

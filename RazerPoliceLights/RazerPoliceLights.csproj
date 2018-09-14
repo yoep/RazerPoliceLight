@@ -58,6 +58,7 @@
     <Compile Include="PlayerState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ColorSettings.cs" />
+    <Compile Include="Settings\ColorTypeException.cs" />
     <Compile Include="Settings\DeviceSettings.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
     <Compile Include="Settings\Loaders\AbstractLoader.cs" />

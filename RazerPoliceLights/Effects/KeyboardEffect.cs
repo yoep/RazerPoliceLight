@@ -38,7 +38,7 @@ namespace RazerPoliceLights.Effects
             {
                 var columnEndIndex = columnStartIndex + columnSize;
 
-                if (IsMismatchingLastColumnEndIndex(playPattern, Constants.MaxColumns, patternColumn, columnEndIndex))
+                if (IsMismatchingLastEndIndex(playPattern, Constants.MaxColumns, patternColumn, columnEndIndex))
                 {
                     columnEndIndex = Constants.MaxColumns;
                 }

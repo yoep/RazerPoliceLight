@@ -30,7 +30,7 @@
                 <Pattern>EvenOddFlash</Pattern>
             </Patterns>
         </Keyboard>
-        <Mouse Enabled="true" EnableScanMode="true">
+        <Mouse Enabled="true" EnableScanMode="true" AnimateVertically="false">
             <Patterns>
                 <Pattern>Alternate</Pattern>
                 <Pattern>AlternateFlash</Pattern>
@@ -74,6 +74,34 @@
             <Effect Speed="2.0">0,1,0,2</Effect>
         </EffectPattern>
         <EffectPattern Name="EvenOddFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="Alternate" Device="Mouse">
+            <Effect Speed="2.0">1,0</Effect>
+            <Effect Speed="2.0">0,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="AlternateFlash" Device="Mouse">
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOdd" Device="Mouse">
+            <Effect Speed="2.0">1,0,2,0</Effect>
+            <Effect Speed="2.0">0,1,0,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOddFlash" Device="Mouse">
             <Effect Speed="1.0">1,0,2,0</Effect>
             <Effect Speed="1.0">0,0,0,0</Effect>
             <Effect Speed="1.0">1,0,2,0</Effect>

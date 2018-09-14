@@ -93,7 +93,7 @@ namespace RazerPoliceLights.Effects
             }
         }
 
-        protected bool IsMismatchingLastColumnEndIndex(
+        protected bool IsMismatchingLastEndIndex(
             PatternRow patternRow,
             int maxColumns,
             int patternColumn,
