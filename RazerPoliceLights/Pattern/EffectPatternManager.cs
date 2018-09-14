@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RazerPoliceLights.Pattern.Predefined.Keyboard;
 
@@ -31,12 +32,26 @@ namespace RazerPoliceLights.Pattern
 
         public EffectPattern GetByName(DeviceType deviceType, string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentException("name cannot be empty");
             return EffectPatterns.First(e => e.SupportedDevice == deviceType && e.Name == name);
         }
 
         public List<EffectPattern> GetByDevice(DeviceType deviceType)
         {
             return EffectPatterns.FindAll(e => e.SupportedDevice == deviceType);
+        }
+
+        public void AddEffect(EffectPattern effectPattern)
+        {
+            if (effectPattern == null)
+                throw new ArgumentException("effectPattern cannot be null");
+            EffectPatterns.Add(effectPattern);
+        }
+
+        public void Clear()
+        {
+            EffectPatterns.Clear();
         }
 
         private void Init()
