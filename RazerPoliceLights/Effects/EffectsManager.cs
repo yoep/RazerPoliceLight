@@ -34,9 +34,9 @@ namespace RazerPoliceLights.Effects
 
         public void Play()
         {
-            foreach (var devicEffect in DeviceEffects)
+            foreach (var deviceEffect in DeviceEffects)
             {
-                devicEffect.Play();
+                deviceEffect.Play();
             }
         }
 
