@@ -28,9 +28,11 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 
 ## Changelog features for 1.0.1
 
+- Added manual.pdf for more information of how to use and configure the plugin
 - Added option to play effect vertically on a mouse device
 - Added effect pattern definitions to the configuration
 - Added option to create custom effects
 - Added PlayEffects command to test custom created effects (accepts device and effect name as arguments)
 - Added StopEffects command to stop playing all effects
 - Added PoliceLightsReloadSettings command to reload the RazerPoliceLights.xml configuration
+- Added new effect patterns for Keyboard and Mouse
