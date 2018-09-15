@@ -4,9 +4,9 @@ using Rage.Attributes;
 using RazerPoliceLights.Effects;
 
 [assembly:
-    Plugin("Razer Police Lights Keyboard",
+    Plugin(RazerPoliceLights.RazerPoliceLights.Name,
         PrefersSingleInstance = true,
-        Description = "Razer Keyboard lighting effect",
+        Description = "Razer Keyboard & Mouse lighting effects",
         Author = "yoep",
         ExitPoint = "RazerPoliceLights.EntryPoint.OnUnload")]
 

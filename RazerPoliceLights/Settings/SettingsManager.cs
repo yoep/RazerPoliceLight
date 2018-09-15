@@ -49,22 +49,24 @@ namespace RazerPoliceLights.Settings
                     PlaybackSettings = PlaybackSettingsLoader.Load(document),
                     ColorSettings = ColorSettingsLoader.Load(document),
                     //order below is important
-                    EffectPatterns = EffectPatternLoad.Load(document), 
+                    EffectPatterns = EffectPatternLoad.Load(document),
                     DeviceSettings = DeviceSettingsLoader.Load(document)
                 };
 
-                Game.DisplayNotification("Razer Police Lights Keyboard configuration loaded");
+                Game.DisplayNotification(RazerPoliceLights.Name + " configuration loaded");
                 Game.LogTrivial(Settings.ToString());
             }
             catch (FileNotFoundException)
             {
-                Game.DisplayNotification("Razer Police Lights configuration file not found, using defaults instead");
+                Game.DisplayNotification(RazerPoliceLights.Name +
+                                         " configuration file not found, using defaults instead");
                 LoadDefauls();
             }
             catch (Exception e)
             {
                 Game.LogTrivial(e.Message + Environment.NewLine + e.StackTrace);
-                Game.DisplayNotification("Razer Police Lights configuration file is not valid, using defaults instead");
+                Game.DisplayNotification(RazerPoliceLights.Name +
+                                         " configuration file is not valid, using defaults instead");
                 LoadDefauls();
             }
         }

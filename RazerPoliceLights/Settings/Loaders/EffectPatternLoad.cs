@@ -124,7 +124,7 @@ namespace RazerPoliceLights.Settings.Loaders
 
         private static void DisplayNotification()
         {
-            Game.DisplayNotification("Razer Keyboard Police Lights has detected an issue with an effect pattern");
+            Game.DisplayNotification(RazerPoliceLights.Name + " has detected an issue with an effect pattern");
         }
     }
 }

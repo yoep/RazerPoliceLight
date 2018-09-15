@@ -8,7 +8,6 @@ namespace RazerPoliceLights
 {
     public class VehicleListener
     {
-        private readonly Ped _player;
         private readonly EffectsManager _effectsManager = EffectsManager.Instance;
 
         private PlayerState _oldPlayerState;
@@ -26,7 +25,6 @@ namespace RazerPoliceLights
 
         private VehicleListener()
         {
-            _player = GetPlayer();
             _oldPlayerState = PlayerState;
         }
 
@@ -61,7 +59,7 @@ namespace RazerPoliceLights
                 if (!(exception is ThreadAbortException))
                 {
                     LogException(exception);
-                    Game.DisplayNotification("Razer Police Lights Keyboard plugin has crashed");
+                    Game.DisplayNotification(RazerPoliceLights.Name + " plugin has crashed");
                 } //else, plugin is being unloaded
             }
         }
@@ -132,27 +130,29 @@ namespace RazerPoliceLights
             return playerLastVehicle != null && playerLastVehicle.Driver == GetPlayer();
         }
 
-        private Vehicle GetPlayerVehicle()
+        private static Vehicle GetPlayerVehicle()
         {
             try
             {
                 return GetPlayer()?.CurrentVehicle;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Game.LogTrivialDebug("Vehicle retrieval failed with " + e.Message + Environment.NewLine + e);
                 //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
         }
 
-        private Ped GetPlayer()
+        private static Ped GetPlayer()
         {
             try
             {
-                return _player != null ? _player : Game.LocalPlayer.Character;
+                return Game.LocalPlayer.Character;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Game.LogTrivialDebug("Player retrieval failed with " + e.Message + Environment.NewLine + e);
                 //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
@@ -160,7 +160,8 @@ namespace RazerPoliceLights
 
         private static void LogException(Exception e)
         {
-            Game.LogTrivial(e.Message + Environment.NewLine + e.StackTrace);
+            Game.LogTrivial(RazerPoliceLights.Name + " has encountered an issue" + Environment.NewLine
+                            + e.Message + Environment.NewLine + e.StackTrace);
         }
     }
 }

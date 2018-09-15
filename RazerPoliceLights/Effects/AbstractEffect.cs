@@ -54,7 +54,7 @@ namespace RazerPoliceLights.Effects
                 catch (Exception exception)
                 {
                     Game.LogTrivial(exception.Message + Environment.NewLine + exception.StackTrace);
-                    Game.DisplayNotification("Razer Police Lights Keyboard plugin thread stopped responding");
+                    Game.DisplayNotification(RazerPoliceLights.Name + " plugin thread stopped responding");
                 }
             }) {IsBackground = true};
             _effectThread.Start();
