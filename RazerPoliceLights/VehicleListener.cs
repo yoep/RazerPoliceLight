@@ -66,6 +66,7 @@ namespace RazerPoliceLights
 
         public void Stop()
         {
+            Game.LogTrivialDebug("Stopping vehicle listener");
             _keepAlive = false;
         }
 

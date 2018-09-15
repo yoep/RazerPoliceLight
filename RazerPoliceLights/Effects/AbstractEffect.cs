@@ -69,6 +69,7 @@ namespace RazerPoliceLights.Effects
 
         public void OnUnload(bool isTerminating)
         {
+            Game.LogTrivialDebug("Device effect thread is being " + (isTerminating ? "forcefully aborted" : "stopped"));
             _isEffectRunning = false;
             if (isTerminating)
                 _effectThread.Abort();
@@ -149,7 +150,7 @@ namespace RazerPoliceLights.Effects
 
         /// <summary>
         /// Is invoked on each effect tick.
-        /// An effect tick is triggered each 100 miliseconds of the system time clock as the effect is running in a
+        /// An effect tick is triggered each 100 milliseconds of the system time clock as the effect is running in a
         /// background thread and isn't aware of the game ticks.
         /// </summary>
         /// <param name="playPattern">Set the pattern the effect tick needs to process.</param>

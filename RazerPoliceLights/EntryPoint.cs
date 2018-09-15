@@ -25,6 +25,7 @@ namespace RazerPoliceLights
 
         public static void OnUnload(bool isTerminating)
         {
+            Game.LogTrivialDebug(RazerPoliceLights.Name + " received unload command with termination " + isTerminating);
             VehicleListener.Instance.Stop();
             EffectsManager.Instance.OnUnload(isTerminating);
         }

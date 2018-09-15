@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rage;
 using RazerPoliceLights.Pattern;
 
 namespace RazerPoliceLights.Effects
@@ -47,17 +48,18 @@ namespace RazerPoliceLights.Effects
 
         public void Stop()
         {
-            foreach (var devicEffect in DeviceEffects)
+            foreach (var deviceEffect in DeviceEffects)
             {
-                devicEffect.Stop();
+                deviceEffect.Stop();
             }
         }
 
         public void OnUnload(bool isTerminating)
         {
-            foreach (var devicEffect in DeviceEffects)
+            Game.LogTrivialDebug("Stopping all device effect threads");
+            foreach (var deviceEffect in DeviceEffects)
             {
-                devicEffect.OnUnload(isTerminating);
+                deviceEffect.OnUnload(isTerminating);
             }
         }
 
