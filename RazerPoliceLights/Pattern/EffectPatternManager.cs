@@ -24,9 +24,9 @@ namespace RazerPoliceLights.Pattern
 
         #region Properties
 
-        public static EffectPatternManager Instance { get; private set; }
+        public static EffectPatternManager Instance { get; }
 
-        public List<EffectPattern> EffectPatterns { get; private set; }
+        public List<EffectPattern> EffectPatterns { get; }
 
         #endregion
 

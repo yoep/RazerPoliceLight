@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLights", "RazerPoliceLights\RazerPoliceLights.csproj", "{8CA8561A-F2BA-4709-B9E0-BAC4E8012467}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLightsTests", "RazerPoliceLightsTests\RazerPoliceLightsTests.csproj", "{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{8CA8561A-F2BA-4709-B9E0-BAC4E8012467}.Debug|x64.Build.0 = Debug|x64
 		{8CA8561A-F2BA-4709-B9E0-BAC4E8012467}.Release|x64.ActiveCfg = Release|x64
 		{8CA8561A-F2BA-4709-B9E0-BAC4E8012467}.Release|x64.Build.0 = Release|x64
+		{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}.Debug|x64.Build.0 = Debug|Any CPU
+		{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}.Release|x64.ActiveCfg = Release|Any CPU
+		{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -38,6 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assert.cs" />
     <Compile Include="Commands\PlaybackCommands.cs" />
     <Compile Include="Commands\SettingsCommands.cs" />
     <Compile Include="Effects\AbstractEffect.cs" />
@@ -81,6 +82,25 @@
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="Settings\UnknownColorSettingException.cs" />
     <Compile Include="VehicleListener.cs" />
+    <Compile Include="Xml\Attributes\AbstractXmlAnnotationInfo.cs" />
+    <Compile Include="Xml\Attributes\XmlAttribute.cs" />
+    <Compile Include="Xml\Attributes\XmlElement.cs" />
+    <Compile Include="Xml\Attributes\XmlIgnore.cs" />
+    <Compile Include="Xml\Attributes\XmlRootElement.cs" />
+    <Compile Include="Xml\Context\XmlContext.cs" />
+    <Compile Include="Xml\Context\XmlDeserializationContext.cs" />
+    <Compile Include="Xml\DeserializationException.cs" />
+    <Compile Include="Xml\Deserializers\BooleanXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\ColorXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\DoubleXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\EffectPatternXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\ObjectXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\StringXmlDeserializer.cs" />
+    <Compile Include="Xml\IXmlDeserializer.cs" />
+    <Compile Include="Xml\IXmlSerialization.cs" />
+    <Compile Include="Xml\ObjectMapper.cs" />
+    <Compile Include="Xml\ObjectMapperFactory.cs" />
+    <Compile Include="Xml\XmlParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

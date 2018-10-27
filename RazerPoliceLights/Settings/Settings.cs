@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using Corale.Colore.Core;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Pattern.Predefined.Keyboard;
+using RazerPoliceLights.Xml.Attributes;
 
 namespace RazerPoliceLights.Settings
 {
+    [XmlRootElement("RazerPoliceLights")]
     public class Settings
     {
+        [XmlIgnore]
         public static Settings Defaults => new Settings
         {
             PlaybackSettings = new PlaybackSettings
@@ -60,13 +63,13 @@ namespace RazerPoliceLights.Settings
             }
         };
 
-        public PlaybackSettings PlaybackSettings { get; set; }
+        [XmlElement(Name = "Playback")] public PlaybackSettings PlaybackSettings { get; set; }
 
-        public ColorSettings ColorSettings { get; set; }
+        [XmlElement(Name = "Colors")] public ColorSettings ColorSettings { get; set; }
 
-        public DeviceSettings DeviceSettings { get; set; }
+        [XmlElement(Name = "Devices")] public DeviceSettings DeviceSettings { get; set; }
 
-        public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
+        [XmlElement(Name = "Patterns")] public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
 
         public override string ToString()
         {

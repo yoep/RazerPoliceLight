@@ -1,8 +1,10 @@
-﻿namespace RazerPoliceLights.Settings
+﻿using RazerPoliceLights.Xml.Attributes;
+
+namespace RazerPoliceLights.Settings
 {
     public class PlaybackSettings
     {
-        public double SpeedModifier { get; set; }
+        [XmlElement(Name = "Speed")] public double SpeedModifier { get; set; }
 
         public bool LeaveLightsOn { get; set; }
 
