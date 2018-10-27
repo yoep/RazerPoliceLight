@@ -1,20 +1,19 @@
 using System;
-using System.Collections.Generic;
-using RazerPoliceLights.Pattern;
+using System.Collections;
 using RazerPoliceLights.Xml.Context;
 
 namespace RazerPoliceLights.Xml.Deserializers
 {
-    public class EffectPatternXmlDeserializer : IXmlDeserializer
+    public class CollectionXmlDeserializer : IXmlDeserializer
     {
         public object deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public bool CanHandle(Type type)
         {
-            return type == typeof(Dictionary<DeviceType, List<EffectPattern>>);
+            return type == typeof(ICollection);
         }
     }
 }

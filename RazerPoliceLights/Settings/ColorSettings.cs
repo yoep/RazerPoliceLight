@@ -5,11 +5,11 @@ namespace RazerPoliceLights.Settings
 {
     public class ColorSettings
     {
-        [XmlElement(Name = "Primary")] public Color PrimaryColor { get; internal set; }
+        [XmlElement(Name = "Primary")] public Color PrimaryColor { get; set; }
 
-        [XmlElement(Name = "Secondary")] public Color SecondaryColor { get; internal set; }
+        [XmlElement(Name = "Secondary")] public Color SecondaryColor { get; set; }
 
-        [XmlElement(Name = "Standby")] public Color StandbyColor { get; internal set; }
+        [XmlElement(Name = "Standby")] public Color StandbyColor { get; set; }
 
         public override string ToString()
         {

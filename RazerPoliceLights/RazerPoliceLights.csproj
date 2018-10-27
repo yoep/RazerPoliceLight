@@ -68,6 +68,7 @@
     <Compile Include="Settings\ColorSettings.cs" />
     <Compile Include="Settings\ColorTypeException.cs" />
     <Compile Include="Settings\DeviceSettings.cs" />
+    <Compile Include="Settings\EffectPatternSettings.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
     <Compile Include="Settings\Loaders\AbstractLoader.cs" />
     <Compile Include="Settings\Loaders\ColorSettingsLoader.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Settings\Loaders\EffectPatternLoad.cs" />
     <Compile Include="Settings\Loaders\PlaybackSettingsLoader.cs" />
     <Compile Include="Settings\MouseSettings.cs" />
+    <Compile Include="Settings\PatternRowSettings.cs" />
     <Compile Include="Settings\PlaybackSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\SettingsException.cs" />
@@ -86,14 +88,15 @@
     <Compile Include="Xml\Attributes\XmlAttribute.cs" />
     <Compile Include="Xml\Attributes\XmlElement.cs" />
     <Compile Include="Xml\Attributes\XmlIgnore.cs" />
-    <Compile Include="Xml\Attributes\XmlRootElement.cs" />
+    <Compile Include="Xml\Attributes\XmlRootName.cs" />
     <Compile Include="Xml\Context\XmlContext.cs" />
     <Compile Include="Xml\Context\XmlDeserializationContext.cs" />
     <Compile Include="Xml\DeserializationException.cs" />
     <Compile Include="Xml\Deserializers\BooleanXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\CollectionXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\ColorXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\DoubleXmlDeserializer.cs" />
-    <Compile Include="Xml\Deserializers\EffectPatternXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\PatternsXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\ObjectXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\StringXmlDeserializer.cs" />
     <Compile Include="Xml\IXmlDeserializer.cs" />

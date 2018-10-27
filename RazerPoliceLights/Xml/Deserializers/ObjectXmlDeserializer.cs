@@ -64,10 +64,24 @@ namespace RazerPoliceLights.Xml.Deserializers
             if (type == typeof(int))
                 return int.Parse(value);
 
+            if (type.IsEnum)
+                return ProcessEnum(value, type);
+
             if (type == typeof(Array))
                 throw new DeserializationException("Attribute cannot be of type Array");
 
             return value;
+        }
+
+        private static object ProcessEnum(string value, Type type)
+        {
+            foreach (var enumValue in type.GetEnumValues())
+            {
+                if (enumValue.ToString().Equals(value, StringComparison.InvariantCultureIgnoreCase))
+                    return enumValue;
+            }
+
+            throw new XmlException("Enumeration value " + value + " could not be found for " + type.Name);
         }
 
         public bool CanHandle(Type type)

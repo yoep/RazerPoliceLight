@@ -24,7 +24,7 @@ namespace RazerPoliceLights.Settings
                 $"{nameof(IsScanEnabled)}: {IsScanEnabled}, " +
                 $"{nameof(IsEnabled)}: {IsEnabled}, " +
                 $"{nameof(AnimateVertically)}: {AnimateVertically}, " +
-                $"{nameof(EffectPatterns)}: {EffectPatterns.Count} activated effects";
+                $"{nameof(EffectPatterns)}: {EffectPatterns?.Count} activated effects";
         }
     }
 }

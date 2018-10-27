@@ -18,6 +18,8 @@ namespace RazerPoliceLights.Pattern
             Name = name;
             SupportedDevice = deviceType;
             PatternRows = new List<PatternRow>(patternRows);
+            if (PatternRows == null || PatternRows?.Count == 0)
+                throw new EffectPatternException("The effect pattern should contain at least 1 row");
             if (!IsValid(PatternRows))
                 throw new EffectPatternException("One or more pattern row(s) are invalid");
         }

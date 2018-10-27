@@ -5,7 +5,11 @@ namespace RazerPoliceLights.Xml
 {
     public class ObjectMapperFactory
     {
-        private readonly List<IXmlDeserializer> _deserializers = new List<IXmlDeserializer>();
+        private readonly List<IXmlDeserializer> _deserializers = new List<IXmlDeserializer>
+        {
+            new CollectionXmlDeserializer(),
+            new ObjectXmlDeserializer() //object deserializer should always be registered as it can handle everything
+        };
 
         public ObjectMapperFactory()
         {
@@ -16,24 +20,45 @@ namespace RazerPoliceLights.Xml
             var objectMapperFactory = new ObjectMapperFactory();
 
             return objectMapperFactory
-                .RegisterDefaultSerializers()
+                .RegisterNativeTypes()
+                .RegisterRazerPoliceLightsSerializers()
                 .GetInstance();
         }
 
-        public ObjectMapperFactory RegisterDefaultSerializers()
+        /// <summary>
+        /// Registers serializers for System native types.
+        /// </summary>
+        /// <returns>Returns this instance.</returns>
+        public ObjectMapperFactory RegisterNativeTypes()
         {
-            _deserializers.AddRange(new List<IXmlDeserializer>
+            //insert the natives before the object serializer (because everything is an object)
+            _deserializers.InsertRange(0, new List<IXmlDeserializer>
             {
                 new StringXmlDeserializer(),
                 new DoubleXmlDeserializer(),
-                new BooleanXmlDeserializer(),
-                new ColorXmlDeserializer(),
-                new EffectPatternXmlDeserializer(),
-                new ObjectXmlDeserializer()
+                new BooleanXmlDeserializer()
             });
+
             return this;
         }
 
+        public ObjectMapperFactory RegisterRazerPoliceLightsSerializers()
+        {
+            //insert the additions before the object serializer (because everything is an object)
+            _deserializers.InsertRange(0, new List<IXmlDeserializer>
+            {
+                new ColorXmlDeserializer(),
+                new PatternsXmlDeserializer(),
+                new ObjectXmlDeserializer()
+            });
+
+            return this;
+        }
+
+        /// <summary>
+        /// Creates an ObjectMapper instance based on the factory configuration.
+        /// </summary>
+        /// <returns>Returns a new ObjectMapper instance.</returns>
         public ObjectMapper GetInstance()
         {
             return new ObjectMapper(_deserializers);

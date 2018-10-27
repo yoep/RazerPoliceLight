@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Corale.Colore.Core;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Xml;
 using Xunit;
@@ -56,10 +57,39 @@ namespace RazerPoliceLightsTests.Xml
             [Fact]
             public void ShouldMapXmlToTargetWhenFileExists()
             {
+                var expectedResult = new Settings
+                {
+                    PlaybackSettings = new PlaybackSettings
+                    {
+                        SpeedModifier = 1.0,
+                        LeaveLightsOn = false
+                    },
+                    ColorSettings = new ColorSettings
+                    {
+                        PrimaryColor = Color.Blue,
+                        SecondaryColor = Color.Red,
+                        StandbyColor = Color.Red
+                    },
+                    DeviceSettings = new DeviceSettings
+                    {
+                        KeyboardSettings = new KeyboardSettings
+                        {
+                            IsEnabled = true,
+                            IsScanEnabled = true
+                        },
+                        MouseSettings = new MouseSettings
+                        {
+                            IsEnabled = true,
+                            IsScanEnabled = true
+                        }
+                    }
+                };
+                
                 var result =
                     _objectMapper.ReadValue<Settings>(GetResourceFile("RazerPoliceLights.xml"), typeof(Settings));
 
                 Assert.NotNull(result);
+                Assert.Equal(expectedResult, result);
             }
 
             private static string GetResourceFile(string path)

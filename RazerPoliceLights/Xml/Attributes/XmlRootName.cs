@@ -7,9 +7,9 @@ namespace RazerPoliceLights.Xml.Attributes
     /// Defines serialization and deserialization information for the xml root element.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class XmlRootElement : Attribute
+    public class XmlRootName : Attribute
     {
-        public XmlRootElement(string name)
+        public XmlRootName(string name)
         {
             Name = name;
         }

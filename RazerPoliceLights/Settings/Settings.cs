@@ -7,7 +7,7 @@ using RazerPoliceLights.Xml.Attributes;
 
 namespace RazerPoliceLights.Settings
 {
-    [XmlRootElement("RazerPoliceLights")]
+    [XmlRootName("RazerPoliceLights")]
     public class Settings
     {
         [XmlIgnore]
@@ -77,8 +77,8 @@ namespace RazerPoliceLights.Settings
                    $"{Environment.NewLine}---{nameof(ColorSettings)}---{Environment.NewLine}{ColorSettings}" +
                    $"{Environment.NewLine}---{nameof(DeviceSettings)}---{Environment.NewLine}{DeviceSettings}" +
                    $"{Environment.NewLine}---{nameof(EffectPatterns)}---" +
-                   $"{Environment.NewLine}{DeviceType.Keyboard}: Total available patterns {EffectPatterns[DeviceType.Keyboard].Count}" +
-                   $"{Environment.NewLine}{DeviceType.Mouse}: Total available patterns {EffectPatterns[DeviceType.Mouse].Count}";
+                   $"{Environment.NewLine}{DeviceType.Keyboard}: Total available patterns {EffectPatterns?[DeviceType.Keyboard].Count}" +
+                   $"{Environment.NewLine}{DeviceType.Mouse}: Total available patterns {EffectPatterns?[DeviceType.Mouse].Count}";
         }
     }
 }

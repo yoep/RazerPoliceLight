@@ -49,7 +49,7 @@ namespace RazerPoliceLights.Xml
 
         private static string LookupTypeName(MemberInfo member)
         {
-            var rootName = member.GetCustomAttribute<XmlRootElement>();
+            var rootName = member.GetCustomAttribute<XmlRootName>();
 
             return rootName != null && !string.IsNullOrEmpty(rootName.Name) ? rootName.Name : member.Name;
         }
