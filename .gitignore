@@ -1,0 +1,8 @@
+.idea/
+.vs/
+RazerPoliceLights.sln.DotSettings.user
+RazerPoliceLights/bin/
+RazerPoliceLights/obj/
+RazerPoliceLightsTests/bin/
+RazerPoliceLightsTests/obj/
+packages/
