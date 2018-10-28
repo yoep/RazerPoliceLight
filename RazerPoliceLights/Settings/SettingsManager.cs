@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Xml;
+using System.Linq;
 using Rage;
-using RazerPoliceLights.Settings.Loaders;
+using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Xml;
 
 namespace RazerPoliceLights.Settings
 {
@@ -25,7 +26,7 @@ namespace RazerPoliceLights.Settings
 
         #region Getters & Setters
 
-        public static SettingsManager Instance { get; private set; }
+        public static SettingsManager Instance { get; }
 
         public Settings Settings { get; private set; }
 
@@ -35,23 +36,12 @@ namespace RazerPoliceLights.Settings
 
         public void Load()
         {
-            var document = new XmlDocument();
+            var objectMapper = ObjectMapperFactory.CreateInstance();
 
             try
             {
-                using (var xmlReader = XmlReader.Create(FileName, new XmlReaderSettings {IgnoreComments = true}))
-                {
-                    document.Load(xmlReader);
-                }
-
-                Settings = new Settings
-                {
-                    PlaybackSettings = PlaybackSettingsLoader.Load(document),
-                    ColorSettings = ColorSettingsLoader.Load(document),
-                    //order below is important
-                    EffectPatterns = EffectPatternLoad.Load(document),
-                    DeviceSettings = DeviceSettingsLoader.Load(document)
-                };
+                Settings = objectMapper.ReadValue<Settings>(FileName, typeof(Settings));
+                UpdateEffectManager();
 
                 Game.DisplayNotification(RazerPoliceLights.Name + " configuration loaded");
                 Game.LogTrivial(Settings.ToString());
@@ -60,22 +50,37 @@ namespace RazerPoliceLights.Settings
             {
                 Game.DisplayNotification(RazerPoliceLights.Name +
                                          " configuration file not found, using defaults instead");
-                LoadDefauls();
+                LoadDefaults();
             }
             catch (Exception e)
             {
                 Game.LogTrivial(e.Message + Environment.NewLine + e.StackTrace);
                 Game.DisplayNotification(RazerPoliceLights.Name +
                                          " configuration file is not valid, using defaults instead");
-                LoadDefauls();
+                LoadDefaults();
             }
         }
 
         #endregion
 
-        private void LoadDefauls()
+        private void LoadDefaults()
         {
             Settings = Settings.Defaults;
+            UpdateEffectManager();
+        }
+
+        private void UpdateEffectManager()
+        {
+            var effectPatternManager = EffectPatternManager.Instance;
+            effectPatternManager.Clear();
+
+            //only add the effects which are enabled in the device settings to the effect manager
+            effectPatternManager.AddAll(Settings.EffectPatterns[DeviceType.Keyboard]
+                .Where(x => Settings.DeviceSettings.KeyboardSettings.Patterns.Contains(x.Name))
+                .ToList());
+            effectPatternManager.AddAll(Settings.EffectPatterns[DeviceType.Mouse]
+                .Where(x => Settings.DeviceSettings.MouseSettings.Patterns.Contains(x.Name))
+                .ToList());
         }
     }
 }

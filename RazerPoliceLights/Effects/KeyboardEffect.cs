@@ -22,8 +22,7 @@ namespace RazerPoliceLights.Effects
 
         #region Properties
 
-        protected override List<EffectPattern> EffectPatterns =>
-            Settings.DeviceSettings.KeyboardSettings.EffectPatterns;
+        protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Keyboard);
 
         protected override bool IsDisabled => !Settings.DeviceSettings.KeyboardSettings.IsEnabled;
 

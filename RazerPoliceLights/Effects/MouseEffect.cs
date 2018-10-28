@@ -22,8 +22,7 @@ namespace RazerPoliceLights.Effects
 
         #region Properties
 
-        protected override List<EffectPattern> EffectPatterns =>
-            Settings.DeviceSettings.MouseSettings.EffectPatterns;
+        protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Mouse);
 
         protected override bool IsDisabled => !Settings.DeviceSettings.MouseSettings.IsEnabled;
 

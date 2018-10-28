@@ -45,11 +45,23 @@ namespace RazerPoliceLights.Pattern
 
         public void AddEffect(EffectPattern effectPattern)
         {
-            if (effectPattern == null)
-                throw new ArgumentException("effectPattern cannot be null");
+            Assert.NotNull(effectPattern, "effectPattern cannot be null");
             EffectPatterns.Add(effectPattern);
         }
 
+        /// <summary>
+        /// Add the given range of effect patterns to this manager.
+        /// </summary>
+        /// <param name="effectPatterns">Set the list of effect to add.</param>
+        public void AddAll(List<EffectPattern> effectPatterns)
+        {
+            Assert.NotNull(effectPatterns, "effectPatterns cannot be null");
+            EffectPatterns.AddRange(effectPatterns);
+        }
+
+        /// <summary>
+        /// Clear all effects stored in this effect manager.
+        /// </summary>
         public void Clear()
         {
             EffectPatterns.Clear();

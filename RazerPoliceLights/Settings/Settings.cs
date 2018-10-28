@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Corale.Colore.Core;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Pattern.Predefined.Keyboard;
@@ -30,13 +31,13 @@ namespace RazerPoliceLights.Settings
                 {
                     IsScanEnabled = true,
                     IsEnabled = true,
-                    EffectPatterns = EffectPatternManager.Instance.GetByDevice(DeviceType.Keyboard)
+                    Patterns = EffectPatternManager.Instance.GetByDevice(DeviceType.Keyboard).Select(x => x.Name).ToList()
                 },
                 MouseSettings = new MouseSettings
                 {
                     IsScanEnabled = true,
                     IsEnabled = true,
-                    EffectPatterns = EffectPatternManager.Instance.GetByDevice(DeviceType.Mouse)
+                    Patterns = EffectPatternManager.Instance.GetByDevice(DeviceType.Mouse).Select(x => x.Name).ToList()
                 }
             },
             EffectPatterns = new Dictionary<DeviceType, List<EffectPattern>>
@@ -69,7 +70,8 @@ namespace RazerPoliceLights.Settings
 
         [XmlElement(Name = "Devices")] public DeviceSettings DeviceSettings { get; set; }
 
-        [XmlElement(Name = "Patterns/EffectPattern")] public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
+        [XmlElement(Name = "Patterns/EffectPattern")]
+        public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
 
         public override string ToString()
         {
@@ -83,7 +85,8 @@ namespace RazerPoliceLights.Settings
 
         protected bool Equals(Settings other)
         {
-            return Equals(PlaybackSettings, other.PlaybackSettings) && Equals(ColorSettings, other.ColorSettings) && Equals(DeviceSettings, other.DeviceSettings) && Equals(EffectPatterns, other.EffectPatterns);
+            return Equals(PlaybackSettings, other.PlaybackSettings) && Equals(ColorSettings, other.ColorSettings) &&
+                   Equals(DeviceSettings, other.DeviceSettings) && Equals(EffectPatterns, other.EffectPatterns);
         }
 
         public override bool Equals(object obj)

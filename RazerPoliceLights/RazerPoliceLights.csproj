@@ -70,12 +70,6 @@
     <Compile Include="Settings\DeviceSettings.cs" />
     <Compile Include="Settings\EffectPatternSettings.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
-    <Compile Include="Settings\Loaders\AbstractLoader.cs" />
-    <Compile Include="Settings\Loaders\ColorSettingsLoader.cs" />
-    <Compile Include="Settings\Loaders\DevicePatternsSettingsLoader.cs" />
-    <Compile Include="Settings\Loaders\DeviceSettingsLoader.cs" />
-    <Compile Include="Settings\Loaders\EffectPatternLoad.cs" />
-    <Compile Include="Settings\Loaders\PlaybackSettingsLoader.cs" />
     <Compile Include="Settings\MouseSettings.cs" />
     <Compile Include="Settings\EffectSettings.cs" />
     <Compile Include="Settings\PatternRowSettings.cs" />
