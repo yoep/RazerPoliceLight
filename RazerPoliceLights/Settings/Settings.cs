@@ -69,7 +69,7 @@ namespace RazerPoliceLights.Settings
 
         [XmlElement(Name = "Devices")] public DeviceSettings DeviceSettings { get; set; }
 
-        [XmlElement(Name = "Patterns")] public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
+        [XmlElement(Name = "Patterns/EffectPattern")] public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
 
         public override string ToString()
         {
@@ -79,6 +79,31 @@ namespace RazerPoliceLights.Settings
                    $"{Environment.NewLine}---{nameof(EffectPatterns)}---" +
                    $"{Environment.NewLine}{DeviceType.Keyboard}: Total available patterns {EffectPatterns?[DeviceType.Keyboard].Count}" +
                    $"{Environment.NewLine}{DeviceType.Mouse}: Total available patterns {EffectPatterns?[DeviceType.Mouse].Count}";
+        }
+
+        protected bool Equals(Settings other)
+        {
+            return Equals(PlaybackSettings, other.PlaybackSettings) && Equals(ColorSettings, other.ColorSettings) && Equals(DeviceSettings, other.DeviceSettings) && Equals(EffectPatterns, other.EffectPatterns);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Settings) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (PlaybackSettings != null ? PlaybackSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (ColorSettings != null ? ColorSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (DeviceSettings != null ? DeviceSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (EffectPatterns != null ? EffectPatterns.GetHashCode() : 0);
+                return hashCode;
+            }
         }
     }
 }

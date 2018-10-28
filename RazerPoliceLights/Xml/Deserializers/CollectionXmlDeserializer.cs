@@ -1,19 +1,35 @@
 using System;
 using System.Collections;
+using System.Xml;
+using System.Xml.XPath;
 using RazerPoliceLights.Xml.Context;
+using RazerPoliceLights.Xml.Parser;
 
 namespace RazerPoliceLights.Xml.Deserializers
 {
     public class CollectionXmlDeserializer : IXmlDeserializer
     {
-        public object deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
+        public object Deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
-            throw new NotImplementedException();
+            var type = deserializationContext.DeserializationType;
+            var genericType = type.GetGenericArguments()[0]; //IEnumerable only has 1 generic argument type
+            var values = (IList) Activator.CreateInstance(type);
+            var deserializer = deserializationContext.Deserializers.Find(e => e.CanHandle(genericType));
+
+            if (deserializer == null)
+                throw new XmlException("Could not find deserializer for type " + genericType);
+
+            foreach (XPathNavigator node in deserializationContext.Nodes)
+            {
+                values.Add(deserializationContext.Deserialize(parser, node, genericType));
+            }
+
+            return values;
         }
 
         public bool CanHandle(Type type)
         {
-            return type == typeof(ICollection);
+            return typeof(IEnumerable).IsAssignableFrom(type);
         }
     }
 }

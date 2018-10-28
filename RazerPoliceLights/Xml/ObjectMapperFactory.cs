@@ -7,13 +7,9 @@ namespace RazerPoliceLights.Xml
     {
         private readonly List<IXmlDeserializer> _deserializers = new List<IXmlDeserializer>
         {
-            new CollectionXmlDeserializer(),
+            new CollectionXmlDeserializer(), //register generic collection handler before object deserializer
             new ObjectXmlDeserializer() //object deserializer should always be registered as it can handle everything
         };
-
-        public ObjectMapperFactory()
-        {
-        }
 
         public static ObjectMapper CreateInstance()
         {
@@ -49,7 +45,7 @@ namespace RazerPoliceLights.Xml
             {
                 new ColorXmlDeserializer(),
                 new PatternsXmlDeserializer(),
-                new ObjectXmlDeserializer()
+                new PatternRowXmlDeserializer()
             });
 
             return this;

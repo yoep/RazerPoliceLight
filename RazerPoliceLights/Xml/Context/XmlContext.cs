@@ -4,14 +4,24 @@ namespace RazerPoliceLights.Xml.Context
 {
     public abstract class XmlContext
     {
-        public XmlContext(XPathDocument document, XPathNavigator currentNode)
+        protected XmlContext(XPathDocument document, XPathNavigator currentNode)
         {
             Document = document;
             CurrentNode = currentNode;
+            Nodes = null;
+        }
+
+        protected XmlContext(XPathDocument document, XPathNodeIterator nodes)
+        {
+            Document = document;
+            CurrentNode = null;
+            Nodes = nodes;
         }
 
         public XPathDocument Document { get; }
 
         public XPathNavigator CurrentNode { get; }
+        
+        public XPathNodeIterator Nodes { get; }
     }
 }

@@ -4,7 +4,7 @@ using System.Xml.XPath;
 using RazerPoliceLights.Xml.Attributes;
 using RazerPoliceLights.Xml.Context;
 
-namespace RazerPoliceLights.Xml
+namespace RazerPoliceLights.Xml.Parser
 {
     public class XmlParser
     {
@@ -16,6 +16,13 @@ namespace RazerPoliceLights.Xml
             return context.CurrentNode.SelectSingleNode(GetXmlLookupName(member));
         }
 
+        public XPathNodeIterator FetchNodesForMember(XmlContext context, MemberInfo member)
+        {
+            Assert.NotNull(context, "context cannot be null");
+            Assert.NotNull(member, "member cannot be null");
+
+            return context.CurrentNode.Select(GetXmlLookupName(member));
+        }
 
         public string FetchAttributeValue(XmlContext context, MemberInfo member)
         {
@@ -29,15 +36,20 @@ namespace RazerPoliceLights.Xml
         {
             return context.CurrentNode.GetAttribute(lookupName, "");
         }
+        
+        public bool HasNodeChildren(XPathNavigator node)
+        {
+            return node.SelectChildren(XPathNodeType.Element).Count > 0;
+        }
 
-        public static string GetXmlLookupName(MemberInfo member)
+        public string GetXmlLookupName(MemberInfo member)
         {
             return member.GetType().IsInstanceOfType(typeof(Type))
                 ? LookupTypeName(member)
                 : LookupPropertyName(member);
         }
 
-        public static string GetXmlAttributeLookupName(MemberInfo member)
+        public string GetXmlAttributeLookupName(MemberInfo member)
         {
             var xmlAttribute = member.GetCustomAttribute<XmlAttribute>();
 

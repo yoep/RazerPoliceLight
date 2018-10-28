@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.XPath;
 using RazerPoliceLights.Xml.Context;
+using RazerPoliceLights.Xml.Parser;
 
 namespace RazerPoliceLights.Xml
 {
@@ -31,7 +32,7 @@ namespace RazerPoliceLights.Xml
             var deserializationContext = new XmlDeserializationContext(document, rootNode, clazz, Deserializers);
             var xmlDeserializer = Deserializers.Find(e => e.CanHandle(clazz));
 
-            return (T) xmlDeserializer.deserialize(xmlParser, deserializationContext);
+            return (T) xmlDeserializer.Deserialize(xmlParser, deserializationContext);
         }
     }
 }

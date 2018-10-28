@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Corale.Colore.Core;
+using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Xml;
 using Xunit;
@@ -57,39 +58,30 @@ namespace RazerPoliceLightsTests.Xml
             [Fact]
             public void ShouldMapXmlToTargetWhenFileExists()
             {
-                var expectedResult = new Settings
+                var expectedPlaybackSettings = new PlaybackSettings
                 {
-                    PlaybackSettings = new PlaybackSettings
-                    {
-                        SpeedModifier = 1.0,
-                        LeaveLightsOn = false
-                    },
-                    ColorSettings = new ColorSettings
-                    {
-                        PrimaryColor = Color.Blue,
-                        SecondaryColor = Color.Red,
-                        StandbyColor = Color.Red
-                    },
-                    DeviceSettings = new DeviceSettings
-                    {
-                        KeyboardSettings = new KeyboardSettings
-                        {
-                            IsEnabled = true,
-                            IsScanEnabled = true
-                        },
-                        MouseSettings = new MouseSettings
-                        {
-                            IsEnabled = true,
-                            IsScanEnabled = true
-                        }
-                    }
+                    SpeedModifier = 1.0,
+                    LeaveLightsOn = false
                 };
-                
+                var expectedColorSettings = new ColorSettings
+                {
+                    PrimaryColor = Color.Blue,
+                    SecondaryColor = Color.Red,
+                    StandbyColor = Color.Red
+                };
+
                 var result =
                     _objectMapper.ReadValue<Settings>(GetResourceFile("RazerPoliceLights.xml"), typeof(Settings));
 
                 Assert.NotNull(result);
-                Assert.Equal(expectedResult, result);
+                Assert.Equal(expectedPlaybackSettings, result.PlaybackSettings);
+                Assert.Equal(expectedColorSettings, result.ColorSettings);
+                Assert.True(result.DeviceSettings.KeyboardSettings.IsEnabled);
+                Assert.True(result.DeviceSettings.KeyboardSettings.IsScanEnabled);
+                Assert.True(result.DeviceSettings.MouseSettings.IsEnabled);
+                Assert.True(result.DeviceSettings.MouseSettings.IsScanEnabled);
+                Assert.Equal(7, result.EffectPatterns[DeviceType.Keyboard].Count);
+                Assert.Equal(6, result.EffectPatterns[DeviceType.Mouse].Count);
             }
 
             private static string GetResourceFile(string path)

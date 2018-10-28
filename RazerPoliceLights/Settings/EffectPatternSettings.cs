@@ -6,12 +6,34 @@ namespace RazerPoliceLights.Settings
 {
     public class EffectPatternSettings
     {
-        [XmlAttribute]
-        public string Name { get; set; }
+        [XmlAttribute] public string Name { get; set; }
 
-        [XmlAttribute]
-        public DeviceType Device { get; set; }
+        [XmlAttribute] public DeviceType Device { get; set; }
 
-        public List<PatternRowSettings> Effects { get; set; }
+        [XmlElement(Name = "Effect")] public List<EffectSettings> Effects { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((EffectPatternSettings) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (Name != null ? Name.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (int) Device;
+                hashCode = (hashCode * 397) ^ (Effects != null ? Effects.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        protected bool Equals(EffectPatternSettings other)
+        {
+            return string.Equals(Name, other.Name) && Device == other.Device && Equals(Effects, other.Effects);
+        }
     }
 }

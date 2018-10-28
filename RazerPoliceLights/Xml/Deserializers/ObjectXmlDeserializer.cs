@@ -1,8 +1,12 @@
 using System;
+using System.Collections;
+using System.Globalization;
 using System.Reflection;
 using System.Xml;
+using System.Xml.XPath;
 using RazerPoliceLights.Xml.Attributes;
 using RazerPoliceLights.Xml.Context;
+using RazerPoliceLights.Xml.Parser;
 using XmlAttribute = RazerPoliceLights.Xml.Attributes.XmlAttribute;
 using XmlElement = RazerPoliceLights.Xml.Attributes.XmlElement;
 
@@ -10,7 +14,7 @@ namespace RazerPoliceLights.Xml.Deserializers
 {
     public class ObjectXmlDeserializer : IXmlDeserializer
     {
-        public object deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
+        public object Deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
             var instance = Activator.CreateInstance(deserializationContext.DeserializationType);
 
@@ -38,10 +42,31 @@ namespace RazerPoliceLights.Xml.Deserializers
             XmlDeserializationContext deserializationContext,
             PropertyInfo property)
         {
-            var node = parser.FetchNodeForMember(deserializationContext, property);
+            if (IsArrayOrCollection(property))
+            {
+                var nodes = parser.FetchNodesForMember(deserializationContext, property);
 
-            if (node == null && IsRequiredMember(property))
-                throw new XmlException("Missing xml node for " + XmlParser.GetXmlLookupName(property));
+                if (nodes == null && IsRequiredMember(property))
+                    throw new XmlException("Missing xml nodes for " + parser.GetXmlLookupName(property));
+
+                return deserializationContext.Deserialize(parser, nodes, property.PropertyType);
+            }
+
+            XPathNavigator node;
+
+            //verify if the node has children, else assume that the current non-attribute property is using the inner contents of the current node
+            if (parser.HasNodeChildren(deserializationContext.CurrentNode))
+            {
+                node = parser.FetchNodeForMember(deserializationContext, property);
+
+                if (node == null && IsRequiredMember(property))
+                    throw new XmlException("Missing xml node for " + parser.GetXmlLookupName(property));
+            }
+            else
+            {
+                node = deserializationContext.CurrentNode;
+            }
+
 
             return deserializationContext.Deserialize(parser, node, property.PropertyType);
         }
@@ -56,10 +81,10 @@ namespace RazerPoliceLights.Xml.Deserializers
                 return bool.Parse(value);
 
             if (type == typeof(double))
-                return double.Parse(value);
+                return double.Parse(value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
 
             if (type == typeof(float))
-                return float.Parse(value);
+                return float.Parse(value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
 
             if (type == typeof(int))
                 return int.Parse(value);
@@ -112,6 +137,13 @@ namespace RazerPoliceLights.Xml.Deserializers
         private static bool IsXmlElement(MemberInfo member)
         {
             return GetAttributeAnnotation(member) == null;
+        }
+
+        private static bool IsArrayOrCollection(PropertyInfo property)
+        {
+            var type = property.PropertyType;
+            return !IsNativeType(type)
+                   && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type));
         }
 
         private static XmlAttribute GetAttributeAnnotation(MemberInfo member)

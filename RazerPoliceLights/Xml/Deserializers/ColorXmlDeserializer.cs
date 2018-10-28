@@ -3,12 +3,13 @@ using System.Xml.XPath;
 using Corale.Colore.Core;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Xml.Context;
+using RazerPoliceLights.Xml.Parser;
 
 namespace RazerPoliceLights.Xml.Deserializers
 {
     public class ColorXmlDeserializer : IXmlDeserializer
     {
-        public object deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
+        public object Deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
             var textValue = deserializationContext.CurrentNode.Value;
 

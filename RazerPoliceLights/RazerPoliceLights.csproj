@@ -77,6 +77,7 @@
     <Compile Include="Settings\Loaders\EffectPatternLoad.cs" />
     <Compile Include="Settings\Loaders\PlaybackSettingsLoader.cs" />
     <Compile Include="Settings\MouseSettings.cs" />
+    <Compile Include="Settings\EffectSettings.cs" />
     <Compile Include="Settings\PatternRowSettings.cs" />
     <Compile Include="Settings\PlaybackSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Xml\Deserializers\CollectionXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\ColorXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\DoubleXmlDeserializer.cs" />
+    <Compile Include="Xml\Deserializers\PatternRowXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\PatternsXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\ObjectXmlDeserializer.cs" />
     <Compile Include="Xml\Deserializers\StringXmlDeserializer.cs" />
@@ -103,7 +105,7 @@
     <Compile Include="Xml\IXmlSerialization.cs" />
     <Compile Include="Xml\ObjectMapper.cs" />
     <Compile Include="Xml\ObjectMapperFactory.cs" />
-    <Compile Include="Xml\XmlParser.cs" />
+    <Compile Include="Xml\Parser\XmlParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

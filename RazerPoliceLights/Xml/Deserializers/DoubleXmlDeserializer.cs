@@ -1,11 +1,12 @@
 using System;
 using RazerPoliceLights.Xml.Context;
+using RazerPoliceLights.Xml.Parser;
 
 namespace RazerPoliceLights.Xml.Deserializers
 {
     public class DoubleXmlDeserializer : IXmlDeserializer
     {
-        public object deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
+        public object Deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
             return deserializationContext.CurrentNode.ValueAsDouble;
         }
