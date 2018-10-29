@@ -1,7 +1,6 @@
 using System;
-using System.Xml.XPath;
 using Corale.Colore.Core;
-using RazerPoliceLights.Settings;
+using RazerPoliceLights.Settings.Exceptions;
 using RazerPoliceLights.Xml.Context;
 using RazerPoliceLights.Xml.Parser;
 
@@ -13,9 +12,9 @@ namespace RazerPoliceLights.Xml.Deserializers
         {
             var textValue = deserializationContext.CurrentNode.Value;
 
-            if (!string.IsNullOrEmpty(textValue)) 
+            if (!string.IsNullOrEmpty(textValue))
                 return ConvertTextToColor(textValue);
-            
+
             var redValue = GetColorValueFromAttribute(parser, deserializationContext, "R");
             var greenValue = GetColorValueFromAttribute(parser, deserializationContext, "G");
             var blueValue = GetColorValueFromAttribute(parser, deserializationContext, "B");

@@ -2,6 +2,9 @@
 using Rage;
 using Rage.Attributes;
 using RazerPoliceLights.Effects;
+using RazerPoliceLights.GameListeners;
+using RazerPoliceLights.Rage;
+using RazerPoliceLights.Settings;
 
 [assembly:
     Plugin(RazerPoliceLights.RazerPoliceLights.Name,
@@ -20,14 +23,26 @@ namespace RazerPoliceLights
             while (Game.IsLoading)
                 GameFiber.Yield();
 
-            GameFiber.StartNew(VehicleListener.Instance.Start);
+            InitializeIoContainer();
+            GameFiber.StartNew(IoC.Instance.GetInstance<IVehicleListener>().Start);
         }
 
         public static void OnUnload(bool isTerminating)
         {
             Game.LogTrivialDebug(RazerPoliceLights.Name + " received unload command with termination " + isTerminating);
-            VehicleListener.Instance.Stop();
-            EffectsManager.Instance.OnUnload(isTerminating);
+            IoC.Instance.GetInstance<IVehicleListener>().Stop();
+            IoC.Instance.GetInstance<IEffectsManager>().OnUnload(isTerminating);
+        }
+
+        private static void InitializeIoContainer()
+        {
+            IoC.Instance
+                .Register<IRage>(typeof(RageImpl))
+                .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
+                .RegisterSingleton<IKeyboardEffect>(typeof(KeyboardEffect))
+                .RegisterSingleton<IMouseEffect>(typeof(MouseEffect))
+                .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))
+                .RegisterSingleton<IVehicleListener>(typeof(VehicleListener));
         }
     }
 }

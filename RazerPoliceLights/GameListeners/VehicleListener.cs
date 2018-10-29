@@ -2,13 +2,16 @@
 using System.Threading;
 using Rage;
 using RazerPoliceLights.Effects;
+using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
-namespace RazerPoliceLights
+namespace RazerPoliceLights.GameListeners
 {
-    public class VehicleListener
+    public class VehicleListener : IVehicleListener
     {
-        private readonly EffectsManager _effectsManager = EffectsManager.Instance;
+        private readonly IRage _rage;
+        private readonly ISettingsManager _settingsManager;
+        private readonly IEffectsManager _effectsManager;
 
         private PlayerState _oldPlayerState;
         private bool _oldSirenStateOn;
@@ -18,21 +21,17 @@ namespace RazerPoliceLights
 
         #region Constructors
 
-        static VehicleListener()
+        public VehicleListener(IRage rage, ISettingsManager settingsManager, IEffectsManager effectsManager)
         {
-            Instance = new VehicleListener();
-        }
-
-        private VehicleListener()
-        {
+            _rage = rage;
+            _settingsManager = settingsManager;
+            _effectsManager = effectsManager;
             _oldPlayerState = PlayerState;
         }
 
         #endregion
 
         #region Getters & Setters
-
-        public static VehicleListener Instance { get; private set; }
 
         private PlayerState PlayerState => IsPlayerDriving() ? PlayerState.DRIVING : PlayerState.WALKING;
 
@@ -51,7 +50,7 @@ namespace RazerPoliceLights
         {
             try
             {
-                SettingsManager.Instance.Load();
+                _settingsManager.Load();
                 Listen();
             }
             catch (Exception exception)
@@ -59,14 +58,14 @@ namespace RazerPoliceLights
                 if (!(exception is ThreadAbortException))
                 {
                     LogException(exception);
-                    Game.DisplayNotification(RazerPoliceLights.Name + " plugin has crashed");
+                    _rage.DisplayNotification(RazerPoliceLights.Name + " plugin has crashed");
                 } //else, plugin is being unloaded
             }
         }
 
         public void Stop()
         {
-            Game.LogTrivialDebug("Stopping vehicle listener");
+            _rage.LogTrivialDebug("Stopping vehicle listener");
             _keepAlive = false;
         }
 
@@ -89,7 +88,7 @@ namespace RazerPoliceLights
                 }
                 else if (_playerStateChanged)
                 {
-                    if (!SettingsManager.Instance.Settings.PlaybackSettings.LeaveLightsOn)
+                    if (!_settingsManager.Settings.PlaybackSettings.LeaveLightsOn)
                     {
                         if (!IsSirenOn)
                             StopEffects();
@@ -97,24 +96,18 @@ namespace RazerPoliceLights
                 }
 
                 if (_keepAlive)
-                    GameFiber.Yield();
+                    _rage.FiberYield();
             }
         }
 
         private void StartEffects()
         {
-            foreach (var deviceEffect in _effectsManager.DeviceEffects)
-            {
-                deviceEffect.Play();
-            }
+            _effectsManager.Play();
         }
 
         private void StopEffects()
         {
-            foreach (var deviceEffect in _effectsManager.DeviceEffects)
-            {
-                deviceEffect.Stop();
-            }
+            _effectsManager.Stop();
         }
 
         private void UpdateStates()
@@ -131,7 +124,7 @@ namespace RazerPoliceLights
             return playerLastVehicle != null && playerLastVehicle.Driver == GetPlayer();
         }
 
-        private static Vehicle GetPlayerVehicle()
+        private Vehicle GetPlayerVehicle()
         {
             try
             {
@@ -139,13 +132,13 @@ namespace RazerPoliceLights
             }
             catch (Exception e)
             {
-                Game.LogTrivialDebug("Vehicle retrieval failed with " + e.Message + Environment.NewLine + e);
+                _rage.LogTrivialDebug("Vehicle retrieval failed with " + e.Message + Environment.NewLine + e);
                 //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
         }
 
-        private static Ped GetPlayer()
+        private Ped GetPlayer()
         {
             try
             {
@@ -153,16 +146,15 @@ namespace RazerPoliceLights
             }
             catch (Exception e)
             {
-                Game.LogTrivialDebug("Player retrieval failed with " + e.Message + Environment.NewLine + e);
+                _rage.LogTrivialDebug("Player retrieval failed with " + e.Message + Environment.NewLine + e);
                 //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
         }
 
-        private static void LogException(Exception e)
+        private void LogException(Exception e)
         {
-            Game.LogTrivial(RazerPoliceLights.Name + " has encountered an issue" + Environment.NewLine
-                            + e.Message + Environment.NewLine + e.StackTrace);
+            _rage.LogTrivial("has encountered an issue" + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace);
         }
     }
 }

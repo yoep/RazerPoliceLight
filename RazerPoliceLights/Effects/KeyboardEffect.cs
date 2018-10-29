@@ -4,16 +4,17 @@ using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
-    internal class KeyboardEffect : AbstractEffect
+    public class KeyboardEffect : AbstractEffect, IKeyboardEffect
     {
         private readonly IKeyboard _chromaKeyboard;
 
         #region Constructors
 
-        internal KeyboardEffect()
+        public KeyboardEffect(ISettingsManager settingsManager) : base(settingsManager)
         {
             _chromaKeyboard = Chroma.Instance.Keyboard;
         }
@@ -24,7 +25,7 @@ namespace RazerPoliceLights.Effects
 
         protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Keyboard);
 
-        protected override bool IsDisabled => !Settings.DeviceSettings.KeyboardSettings.IsEnabled;
+        protected override bool IsDisabled => !_settingsManager.Settings.DeviceSettings.KeyboardSettings.IsEnabled;
 
         #endregion
 
@@ -57,12 +58,12 @@ namespace RazerPoliceLights.Effects
 
         protected override void OnEffectStop()
         {
-            _chromaKeyboard.SetStatic(new Static(Settings.ColorSettings.StandbyColor));
+            _chromaKeyboard.SetStatic(new Static(_settingsManager.Settings.ColorSettings.StandbyColor));
         }
 
         protected override bool IsScanModeEnabled()
         {
-            return Settings.DeviceSettings.KeyboardSettings.IsScanEnabled;
+            return _settingsManager.Settings.DeviceSettings.KeyboardSettings.IsScanEnabled;
         }
     }
 }

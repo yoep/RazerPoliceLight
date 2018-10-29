@@ -70,7 +70,7 @@ namespace RazerPoliceLights.Settings
 
         [XmlElement(Name = "Devices")] public DeviceSettings DeviceSettings { get; set; }
 
-        [XmlElement(Name = "Patterns/EffectPattern")]
+        [XmlElement(Name = "Patterns")]
         public Dictionary<DeviceType, List<EffectPattern>> EffectPatterns { get; set; }
 
         public override string ToString()

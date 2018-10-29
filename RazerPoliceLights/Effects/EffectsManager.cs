@@ -6,27 +6,20 @@ using RazerPoliceLights.Pattern;
 
 namespace RazerPoliceLights.Effects
 {
-    public class EffectsManager : IEffect
+    public class EffectsManager : IEffectsManager
     {
         #region Constructors
 
-        static EffectsManager()
+        public EffectsManager(IKeyboardEffect keyboardEffect, IMouseEffect mouseEffect)
         {
-            Instance = new EffectsManager();
-        }
-
-        public EffectsManager()
-        {
-            DeviceEffects = new List<IEffect> {new KeyboardEffect(), new MouseEffect()};
+            DeviceEffects = new List<IEffect> {keyboardEffect, mouseEffect};
         }
 
         #endregion
 
         #region Properties
 
-        public static EffectsManager Instance { get; private set; }
-
-        public List<IEffect> DeviceEffects { get; private set; }
+        private List<IEffect> DeviceEffects { get; }
 
         public bool IsPlaying => DeviceEffects.Any(e => e.IsPlaying);
 

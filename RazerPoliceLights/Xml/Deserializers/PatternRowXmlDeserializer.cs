@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Settings;
+using RazerPoliceLights.Settings.Exceptions;
 using RazerPoliceLights.Xml.Context;
 using RazerPoliceLights.Xml.Parser;
 
@@ -22,7 +23,7 @@ namespace RazerPoliceLights.Xml.Deserializers
             }
             else
             {
-                //TODO: log to rage console
+                throw new SettingsException("Pattern row cannot be empty");
             }
 
             return patternRowSettings;
@@ -45,7 +46,7 @@ namespace RazerPoliceLights.Xml.Deserializers
                 }
                 catch (ColorTypeException e)
                 {
-                    //TODO log to console
+                    throw new SettingsException(e.Message + Environment.NewLine + e.StackTrace);
                 }
             }
 

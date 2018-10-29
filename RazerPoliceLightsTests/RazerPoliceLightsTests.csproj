@@ -75,7 +75,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\EffectManagerTests.cs" />
+    <Compile Include="EntryPointTests.cs" />
+    <Compile Include="IoCTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\SettingsManagerTests.cs" />
+    <Compile Include="TestUtils.cs" />
     <Compile Include="Xml\Context\XmlDeserializationContextTests.cs" />
     <Compile Include="Xml\ObjectMapperTests.cs" />
   </ItemGroup>

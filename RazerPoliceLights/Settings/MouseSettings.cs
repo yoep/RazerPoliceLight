@@ -12,7 +12,7 @@ namespace RazerPoliceLights.Settings
 
         [Xml] public bool AnimateVertically { get; set; }
 
-        [XmlElement(Name = "Pattern")] public List<string> Patterns { get; set; }
+        public List<string> Patterns { get; set; }
 
         public override string ToString()
         {

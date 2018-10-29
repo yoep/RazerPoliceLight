@@ -32,7 +32,7 @@ namespace RazerPoliceLights.Commands
             Description = "Stops the Razer Police Lights Effects")]
         public static void Stop()
         {
-            var effectsManager = EffectsManager.Instance;
+            var effectsManager = IoC.Instance.GetInstance<IEffectsManager>();
 
             if (effectsManager.IsPlaying)
             {
@@ -50,7 +50,7 @@ namespace RazerPoliceLights.Commands
 
                 if (effectPattern != null)
                 {
-                    EffectsManager.Instance.Play(effectPattern);
+                    IoC.Instance.GetInstance<IEffectsManager>().Play(effectPattern);
                 }
                 else
                 {
@@ -65,7 +65,7 @@ namespace RazerPoliceLights.Commands
 
         private static void PlayAllEffects()
         {
-            var effectsManager = EffectsManager.Instance;
+            var effectsManager = IoC.Instance.GetInstance<IEffectsManager>();
 
             if (!effectsManager.IsPlaying)
             {

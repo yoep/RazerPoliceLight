@@ -11,17 +11,22 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
+        protected readonly ISettingsManager _settingsManager;
+
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
         private bool _isEffectRunning;
         private int _effectCursor;
         private int _playbackCount;
 
+        protected AbstractEffect(ISettingsManager settingsManager)
+        {
+            _settingsManager = settingsManager;
+        }
+
         #region Properties
 
         public bool IsPlaying => _isEffectRunning;
-
-        protected Settings.Settings Settings => SettingsManager.Instance.Settings;
 
         #endregion
 
@@ -48,7 +53,7 @@ namespace RazerPoliceLights.Effects
                         var patternRow = GetPatternRow(pattern);
                         OnEffectTick(patternRow);
                         UpdateEffectCursor(pattern);
-                        Thread.Sleep((int) (100 * Settings.PlaybackSettings.SpeedModifier * patternRow.Speed));
+                        Thread.Sleep((int) (100 * _settingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed));
                     }
                 }
                 catch (Exception exception)
@@ -86,9 +91,9 @@ namespace RazerPoliceLights.Effects
                 case ColorType.OFF:
                     return Color.Black;
                 case ColorType.PRIMARY:
-                    return Settings.ColorSettings.PrimaryColor;
+                    return _settingsManager.Settings.ColorSettings.PrimaryColor;
                 case ColorType.SECONDARY:
-                    return Settings.ColorSettings.SecondaryColor;
+                    return _settingsManager.Settings.ColorSettings.SecondaryColor;
                 default:
                     throw new ArgumentOutOfRangeException("colorType", colorType, null);
             }

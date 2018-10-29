@@ -1,34 +1,39 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Rage;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Rage;
+using RazerPoliceLights.Settings.Exceptions;
 using RazerPoliceLights.Xml;
 
 namespace RazerPoliceLights.Settings
 {
-    public class SettingsManager
+    public class SettingsManager : ISettingsManager
     {
         private const string FileName = @"./Plugins/RazerPoliceLights.xml";
+        private readonly IRage _rage;
+        private Settings _settings;
+        private string _fileName;
 
         #region Constructors
 
-        static SettingsManager()
+        public SettingsManager(IRage rage)
         {
-            Instance = new SettingsManager();
+            _rage = rage;
+            _fileName = FileName;
         }
 
-        private SettingsManager()
+        public SettingsManager(IRage rage, string fileName)
         {
+            _rage = rage;
+            _fileName = fileName;
         }
 
         #endregion
 
         #region Getters & Setters
 
-        public static SettingsManager Instance { get; }
-
-        public Settings Settings { get; private set; }
+        public Settings Settings => GetSettings();
 
         #endregion
 
@@ -40,32 +45,38 @@ namespace RazerPoliceLights.Settings
 
             try
             {
-                Settings = objectMapper.ReadValue<Settings>(FileName, typeof(Settings));
+                _settings = objectMapper.ReadValue<Settings>(_fileName, typeof(Settings));
                 UpdateEffectManager();
 
-                Game.DisplayNotification(RazerPoliceLights.Name + " configuration loaded");
-                Game.LogTrivial(Settings.ToString());
+                _rage.DisplayNotification("configuration loaded");
+                _rage.LogTrivial(Settings.ToString());
             }
             catch (FileNotFoundException)
             {
-                Game.DisplayNotification(RazerPoliceLights.Name +
-                                         " configuration file not found, using defaults instead");
+                _rage.DisplayNotification("configuration file not found, using defaults instead");
                 LoadDefaults();
             }
             catch (Exception e)
             {
-                Game.LogTrivial(e.Message + Environment.NewLine + e.StackTrace);
-                Game.DisplayNotification(RazerPoliceLights.Name +
-                                         " configuration file is not valid, using defaults instead");
+                _rage.LogTrivial(e.Message + Environment.NewLine + e.StackTrace);
+                _rage.DisplayNotification("configuration file is not valid, using defaults instead");
                 LoadDefaults();
             }
         }
 
         #endregion
 
+        private Settings GetSettings()
+        {
+            if (_settings == null)
+                throw new SettingsNotInitializedException();
+
+            return _settings;
+        }
+
         private void LoadDefaults()
         {
-            Settings = Settings.Defaults;
+            _settings = Settings.Defaults;
             UpdateEffectManager();
         }
 
@@ -75,11 +86,11 @@ namespace RazerPoliceLights.Settings
             effectPatternManager.Clear();
 
             //only add the effects which are enabled in the device settings to the effect manager
-            effectPatternManager.AddAll(Settings.EffectPatterns[DeviceType.Keyboard]
-                .Where(x => Settings.DeviceSettings.KeyboardSettings.Patterns.Contains(x.Name))
+            effectPatternManager.AddAll(_settings.EffectPatterns[DeviceType.Keyboard]
+                .Where(x => _settings.DeviceSettings.KeyboardSettings.Patterns.Contains(x.Name))
                 .ToList());
-            effectPatternManager.AddAll(Settings.EffectPatterns[DeviceType.Mouse]
-                .Where(x => Settings.DeviceSettings.MouseSettings.Patterns.Contains(x.Name))
+            effectPatternManager.AddAll(_settings.EffectPatterns[DeviceType.Mouse]
+                .Where(x => _settings.DeviceSettings.MouseSettings.Patterns.Contains(x.Name))
                 .ToList());
         }
     }

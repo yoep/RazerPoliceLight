@@ -9,7 +9,7 @@ namespace RazerPoliceLights.Settings
 
         [Xml(Name = "Enabled")] public bool IsEnabled { get; set; }
 
-        [XmlElement(Name = "Pattern")] public List<string> Patterns { get; set; }
+        public List<string> Patterns { get; set; }
 
         public override string ToString()
         {

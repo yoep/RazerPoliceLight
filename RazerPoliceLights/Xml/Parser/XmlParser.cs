@@ -21,7 +21,11 @@ namespace RazerPoliceLights.Xml.Parser
             Assert.NotNull(context, "context cannot be null");
             Assert.NotNull(member, "member cannot be null");
 
-            return context.CurrentNode.Select(GetXmlLookupName(member));
+            var currentNode = context.CurrentNode;
+            var lookupName = GetXmlLookupName(member);
+            var filteredChildNodes = currentNode.Select(lookupName);
+
+            return filteredChildNodes.Count > 1 ? filteredChildNodes : currentNode.SelectSingleNode(lookupName)?.SelectChildren(XPathNodeType.Element);
         }
 
         public string FetchAttributeValue(XmlContext context, MemberInfo member)
@@ -36,7 +40,7 @@ namespace RazerPoliceLights.Xml.Parser
         {
             return context.CurrentNode.GetAttribute(lookupName, "");
         }
-        
+
         public bool HasNodeChildren(XPathNavigator node)
         {
             return node.SelectChildren(XPathNodeType.Element).Count > 0;

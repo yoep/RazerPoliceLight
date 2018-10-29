@@ -70,16 +70,18 @@ namespace RazerPoliceLightsTests.Xml
                     StandbyColor = Color.Red
                 };
 
-                var result =
-                    _objectMapper.ReadValue<Settings>(GetResourceFile("RazerPoliceLights.xml"), typeof(Settings));
+                var result = _objectMapper.ReadValue<RazerPoliceLights.Settings.Settings>(GetResourceFile("RazerPoliceLights.xml"),
+                    typeof(RazerPoliceLights.Settings.Settings));
 
                 Assert.NotNull(result);
                 Assert.Equal(expectedPlaybackSettings, result.PlaybackSettings);
                 Assert.Equal(expectedColorSettings, result.ColorSettings);
                 Assert.True(result.DeviceSettings.KeyboardSettings.IsEnabled);
                 Assert.True(result.DeviceSettings.KeyboardSettings.IsScanEnabled);
+                Assert.Equal(7, result.DeviceSettings.KeyboardSettings.Patterns.Count);
                 Assert.True(result.DeviceSettings.MouseSettings.IsEnabled);
                 Assert.True(result.DeviceSettings.MouseSettings.IsScanEnabled);
+                Assert.Equal(6, result.DeviceSettings.MouseSettings.Patterns.Count);
                 Assert.Equal(7, result.EffectPatterns[DeviceType.Keyboard].Count);
                 Assert.Equal(6, result.EffectPatterns[DeviceType.Mouse].Count);
             }

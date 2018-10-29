@@ -11,7 +11,7 @@ namespace RazerPoliceLights.Commands
             Description = "Reloads the settings from RazerPoliceLights.xml")]
         public static void ReloadSettings()
         {
-            SettingsManager.Instance.Load();
+            IoC.Instance.GetInstance<ISettingsManager>().Load();
         }
     }
 }

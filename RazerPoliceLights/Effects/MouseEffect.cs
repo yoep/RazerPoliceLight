@@ -4,16 +4,17 @@ using Corale.Colore.Core;
 using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
-    internal class MouseEffect : AbstractEffect
+    public class MouseEffect : AbstractEffect, IMouseEffect
     {
         private readonly IMouse _chromaMouse;
 
         #region Constructors
 
-        internal MouseEffect()
+        public MouseEffect(ISettingsManager settingsManager) : base(settingsManager)
         {
             _chromaMouse = Chroma.Instance.Mouse;
         }
@@ -24,7 +25,7 @@ namespace RazerPoliceLights.Effects
 
         protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Mouse);
 
-        protected override bool IsDisabled => !Settings.DeviceSettings.MouseSettings.IsEnabled;
+        protected override bool IsDisabled => !_settingsManager.Settings.DeviceSettings.MouseSettings.IsEnabled;
 
         #endregion
 
@@ -43,7 +44,7 @@ namespace RazerPoliceLights.Effects
                 if (IsMismatchingLastEndIndex(playPattern, Constants.MaxRows, patternColumn, columnEndIndex))
                     rowEndIndex = Constants.MaxRows;
 
-                if (Settings.DeviceSettings.MouseSettings.AnimateVertically)
+                if (_settingsManager.Settings.DeviceSettings.MouseSettings.AnimateVertically)
                 {
                     AnimateVertical(playPattern, startIndex, rowEndIndex, patternColumn);
                     startIndex = rowEndIndex;
@@ -58,12 +59,12 @@ namespace RazerPoliceLights.Effects
 
         protected override void OnEffectStop()
         {
-            _chromaMouse.SetStatic(new Static(Led.All, Settings.ColorSettings.StandbyColor));
+            _chromaMouse.SetStatic(new Static(Led.All, _settingsManager.Settings.ColorSettings.StandbyColor));
         }
 
         protected override bool IsScanModeEnabled()
         {
-            return Settings.DeviceSettings.MouseSettings.IsScanEnabled;
+            return _settingsManager.Settings.DeviceSettings.MouseSettings.IsScanEnabled;
         }
 
         private void AnimateHorizontal(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)
@@ -77,7 +78,7 @@ namespace RazerPoliceLights.Effects
                 }
             }
         }
-        
+
         private void AnimateVertical(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)
         {
             for (var column = 0; column < Constants.MaxColumns; column++)
