@@ -24,7 +24,7 @@ namespace RazerPoliceLightsTests.Xml
             public void ShouldThrowArgumentExceptionWhenUriIsNull()
             {
                 var result =
-                    Assert.Throws<ArgumentException>(() => _objectMapper.ReadValue<string>(null, typeof(string)));
+                    Assert.Throws<ArgumentException>(() => _objectMapper.ReadValue<string>(null));
 
                 Assert.Equal("uri cannot be empty", result.Message);
             }
@@ -33,24 +33,16 @@ namespace RazerPoliceLightsTests.Xml
             public void ShouldThrowArgumentExceptionWhenUriIsEmpty()
             {
                 var result =
-                    Assert.Throws<ArgumentException>(() => _objectMapper.ReadValue<string>("", typeof(string)));
+                    Assert.Throws<ArgumentException>(() => _objectMapper.ReadValue<string>(""));
 
                 Assert.Equal("uri cannot be empty", result.Message);
-            }
-
-            [Fact]
-            public void ShouldThrowArgumentExceptionWhenClazzIsNull()
-            {
-                var result = Assert.Throws<ArgumentException>(() => _objectMapper.ReadValue<string>("aze", null));
-
-                Assert.Equal("clazz cannot be null", result.Message);
             }
 
             [Fact]
             public void ShouldThrowFileNotFoundExceptionWhenUriDoesNotExist()
             {
                 var result = Assert.Throws<FileNotFoundException>(() =>
-                    _objectMapper.ReadValue<string>("unknown.xml", typeof(string)));
+                    _objectMapper.ReadValue<string>("unknown.xml"));
 
                 Assert.Equal("unknown.xml does not exist", result.Message);
             }
@@ -70,8 +62,7 @@ namespace RazerPoliceLightsTests.Xml
                     StandbyColor = Color.Red
                 };
 
-                var result = _objectMapper.ReadValue<RazerPoliceLights.Settings.Settings>(GetResourceFile("RazerPoliceLights.xml"),
-                    typeof(RazerPoliceLights.Settings.Settings));
+                var result = _objectMapper.ReadValue<RazerPoliceLights.Settings.Settings>(GetResourceFile("RazerPoliceLights.xml"));
 
                 Assert.NotNull(result);
                 Assert.Equal(expectedPlaybackSettings, result.PlaybackSettings);

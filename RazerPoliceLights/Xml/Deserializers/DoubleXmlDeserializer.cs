@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using RazerPoliceLights.Xml.Context;
 using RazerPoliceLights.Xml.Parser;
 
@@ -8,7 +9,9 @@ namespace RazerPoliceLights.Xml.Deserializers
     {
         public object Deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
-            return deserializationContext.CurrentNode.ValueAsDouble;
+            return !string.IsNullOrEmpty(deserializationContext.Value)
+                ? double.Parse(deserializationContext.Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture)
+                : deserializationContext.CurrentNode.ValueAsDouble;
         }
 
         public bool CanHandle(Type type)

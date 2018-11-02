@@ -8,7 +8,9 @@ namespace RazerPoliceLights.Xml.Deserializers
     {
         public object Deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
-            return deserializationContext.CurrentNode.Value;
+            return !string.IsNullOrEmpty(deserializationContext.Value)
+                ? deserializationContext.Value
+                : deserializationContext.CurrentNode.Value;
         }
 
         public bool CanHandle(Type type)

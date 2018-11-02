@@ -71,23 +71,11 @@ namespace RazerPoliceLights.Xml.Deserializers
             return deserializationContext.Deserialize(parser, node, property.PropertyType);
         }
 
-        private static object ProcessAttribute(XmlParser parser, XmlContext deserializationContext,
+        private static object ProcessAttribute(XmlParser parser, XmlDeserializationContext deserializationContext,
             PropertyInfo property)
         {
             var value = parser.FetchAttributeValue(deserializationContext, property);
             var type = property.PropertyType;
-
-            if (type == typeof(bool))
-                return bool.Parse(value);
-
-            if (type == typeof(double))
-                return double.Parse(value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-
-            if (type == typeof(float))
-                return float.Parse(value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-
-            if (type == typeof(int))
-                return int.Parse(value);
 
             if (type.IsEnum)
                 return ProcessEnum(value, type);
@@ -95,7 +83,7 @@ namespace RazerPoliceLights.Xml.Deserializers
             if (type == typeof(Array))
                 throw new DeserializationException("Attribute cannot be of type Array");
 
-            return value;
+            return deserializationContext.Deserialize(parser, value, type);
         }
 
         private static object ProcessEnum(string value, Type type)

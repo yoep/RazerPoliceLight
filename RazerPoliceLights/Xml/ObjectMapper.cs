@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.XPath;
@@ -16,10 +15,10 @@ namespace RazerPoliceLights.Xml
 
         public List<IXmlDeserializer> Deserializers { get; }
 
-        public T ReadValue<T>(string uri, Type clazz) where T : class
+        public T ReadValue<T>(string uri) where T : class
         {
-            Assert.NotNull(clazz, "clazz cannot be null");
             Assert.HasText(uri, "uri cannot be empty");
+            var clazz = typeof(T);
 
             if (!File.Exists(uri))
                 throw new FileNotFoundException(uri + " does not exist");

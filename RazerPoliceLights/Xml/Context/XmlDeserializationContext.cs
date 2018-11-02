@@ -21,16 +21,21 @@ namespace RazerPoliceLights.Xml.Context
             Deserializers = deserializers;
         }
 
-        private XmlDeserializationContext(XmlDeserializationContext parent, XPathNavigator currentNode,
-            Type deserializationType)
+        private XmlDeserializationContext(XmlDeserializationContext parent, XPathNavigator currentNode, Type deserializationType)
             : base(parent.Document, currentNode)
         {
             Deserializers = parent.Deserializers;
             DeserializationType = deserializationType;
         }
 
-        private XmlDeserializationContext(XmlDeserializationContext parent, XPathNodeIterator nodes,
-            Type deserializationType)
+        private XmlDeserializationContext(XmlDeserializationContext parent, XPathNavigator currentNode, string value, Type deserializationType)
+            : base(parent.Document, currentNode, value)
+        {
+            Deserializers = parent.Deserializers;
+            DeserializationType = deserializationType;
+        }
+
+        private XmlDeserializationContext(XmlDeserializationContext parent, XPathNodeIterator nodes, Type deserializationType)
             : base(parent.Document, nodes)
         {
             Deserializers = parent.Deserializers;
@@ -79,6 +84,24 @@ namespace RazerPoliceLights.Xml.Context
             return (IEnumerable) deserializer.Deserialize(parser, new XmlDeserializationContext(this, nodes, type));
         }
 
+        /// <summary>
+        /// Deserialize the given value (assuming it's an attribute value) for the current node.
+        /// </summary>
+        /// <param name="parser">Set the parser that is being used.</param>
+        /// <param name="value">Set the value to deserialize.</param>
+        /// <param name="type">Set the type to which the value must be mapped.</param>
+        /// <returns>Returns the deserialized value.</returns>
+        /// <exception cref="XmlException">Is thrown when an error occurs during deserialization of the value.</exception>
+        public object Deserialize(XmlParser parser, string value, Type type)
+        {
+            var deserializer = Deserializers.Find(e => e.CanHandle(type));
+
+            if (deserializer == null)
+                throw new XmlException("Could not find deserializer for type " + type);
+
+            return deserializer.Deserialize(parser, new XmlDeserializationContext(this, CurrentNode, value, type));
+        }
+
         protected bool Equals(XmlDeserializationContext other)
         {
             return Equals(Deserializers, other.Deserializers) && Equals(DeserializationType, other.DeserializationType);
@@ -96,7 +119,8 @@ namespace RazerPoliceLights.Xml.Context
         {
             unchecked
             {
-                return ((Deserializers != null ? Deserializers.GetHashCode() : 0) * 397) ^ (DeserializationType != null ? DeserializationType.GetHashCode() : 0);
+                return ((Deserializers != null ? Deserializers.GetHashCode() : 0) * 397) ^
+                       (DeserializationType != null ? DeserializationType.GetHashCode() : 0);
             }
         }
     }

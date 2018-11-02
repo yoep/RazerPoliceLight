@@ -76,6 +76,9 @@
     <Compile Include="Settings\ColorSettings.cs" />
     <Compile Include="Settings\DeviceSettings.cs" />
     <Compile Include="Settings\EffectPatternSettings.cs" />
+    <Compile Include="Settings\Els\ElsSettings.cs" />
+    <Compile Include="Settings\Els\ExtraSettings.cs" />
+    <Compile Include="Settings\Els\LightingSettings.cs" />
     <Compile Include="Settings\Exceptions\ColorTypeException.cs" />
     <Compile Include="Settings\Exceptions\SettingsException.cs" />
     <Compile Include="Settings\Exceptions\SettingsNotInitializedException.cs" />

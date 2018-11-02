@@ -45,7 +45,7 @@ namespace RazerPoliceLights.Settings
 
             try
             {
-                _settings = objectMapper.ReadValue<Settings>(_fileName, typeof(Settings));
+                _settings = objectMapper.ReadValue<Settings>(_fileName);
                 UpdateEffectManager();
 
                 _rage.DisplayNotification("configuration loaded");

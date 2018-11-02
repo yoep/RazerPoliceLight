@@ -10,7 +10,9 @@ namespace RazerPoliceLights.Xml.Deserializers
     {
         public object Deserialize(XmlParser parser, XmlDeserializationContext deserializationContext)
         {
-            var textValue = deserializationContext.CurrentNode.Value;
+            var textValue = !string.IsNullOrEmpty(deserializationContext.Value)
+                ? deserializationContext.Value
+                : deserializationContext.CurrentNode.Value;
 
             if (!string.IsNullOrEmpty(textValue))
                 return ConvertTextToColor(textValue);

@@ -5,6 +5,9 @@ namespace RazerPoliceLights.Settings
 {
     public class ColorSettings
     {
+        [Xml(DefaultValue = false, IsOptional = true)]
+        public bool ElsEnabled { get; set; }
+
         [XmlElement(Name = "Primary")] public Color PrimaryColor { get; set; }
 
         [XmlElement(Name = "Secondary")] public Color SecondaryColor { get; set; }
@@ -13,10 +16,10 @@ namespace RazerPoliceLights.Settings
 
         public override string ToString()
         {
-            return
-                $"{nameof(PrimaryColor)}: {PrimaryColor.Value}," +
-                $" {nameof(SecondaryColor)}: {SecondaryColor.Value}," +
-                $" {nameof(StandbyColor)}: {StandbyColor.Value}";
+            return $"{nameof(ElsEnabled)}: {ElsEnabled}, " +
+                   $"{nameof(PrimaryColor)}: {PrimaryColor.Value}, " +
+                   $"{nameof(SecondaryColor)}: {SecondaryColor.Value}, " +
+                   $"{nameof(StandbyColor)}: {StandbyColor.Value}";
         }
 
         public override bool Equals(object obj)

@@ -10,6 +10,14 @@ namespace RazerPoliceLights.Xml.Context
             CurrentNode = currentNode;
             Nodes = null;
         }
+        
+        protected XmlContext(XPathDocument document, XPathNavigator currentNode, string value)
+        {
+            Document = document;
+            CurrentNode = currentNode;
+            Nodes = null;
+            Value = value;
+        }
 
         protected XmlContext(XPathDocument document, XPathNodeIterator nodes)
         {
@@ -23,5 +31,7 @@ namespace RazerPoliceLights.Xml.Context
         public XPathNavigator CurrentNode { get; }
         
         public XPathNodeIterator Nodes { get; }
+        
+        public string Value { get; }
     }
 }
