@@ -39,7 +39,7 @@ namespace RazerPoliceLights.Devices.Razer
                 if (IsMismatchingLastEndIndex(playPattern, Constants.MaxRows, patternColumn, columnEndIndex))
                     rowEndIndex = Constants.MaxRows;
 
-                if (_settingsManager.Settings.DeviceSettings.MouseSettings.AnimateVertically)
+                if (IsAnimateVerticallyEnabled)
                 {
                     AnimateVertical(playPattern, startIndex, rowEndIndex, patternColumn);
                     startIndex = rowEndIndex;
@@ -54,7 +54,7 @@ namespace RazerPoliceLights.Devices.Razer
 
         protected override void OnEffectStop()
         {
-            _chromaMouse.SetStatic(new Static(Led.All, _settingsManager.Settings.ColorSettings.StandbyColor));
+            _chromaMouse.SetStatic(new Static(Led.All, SettingsManager.Settings.ColorSettings.StandbyColor));
         }
 
         private void AnimateHorizontal(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)

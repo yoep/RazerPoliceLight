@@ -19,10 +19,12 @@ namespace RazerPoliceLights.Effects
         protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Mouse);
 
         /// <inheritdoc />
-        protected override bool IsDisabled => !_settingsManager.Settings.DeviceSettings.MouseSettings.IsEnabled;
+        protected override bool IsDisabled => !SettingsManager.Settings.DeviceSettings.MouseSettings.IsEnabled;
 
         /// <inheritdoc />
-        protected override bool IsScanModeEnabled => _settingsManager.Settings.DeviceSettings.MouseSettings.IsScanEnabled;
+        protected override bool IsScanModeEnabled => SettingsManager.Settings.DeviceSettings.MouseSettings.IsScanEnabled;
+
+        protected bool IsAnimateVerticallyEnabled => SettingsManager.Settings.DeviceSettings.MouseSettings.AnimateVertically;
 
         #endregion
     }
