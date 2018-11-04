@@ -1,6 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Corale.Colore.Core;
+using CUE.NET;
 using Rage;
 using Rage.Attributes;
+using RazerPoliceLights.Devices;
+using RazerPoliceLights.Devices.Corsair;
+using RazerPoliceLights.Devices.Razer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.GameListeners;
 using RazerPoliceLights.Rage;
@@ -25,6 +30,7 @@ namespace RazerPoliceLights
                 GameFiber.Yield();
 
             InitializeIoContainer();
+            InitializeDeviceManager();
             GameFiber.StartNew(IoC.Instance.GetInstance<IVehicleListener>().Start);
         }
 
@@ -45,6 +51,27 @@ namespace RazerPoliceLights
                 .RegisterSingleton<IMouseEffect>(typeof(MouseEffect))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))
                 .RegisterSingleton<IVehicleListener>(typeof(VehicleListener));
+        }
+
+        private static void InitializeDeviceManager()
+        {
+            var rage = IoC.Instance.GetInstance<IRage>();
+            
+            if (Chroma.SdkAvailable)
+            {
+                IoC.Instance.Register<IDeviceManager>(typeof(RazerDeviceManager));
+                rage.LogTrivial("Found Chroma supported SDK");
+            }
+            else if (CueSDK.IsSDKAvailable())
+            {
+                IoC.Instance.Register<IDeviceManager>(typeof(CorsairDeviceManager));
+                rage.LogTrivial("Found CueSDK supported SDK");
+            }
+            else
+            {
+                rage.DisplayNotification("no supported SDK available");
+                rage.LogTrivial("no supported SDK available");
+            }
         }
     }
 }

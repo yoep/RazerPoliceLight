@@ -39,12 +39,16 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="Commands\PlaybackCommands.cs" />
     <Compile Include="Commands\SettingsCommands.cs" />
+    <Compile Include="Devices\Corsair\CorsairDeviceManager.cs" />
+    <Compile Include="Devices\IDeviceManager.cs" />
+    <Compile Include="Devices\Razer\RazerDeviceManager.cs" />
     <Compile Include="Effects\AbstractEffect.cs" />
     <Compile Include="Effects\CachedColorIndex.cs" />
     <Compile Include="Effects\EffectsManager.cs" />
