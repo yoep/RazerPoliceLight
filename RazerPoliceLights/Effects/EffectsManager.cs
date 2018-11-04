@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using Rage;
+using RazerPoliceLights.Devices;
+using RazerPoliceLights.Devices.Razer;
 using RazerPoliceLights.Pattern;
 
 namespace RazerPoliceLights.Effects
 {
     public class EffectsManager : IEffectsManager
     {
+        private readonly IDeviceManager _deviceManager;
+
         #region Constructors
 
-        public EffectsManager(IKeyboardEffect keyboardEffect, IMouseEffect mouseEffect)
+        // ReSharper disable SuggestBaseTypeForParameter
+        public EffectsManager(IDeviceManager deviceManager)
         {
-            DeviceEffects = new List<IEffect> {keyboardEffect, mouseEffect};
+            _deviceManager = deviceManager;
         }
 
         #endregion
 
         #region Properties
 
-        private List<IEffect> DeviceEffects { get; }
+        private IEnumerable<IEffect> DeviceEffects => new List<IEffect> {_deviceManager.KeyboardDevice, _deviceManager.MouseDevice};
 
         public bool IsPlaying => DeviceEffects.Any(e => e.IsPlaying);
 
@@ -59,8 +64,8 @@ namespace RazerPoliceLights.Effects
         private IEffect GetDevice(DeviceType deviceType)
         {
             return deviceType == DeviceType.Keyboard
-                ? GetByType(typeof(KeyboardEffect))
-                : GetByType(typeof(MouseEffect));
+                ? GetByType(typeof(RazerKeyboardEffect))
+                : GetByType(typeof(RazerMouseEffect));
         }
 
         private IEffect GetByType(Type type)

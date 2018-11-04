@@ -187,7 +187,7 @@ namespace RazerPoliceLights.Effects
                 return _currentPlayingEffect;
             }
 
-            if (_effectCursor == 0 && IsScanModeEnabled())
+            if (_effectCursor == 0 && IsScanModeEnabled)
             {
                 if (_playbackCount > 3 && random.Next(0, 2) == 1)
                 {
@@ -236,12 +236,6 @@ namespace RazerPoliceLights.Effects
         protected abstract void OnEffectStop();
 
         /// <summary>
-        /// Get if the scan mode for the device is enabled.
-        /// </summary>
-        /// <returns>Returns true if the scan mode is enabled.</returns>
-        protected abstract bool IsScanModeEnabled();
-
-        /// <summary>
         /// Get the activated effect patterns.
         /// </summary>
         protected abstract List<EffectPattern> EffectPatterns { get; }
@@ -250,5 +244,11 @@ namespace RazerPoliceLights.Effects
         /// Get if this effect device is disabled.
         /// </summary>
         protected abstract bool IsDisabled { get; }
+
+        /// <summary>
+        /// Get if the scan mode for the device is enabled.
+        /// </summary>
+        /// <returns>Returns true if the scan mode is enabled.</returns>
+        protected abstract bool IsScanModeEnabled { get; }
     }
 }

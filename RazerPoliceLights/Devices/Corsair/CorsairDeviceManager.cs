@@ -1,7 +1,6 @@
-using System.Drawing;
 using CUE.NET;
-using CUE.NET.Brushes;
 using CUE.NET.Devices.Generic.Enums;
+using RazerPoliceLights.Effects;
 
 namespace RazerPoliceLights.Devices.Corsair
 {
@@ -9,14 +8,16 @@ namespace RazerPoliceLights.Devices.Corsair
     {
         public CorsairDeviceManager()
         {
+            IoC.Instance
+                .RegisterSingleton<IKeyboardEffect>(typeof(CorsairKeyboardEffect))
+                .RegisterSingleton<IMouseEffect>(typeof(CorsairMouseEffect));
+
             CueSDK.Initialize();
             CueSDK.UpdateMode = UpdateMode.Continuous;
         }
 
-        private void test()
-        {
-            var keyboard = CueSDK.KeyboardSDK;
-            keyboard.Brush = (SolidColorBrush) Color.Transparent;
-        }
+        public IKeyboardEffect KeyboardDevice => IoC.Instance.GetInstance<IKeyboardEffect>();
+
+        public IMouseEffect MouseDevice => IoC.Instance.GetInstance<IMouseEffect>();
     }
 }

@@ -1,34 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
+using RazerPoliceLights.Effects;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Settings.Els;
 
-namespace RazerPoliceLights.Effects
+namespace RazerPoliceLights.Devices.Razer
 {
-    public class MouseEffect : AbstractEffect, IMouseEffect
+    public class RazerMouseEffect : AbstractMouseEffect
     {
         private readonly IMouse _chromaMouse;
 
         #region Constructors
 
-        public MouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager) 
+        public RazerMouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
             _chromaMouse = Chroma.Instance.Mouse;
         }
-
-        #endregion
-
-        #region Properties
-
-        protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Mouse);
-
-        protected override bool IsDisabled => !_settingsManager.Settings.DeviceSettings.MouseSettings.IsEnabled;
 
         #endregion
 
@@ -63,11 +55,6 @@ namespace RazerPoliceLights.Effects
         protected override void OnEffectStop()
         {
             _chromaMouse.SetStatic(new Static(Led.All, _settingsManager.Settings.ColorSettings.StandbyColor));
-        }
-
-        protected override bool IsScanModeEnabled()
-        {
-            return _settingsManager.Settings.DeviceSettings.MouseSettings.IsScanEnabled;
         }
 
         private void AnimateHorizontal(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)

@@ -47,8 +47,6 @@ namespace RazerPoliceLights
                 .Register<IRage>(typeof(RageImpl))
                 .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
                 .RegisterSingleton<IElsSettingsManager>(typeof(ElsSettingsManager))
-                .RegisterSingleton<IKeyboardEffect>(typeof(KeyboardEffect))
-                .RegisterSingleton<IMouseEffect>(typeof(MouseEffect))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))
                 .RegisterSingleton<IVehicleListener>(typeof(VehicleListener));
         }
@@ -56,7 +54,7 @@ namespace RazerPoliceLights
         private static void InitializeDeviceManager()
         {
             var rage = IoC.Instance.GetInstance<IRage>();
-            
+
             if (Chroma.SdkAvailable)
             {
                 IoC.Instance.Register<IDeviceManager>(typeof(RazerDeviceManager));

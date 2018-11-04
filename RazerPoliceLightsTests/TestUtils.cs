@@ -1,5 +1,6 @@
 using Moq;
 using RazerPoliceLights;
+using RazerPoliceLights.Devices.Razer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.GameListeners;
 using RazerPoliceLights.Rage;
@@ -17,8 +18,8 @@ namespace RazerPoliceLightsTests
                 .RegisterInstance<IRage>(Mock.Of<IRage>())
                 .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
                 .RegisterSingleton<IElsSettingsManager>(typeof(ElsSettingsManager))
-                .RegisterSingleton<IKeyboardEffect>(typeof(KeyboardEffect))
-                .RegisterSingleton<IMouseEffect>(typeof(MouseEffect))
+                .RegisterSingleton<IKeyboardEffect>(typeof(RazerKeyboardEffect))
+                .RegisterSingleton<IMouseEffect>(typeof(RazerMouseEffect))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))
                 .RegisterInstance<IVehicleListener>(Mock.Of<IVehicleListener>());
         }
