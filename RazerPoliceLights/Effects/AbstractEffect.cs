@@ -5,23 +5,32 @@ using System.Threading;
 using Corale.Colore.Core;
 using Rage;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
+using RazerPoliceLights.Settings.Els;
 
 namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
+        protected readonly IRage _rage;
         protected readonly ISettingsManager _settingsManager;
+        private readonly IElsSettingsManager _elsSettingsManager;
+        private readonly Dictionary<CachedColorIndex, Color> _cachedColors = new Dictionary<CachedColorIndex, Color>();
 
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
         private bool _isEffectRunning;
+        private bool _isVehicleInfoLogged;
         private int _effectCursor;
         private int _playbackCount;
+        private string _vehicleName;
 
-        protected AbstractEffect(ISettingsManager settingsManager)
+        protected AbstractEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
         {
+            _rage = rage;
             _settingsManager = settingsManager;
+            _elsSettingsManager = elsSettingsManager;
         }
 
         #region Properties
@@ -32,17 +41,21 @@ namespace RazerPoliceLights.Effects
 
         #region Methods
 
-        public void Play()
+        /// <inheritdoc />
+        public void Play(string vehicleName)
         {
-            Play(null);
+            Play(vehicleName, null);
         }
 
-        public void Play(EffectPattern effectPattern)
+        /// <inheritdoc />
+        public void Play(string vehicleName, EffectPattern effectPattern)
         {
             if (IsDisabled)
                 return;
 
+            _cachedColors.Clear();
             _isEffectRunning = true;
+            _vehicleName = vehicleName;
             _effectThread = new Thread(() =>
             {
                 try
@@ -69,6 +82,8 @@ namespace RazerPoliceLights.Effects
         {
             //End the thread by killing the infinite loop running in the thread
             _isEffectRunning = false;
+            _isVehicleInfoLogged = false;
+            _cachedColors.Clear();
             OnEffectStop();
         }
 
@@ -84,7 +99,61 @@ namespace RazerPoliceLights.Effects
 
         #region Functions
 
-        protected Color GetPlaybackColumnColor(ColorType colorType)
+        protected Color GetPlaybackColumnColor(ColorType colorType, int index)
+        {
+            var cachedColorIndex = new CachedColorIndex(colorType, index);
+
+            //check cache
+            if (_cachedColors.ContainsKey(cachedColorIndex))
+                return _cachedColors[cachedColorIndex];
+
+            // ReSharper disable InvertIf
+            if (_settingsManager.Settings.ColorSettings.ElsEnabled && !string.IsNullOrEmpty(_vehicleName))
+            {
+                var elsVehicleSettings = _elsSettingsManager.GetByName(_vehicleName);
+
+                if (elsVehicleSettings != null)
+                {
+                    if (!_isVehicleInfoLogged)
+                    {
+                        _isVehicleInfoLogged = true;
+                        _rage.LogTrivialDebug("Using ELS configuration for " + _vehicleName);
+                    }
+
+                    var columnColor = GetColorFromElsSettings(colorType, elsVehicleSettings, index);
+
+                    _cachedColors.Add(cachedColorIndex, columnColor);
+                    return columnColor;
+                }
+
+                if (!_isVehicleInfoLogged)
+                {
+                    _isVehicleInfoLogged = true;
+                    _rage.LogTrivialDebug("Falling back to settings colors as the ELS configuration does not exist for " + _vehicleName);
+                }
+            }
+
+            var colorSettings = GetColorFromColorSettings(colorType);
+
+            _cachedColors.Add(cachedColorIndex, colorSettings);
+            return colorSettings;
+        }
+
+        private Color GetColorFromElsSettings(ColorType colorType, ElsVehicleSettings elsVehicleSettings, int index)
+        {
+            switch (colorType)
+            {
+                case ColorType.OFF:
+                    return Color.Black;
+                case ColorType.PRIMARY:
+                case ColorType.SECONDARY:
+                    return elsVehicleSettings.ElsSettings.LightingSettings.GetColorForIndex(index);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(colorType), colorType, null);
+            }
+        }
+
+        private Color GetColorFromColorSettings(ColorType colorType)
         {
             switch (colorType)
             {
@@ -95,7 +164,7 @@ namespace RazerPoliceLights.Effects
                 case ColorType.SECONDARY:
                     return _settingsManager.Settings.ColorSettings.SecondaryColor;
                 default:
-                    throw new ArgumentOutOfRangeException("colorType", colorType, null);
+                    throw new ArgumentOutOfRangeException(nameof(colorType), colorType, null);
             }
         }
 

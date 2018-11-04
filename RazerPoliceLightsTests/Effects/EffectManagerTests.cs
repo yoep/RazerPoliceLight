@@ -18,10 +18,10 @@ namespace RazerPoliceLightsTests.Effects
         [Fact]
         public void ShouldPlayEffectsOnDevices()
         {
-            _effectsManager.Play();
+            _effectsManager.Play(null);
 
-            _keyboardEffect.Verify(x => x.Play());
-            _mouseEffect.Verify(x => x.Play());
+            _keyboardEffect.Verify(x => x.Play(null));
+            _mouseEffect.Verify(x => x.Play(null));
         }
         
         [Fact]

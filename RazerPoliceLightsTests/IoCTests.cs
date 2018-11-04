@@ -2,6 +2,7 @@ using Moq;
 using RazerPoliceLights;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
+using RazerPoliceLights.Settings.Els;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -18,6 +19,7 @@ namespace RazerPoliceLightsTests
                 ioC
                     .UnregisterAll()
                     .RegisterInstance<IRage>(Mock.Of<IRage>())
+                    .RegisterInstance<IElsSettingsManager>(Mock.Of<IElsSettingsManager>())
                     .Register<ISettingsManager>(typeof(SettingsManager));
                 var expectedResult = ioC.GetInstance<ISettingsManager>();
 
@@ -36,6 +38,7 @@ namespace RazerPoliceLightsTests
                 ioC
                     .UnregisterAll()
                     .RegisterInstance<IRage>(Mock.Of<IRage>())
+                    .RegisterInstance<IElsSettingsManager>(Mock.Of<IElsSettingsManager>())
                     .RegisterSingleton<ISettingsManager>(typeof(SettingsManager));
                 var expectedResult = ioC.GetInstance<ISettingsManager>();
 

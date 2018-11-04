@@ -32,8 +32,12 @@ namespace RazerPoliceLights.Xml.Parser
         {
             Assert.NotNull(context, "context cannot be null");
             Assert.NotNull(member, "member cannot be null");
+            var xmlAttribute = member.GetCustomAttribute<XmlAttribute>();
+            var attributeValue = GetAttributeValue(context, GetXmlAttributeLookupName(member));
 
-            return GetAttributeValue(context, GetXmlAttributeLookupName(member));
+            return string.IsNullOrEmpty(attributeValue) && xmlAttribute.DefaultValue != null
+                ? xmlAttribute.DefaultValue.ToString()
+                : attributeValue;
         }
 
         public string GetAttributeValue(XmlContext context, string lookupName)

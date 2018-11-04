@@ -102,7 +102,10 @@ namespace RazerPoliceLights.GameListeners
 
         private void StartEffects()
         {
-            _effectsManager.Play();
+            var vehicleName = GetPlayerVehicle().Model.Name;
+            
+            _rage.LogTrivialDebug("playing effects for vehicle " + vehicleName);
+            _effectsManager.Play(vehicleName);
         }
 
         private void StopEffects()

@@ -25,18 +25,18 @@ namespace RazerPoliceLights.Effects
 
         #endregion
 
-        public void Play()
+        public void Play(string vehicleName)
         {
             foreach (var deviceEffect in DeviceEffects)
             {
-                deviceEffect.Play();
+                deviceEffect.Play(vehicleName);
             }
         }
 
-        public void Play(EffectPattern effectPattern)
+        public void Play(string vehicleName, EffectPattern effectPattern)
         {
             var device = GetDevice(effectPattern.SupportedDevice);
-            device.Play(effectPattern);
+            device.Play(vehicleName, effectPattern);
         }
 
         public void Stop()

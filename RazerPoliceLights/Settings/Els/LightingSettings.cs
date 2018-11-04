@@ -1,3 +1,6 @@
+using System;
+using Corale.Colore.Core;
+
 namespace RazerPoliceLights.Settings.Els
 {
     public class LightingSettings
@@ -13,6 +16,33 @@ namespace RazerPoliceLights.Settings.Els
         public ExtraSettings Extra05 { get; set; }
 
         public ExtraSettings Extra06 { get; set; }
+
+        /// <summary>
+        /// Get the color for the given column index (zero-based).
+        /// </summary>
+        /// <param name="index">Set the index (zero-based).</param>
+        /// <returns>Returns the color for the given index.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Is thrown when the index is bigger than 5.</exception>
+        public Color GetColorForIndex(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return Extra01.Color;
+                case 1:
+                    return Extra02.Color;
+                case 2:
+                    return Extra03.Color;
+                case 3:
+                    return Extra04.Color;
+                case 4:
+                    return Extra05.Color;
+                case 5:
+                    return Extra06.Color;
+                default:
+                    throw new ArgumentOutOfRangeException("Color index " + index + " does not exist");
+            }
+        }
 
         public override bool Equals(object obj)
         {

@@ -4,7 +4,7 @@
         <Speed>1.0</Speed> <!-- This is the speed factor, lower will speed up, higher will slow down -->
         <LeaveLightsOn>false</LeaveLightsOn>
     </Playback>
-    <Colors ElsEnabled="false">
+    <Colors ElsEnabled="true">
         <Standby R="255" G="0" B="0"/> <!-- Or you can use <Standby>red</Standby> -->
         <Primary R="0" G="0" B="255"/> <!-- Or you can use <Primary>blue</Primary> -->
         <Secondary R="255" G="0" B="0"/> <!-- Or you can use <Secondary>red</Secondary> -->
@@ -14,7 +14,6 @@
          - blue
          - red
          - orange
-         - amber
          - yellow
          - white
         -->
@@ -47,32 +46,32 @@
     <Patterns>
         <!-- See manual.pdf for info on how to use and create your own -->
         <EffectPattern Name="Alternate" Device="Keyboard">
-            <Effect Speed="2.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="2.0">0,0,0,2,2,2</Effect>
+            <Effect Speed="2.0">1,1,0,0</Effect>
+            <Effect Speed="2.0">0,0,2,2</Effect>
         </EffectPattern>
         <EffectPattern Name="AlternateFlash" Device="Keyboard">
-            <Effect Speed="1.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="AlternateAndFullFlash" Device="Keyboard">
-            <Effect Speed="1.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="2.0">0,0,0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,2,2</Effect>
+            <Effect Speed="2.0">0,0,0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="EvenOdd" Device="Keyboard">
             <Effect Speed="2.0">1,0,2,0</Effect>
@@ -89,28 +88,28 @@
             <Effect Speed="1.0">0,0,0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="Full" Device="Keyboard">
-            <Effect Speed="2.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="2.0">0,0,0,0,0,0</Effect>
+            <Effect Speed="2.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="FullFlash" Device="Keyboard">
-            <Effect Speed="1.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="2.0">0,0,0,0,0,0</Effect>
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="Alternate" Device="Mouse">
-            <Effect Speed="2.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="2.0">0,0,0,2,2,2</Effect>
+            <Effect Speed="2.0">1,0</Effect>
+            <Effect Speed="2.0">0,2</Effect>
         </EffectPattern>
         <EffectPattern Name="AlternateFlash" Device="Mouse">
-            <Effect Speed="1.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="EvenOdd" Device="Mouse">
             <Effect Speed="2.0">1,0,2,0</Effect>
@@ -127,14 +126,14 @@
             <Effect Speed="1.0">0,0,0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="Full" Device="Mouse">
-            <Effect Speed="2.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="2.0">0,0,0,0,0,0</Effect>
+            <Effect Speed="2.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="FullFlash" Device="Mouse">
-            <Effect Speed="1.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="1.0">0,0,0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,2,2,2</Effect>
-            <Effect Speed="2.0">0,0,0,0,0,0</Effect>
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
         </EffectPattern>
     </Patterns>
 </RazerPoliceLights>

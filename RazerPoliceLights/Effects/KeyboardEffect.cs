@@ -4,7 +4,9 @@ using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
+using RazerPoliceLights.Settings.Els;
 
 namespace RazerPoliceLights.Effects
 {
@@ -14,7 +16,8 @@ namespace RazerPoliceLights.Effects
 
         #region Constructors
 
-        public KeyboardEffect(ISettingsManager settingsManager) : base(settingsManager)
+        public KeyboardEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager) 
+            : base(rage, settingsManager, elsSettingsManager)
         {
             _chromaKeyboard = Chroma.Instance.Keyboard;
         }
@@ -48,7 +51,7 @@ namespace RazerPoliceLights.Effects
                     for (var column = columnStartIndex; column < columnEndIndex; column++)
                     {
                         _chromaKeyboard[row, column] =
-                            GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn));
+                            GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
                     }
                 }
 

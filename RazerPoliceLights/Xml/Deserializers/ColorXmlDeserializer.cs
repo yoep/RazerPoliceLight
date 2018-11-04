@@ -52,6 +52,8 @@ namespace RazerPoliceLights.Xml.Deserializers
                     return Color.Red;
                 case "orange":
                     return Color.Orange;
+                case "amber":
+                    return new Color(255, 191, 0);
                 case "yellow":
                     return Color.Yellow;
                 case "white":

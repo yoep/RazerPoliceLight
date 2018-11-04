@@ -29,6 +29,10 @@
       <HintPath>..\packages\Colore.5.2.0\lib\net35\Corale.Colore.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="CUE.NET, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CUE.NET.1.2.0.1\lib\net45\CUE.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>D:\SteamLibrary\SteamApps\common\Grand Theft Auto V\SDK\RagePluginHookSDK.dll</HintPath>
     </Reference>
@@ -42,6 +46,7 @@
     <Compile Include="Commands\PlaybackCommands.cs" />
     <Compile Include="Commands\SettingsCommands.cs" />
     <Compile Include="Effects\AbstractEffect.cs" />
+    <Compile Include="Effects\CachedColorIndex.cs" />
     <Compile Include="Effects\EffectsManager.cs" />
     <Compile Include="Effects\IEffect.cs" />
     <Compile Include="Effects\IEffectsManager.cs" />
@@ -77,7 +82,10 @@
     <Compile Include="Settings\DeviceSettings.cs" />
     <Compile Include="Settings\EffectPatternSettings.cs" />
     <Compile Include="Settings\Els\ElsSettings.cs" />
+    <Compile Include="Settings\Els\ElsSettingsManager.cs" />
+    <Compile Include="Settings\Els\ElsVehicleSettings.cs" />
     <Compile Include="Settings\Els\ExtraSettings.cs" />
+    <Compile Include="Settings\Els\IElsSettingsManager.cs" />
     <Compile Include="Settings\Els\LightingSettings.cs" />
     <Compile Include="Settings\Exceptions\ColorTypeException.cs" />
     <Compile Include="Settings\Exceptions\SettingsException.cs" />
@@ -122,6 +130,13 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\CUE.NET.1.2.0.1\build\net45\CUE.NET.targets" Condition="Exists('..\packages\CUE.NET.1.2.0.1\build\net45\CUE.NET.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\CUE.NET.1.2.0.1\build\net45\CUE.NET.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CUE.NET.1.2.0.1\build\net45\CUE.NET.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">

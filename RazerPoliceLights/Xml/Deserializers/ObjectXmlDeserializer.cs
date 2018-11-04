@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Globalization;
 using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
@@ -74,8 +73,12 @@ namespace RazerPoliceLights.Xml.Deserializers
         private static object ProcessAttribute(XmlParser parser, XmlDeserializationContext deserializationContext,
             PropertyInfo property)
         {
+            var xmlAttribute = property.GetCustomAttribute<XmlAttribute>();
             var value = parser.FetchAttributeValue(deserializationContext, property);
             var type = property.PropertyType;
+
+            if (string.IsNullOrEmpty(value) && !xmlAttribute.IsOptional)
+                throw new XmlException("Missing xml attribute for " + parser.GetXmlAttributeLookupName(property));
 
             if (type.IsEnum)
                 return ProcessEnum(value, type);

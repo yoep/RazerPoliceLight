@@ -50,7 +50,7 @@ namespace RazerPoliceLights.Commands
 
                 if (effectPattern != null)
                 {
-                    IoC.Instance.GetInstance<IEffectsManager>().Play(effectPattern);
+                    IoC.Instance.GetInstance<IEffectsManager>().Play(null, effectPattern);
                 }
                 else
                 {
@@ -69,7 +69,7 @@ namespace RazerPoliceLights.Commands
 
             if (!effectsManager.IsPlaying)
             {
-                effectsManager.Play();
+                effectsManager.Play(null);
             }
         }
     }

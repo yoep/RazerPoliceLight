@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
+using RazerPoliceLights.Settings.Els;
 using RazerPoliceLights.Settings.Exceptions;
 using RazerPoliceLights.Xml;
 
@@ -11,22 +12,27 @@ namespace RazerPoliceLights.Settings
     public class SettingsManager : ISettingsManager
     {
         private const string FileName = @"./Plugins/RazerPoliceLights.xml";
+
         private readonly IRage _rage;
+        private readonly IElsSettingsManager _elsSettingsManager;
+
         private Settings _settings;
         private string _fileName;
 
         #region Constructors
 
-        public SettingsManager(IRage rage)
+        public SettingsManager(IRage rage, IElsSettingsManager elsSettingsManager)
         {
             _rage = rage;
+            _elsSettingsManager = elsSettingsManager;
             _fileName = FileName;
         }
 
-        public SettingsManager(IRage rage, string fileName)
+        public SettingsManager(IRage rage, IElsSettingsManager elsSettingsManager, string fileName)
         {
             _rage = rage;
             _fileName = fileName;
+            _elsSettingsManager = elsSettingsManager;
         }
 
         #endregion
@@ -47,6 +53,10 @@ namespace RazerPoliceLights.Settings
             {
                 _settings = objectMapper.ReadValue<Settings>(_fileName);
                 UpdateEffectManager();
+
+                //try loading the ELS configuration files, if something goes wrong, disable the els option
+                if (_settings.ColorSettings.ElsEnabled)
+                    _settings.ColorSettings.ElsEnabled = _elsSettingsManager.Load();
 
                 _rage.DisplayNotification("configuration loaded");
                 _rage.LogTrivial(Settings.ToString());

@@ -4,7 +4,9 @@ using Corale.Colore.Core;
 using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
+using RazerPoliceLights.Settings.Els;
 
 namespace RazerPoliceLights.Effects
 {
@@ -14,7 +16,8 @@ namespace RazerPoliceLights.Effects
 
         #region Constructors
 
-        public MouseEffect(ISettingsManager settingsManager) : base(settingsManager)
+        public MouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager) 
+            : base(rage, settingsManager, elsSettingsManager)
         {
             _chromaMouse = Chroma.Instance.Mouse;
         }
@@ -74,7 +77,7 @@ namespace RazerPoliceLights.Effects
                 for (var column = startIndex; column < endIndex; column++)
                 {
                     _chromaMouse[row, column] =
-                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn));
+                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
                 }
             }
         }
@@ -86,7 +89,7 @@ namespace RazerPoliceLights.Effects
                 for (var row = startIndex; row < endIndex; row++)
                 {
                     _chromaMouse[row, column] =
-                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn));
+                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
                 }
             }
         }

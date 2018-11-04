@@ -12,13 +12,15 @@ namespace RazerPoliceLights.Effects
         /// <summary>
         /// Start the playback of effects on the device.
         /// </summary>
-        void Play();
-        
+        /// <param name="vehicleName">Set the name of the vehicle to play the effect for.</param>
+        void Play(string vehicleName);
+
         /// <summary>
         /// Start the playback of the given effect pattern on the device.
         /// </summary>
+        /// <param name="vehicleName">Set the name of the vehicle to play the effect for.</param>
         /// <param name="effectPattern">Set the effect pattern to play.</param>
-        void Play(EffectPattern effectPattern);
+        void Play(string vehicleName, EffectPattern effectPattern);
 
         /// <summary>
         /// Stop playing the device effect and restore it to it's initial state.
