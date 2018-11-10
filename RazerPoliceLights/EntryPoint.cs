@@ -69,6 +69,7 @@ namespace RazerPoliceLights
             {
                 rage.DisplayNotification("no supported SDK available");
                 rage.LogTrivial("no supported SDK available");
+                throw new NoAvailableSDKException();
             }
         }
     }

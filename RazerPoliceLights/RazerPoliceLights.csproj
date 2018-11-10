@@ -86,6 +86,7 @@
     <Compile Include="Rage\IRage.cs" />
     <Compile Include="Rage\RageImpl.cs" />
     <Compile Include="RazerPoliceLights.cs" />
+    <Compile Include="NoAvailableSDKException.cs" />
     <Compile Include="Settings\ColorSettings.cs" />
     <Compile Include="Settings\DeviceSettings.cs" />
     <Compile Include="Settings\EffectPatternSettings.cs" />
