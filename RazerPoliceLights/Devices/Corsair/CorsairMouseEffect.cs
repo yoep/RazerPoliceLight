@@ -19,7 +19,9 @@ namespace RazerPoliceLights.Devices.Corsair
         public CorsairMouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
+            rage.LogTrivialDebug("Initializing CueSDK.MouseSDK...");
             _mouse = CueSDK.MouseSDK;
+            rage.LogTrivialDebug("Initialization of CueSDK.MouseSDK done");
         }
 
         protected override void OnEffectTick(PatternRow playPattern)

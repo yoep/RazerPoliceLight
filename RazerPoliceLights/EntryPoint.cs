@@ -31,7 +31,11 @@ namespace RazerPoliceLights
 
             InitializeIoContainer();
             InitializeDeviceManager();
-            GameFiber.StartNew(IoC.Instance.GetInstance<IVehicleListener>().Start);
+
+            var vehicleListener = IoC.Instance.GetInstance<IVehicleListener>();
+            var rage = IoC.Instance.GetInstance<IRage>();
+            rage.LogTrivialDebug("Creating a new GameFiber for IVehicleListener");
+            GameFiber.StartNew(vehicleListener.Start);
         }
 
         public static void OnUnload(bool isTerminating)
@@ -68,7 +72,7 @@ namespace RazerPoliceLights
             else
             {
                 rage.DisplayNotification("no supported SDK available");
-                rage.LogTrivial("no supported SDK available");
+                rage.LogTrivial("No supported SDK available");
                 throw new NoAvailableSDKException();
             }
         }

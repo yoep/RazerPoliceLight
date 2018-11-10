@@ -19,7 +19,9 @@ namespace RazerPoliceLights.Devices.Corsair
         public CorsairKeyboardEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
+            rage.LogTrivialDebug("Initializing CueSDK.KeyboardSDK...");
             _keyboard = CueSDK.KeyboardSDK;
+            rage.LogTrivialDebug("Initialization of CueSDK.KeyboardSDK done");
         }
 
         protected override void OnEffectTick(PatternRow playPattern)
