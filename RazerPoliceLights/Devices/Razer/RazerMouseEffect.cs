@@ -19,7 +19,9 @@ namespace RazerPoliceLights.Devices.Razer
         public RazerMouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
+            rage.LogTrivialDebug("Initializing Chroma.Instance.Mouse...");
             _chromaMouse = Chroma.Instance.Mouse;
+            rage.LogTrivialDebug("Initialization of Chroma.Instance.Mouse done");
         }
 
         #endregion

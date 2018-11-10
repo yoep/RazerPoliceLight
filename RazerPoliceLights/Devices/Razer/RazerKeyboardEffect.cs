@@ -19,7 +19,9 @@ namespace RazerPoliceLights.Devices.Razer
         public RazerKeyboardEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
+            rage.LogTrivialDebug("Initializing Chroma.Instance.Keyboard...");
             _chromaKeyboard = Chroma.Instance.Keyboard;
+            rage.LogTrivialDebug("Initialization Chroma.Instance.Keyboard done");
         }
 
         #endregion
