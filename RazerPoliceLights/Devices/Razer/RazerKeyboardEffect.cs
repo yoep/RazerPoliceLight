@@ -12,22 +12,23 @@ namespace RazerPoliceLights.Devices.Razer
 {
     public class RazerKeyboardEffect : AbstractKeyboardEffect
     {
-        private readonly IKeyboard _chromaKeyboard;
+        private IKeyboard _chromaKeyboard;
 
         #region Constructors
 
         public RazerKeyboardEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
-            rage.LogTrivialDebug("Initializing Chroma.Instance.Keyboard...");
-            _chromaKeyboard = Chroma.Instance.Keyboard;
-            rage.LogTrivialDebug("Initialization Chroma.Instance.Keyboard done");
+            Initialize();
         }
 
         #endregion
 
         protected override void OnEffectTick(PatternRow playPattern)
         {
+            if (_chromaKeyboard == null)
+                return; //something probably went wrong during initialization, ignore this device effect playback
+            
             var columnSize = Constants.MaxColumns / playPattern.TotalColumns;
             var columnStartIndex = 0;
 
@@ -56,6 +57,24 @@ namespace RazerPoliceLights.Devices.Razer
         protected override void OnEffectStop()
         {
             _chromaKeyboard.SetStatic(new Static(SettingsManager.Settings.ColorSettings.StandbyColor));
+        }
+
+        private void Initialize()
+        {
+            if (IsDisabled)
+                return;
+
+            Rage.LogTrivialDebug("Initializing Chroma.Instance.Keyboard...");
+            _chromaKeyboard = Chroma.Instance.Keyboard;
+
+            if (_chromaKeyboard != null)
+            {
+                Rage.LogTrivialDebug("Initialization Chroma.Instance.Keyboard done");
+            }
+            else
+            {
+                Rage.LogTrivial("Chroma.Instance.Keyboard could not be registered, do you have a Chroma supported keyboard?");
+            }
         }
     }
 }

@@ -29,9 +29,7 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 - Selection of active Chroma devices
 - Color configuration based on ELS configuration
 
-## Changelog features for 1.0.2
+## Changelog features for 1.0.3
 
-- Added Corsair device support for keyboard and mouse
-- Added ELS color configuration support (will only load Extra01 through Extra06 colors)
-- Added option to enable ELS color configuration (disabled by default)
-- Reworked XML configuration loading
+- Fixed CueSDK not being recognized (moved SDK to x64 folder in the installation directory)
+- Added SDK info logging

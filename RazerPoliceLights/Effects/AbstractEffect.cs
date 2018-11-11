@@ -20,7 +20,6 @@ namespace RazerPoliceLights.Effects
 
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
-        private bool _isEffectRunning;
         private bool _isVehicleInfoLogged;
         private int _effectCursor;
         private int _playbackCount;
@@ -35,7 +34,7 @@ namespace RazerPoliceLights.Effects
 
         #region Properties
 
-        public bool IsPlaying => _isEffectRunning;
+        public bool IsPlaying { get; private set; }
 
         #endregion
 
@@ -54,13 +53,13 @@ namespace RazerPoliceLights.Effects
                 return;
 
             _cachedColors.Clear();
-            _isEffectRunning = true;
+            IsPlaying = true;
             _vehicleName = vehicleName;
             _effectThread = new Thread(() =>
             {
                 try
                 {
-                    while (_isEffectRunning)
+                    while (IsPlaying)
                     {
                         var pattern = effectPattern ?? GetEffectPattern();
                         var patternRow = GetPatternRow(pattern);
@@ -81,7 +80,7 @@ namespace RazerPoliceLights.Effects
         public void Stop()
         {
             //End the thread by killing the infinite loop running in the thread
-            _isEffectRunning = false;
+            IsPlaying = false;
             _isVehicleInfoLogged = false;
             _cachedColors.Clear();
             OnEffectStop();
@@ -90,7 +89,7 @@ namespace RazerPoliceLights.Effects
         public void OnUnload(bool isTerminating)
         {
             Game.LogTrivialDebug("Device effect thread is being " + (isTerminating ? "forcefully aborted" : "stopped"));
-            _isEffectRunning = false;
+            IsPlaying = false;
             if (isTerminating)
                 _effectThread.Abort();
         }

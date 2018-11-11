@@ -14,18 +14,19 @@ namespace RazerPoliceLights.Devices.Corsair
 {
     public class CorsairMouseEffect : AbstractMouseEffect
     {
-        private readonly CorsairMouse _mouse;
+        private CorsairMouse _mouse;
 
         public CorsairMouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
-            rage.LogTrivialDebug("Initializing CueSDK.MouseSDK...");
-            _mouse = CueSDK.MouseSDK;
-            rage.LogTrivialDebug("Initialization of CueSDK.MouseSDK done");
+            Initialize();
         }
 
         protected override void OnEffectTick(PatternRow playPattern)
         {
+            if (_mouse == null)
+                return; //something probably went wrong during initialization, ignore this device effect playback
+            
             var maxWidth = (int) Math.Round(_mouse.DeviceRectangle.Width);
             var maxHeight = (int) Math.Round(_mouse.DeviceRectangle.Height);
             var columnSize = maxWidth / playPattern.TotalColumns;
@@ -58,20 +59,38 @@ namespace RazerPoliceLights.Devices.Corsair
         {
             var standbyColor = SettingsManager.Settings.ColorSettings.StandbyColor;
             var mouseLedColor = new CorsairColor(standbyColor.R, standbyColor.G, standbyColor.B);
-            
+
             foreach (var mouseLed in _mouse.Leds)
             {
                 mouseLed.Color = mouseLedColor;
             }
         }
-        
+
+        private void Initialize()
+        {
+            if (IsDisabled)
+                return;
+
+            Rage.LogTrivialDebug("Initializing CueSDK.MouseSDK...");
+            _mouse = CueSDK.MouseSDK;
+
+            if (_mouse != null)
+            {
+                Rage.LogTrivialDebug("Initialization of CueSDK.MouseSDK done");
+            }
+            else
+            {
+                Rage.LogTrivial("CueSDK.MouseSDK could not be registered, do you have a Cue supported mouse?");
+            }
+        }
+
         private void AnimateHorizontal(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)
         {
             var maxHeight = (int) Math.Round(_mouse.DeviceRectangle.Height);
             var drawArea = new RectangleF(startIndex, 0, endIndex, maxHeight);
             var columnColor = GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
             var corsairColor = new CorsairColor(columnColor.R, columnColor.G, columnColor.B);
-            
+
             foreach (var led in _mouse[drawArea])
             {
                 led.Color = corsairColor;
@@ -84,7 +103,7 @@ namespace RazerPoliceLights.Devices.Corsair
             var drawArea = new RectangleF(0, startIndex, maxWidth, endIndex);
             var columnColor = GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
             var corsairColor = new CorsairColor(columnColor.R, columnColor.G, columnColor.B);
-            
+
             foreach (var led in _mouse[drawArea])
             {
                 led.Color = corsairColor;

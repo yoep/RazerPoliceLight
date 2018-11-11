@@ -14,18 +14,19 @@ namespace RazerPoliceLights.Devices.Corsair
 {
     public class CorsairKeyboardEffect : AbstractKeyboardEffect
     {
-        private readonly CorsairKeyboard _keyboard;
+        private CorsairKeyboard _keyboard;
 
         public CorsairKeyboardEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
             : base(rage, settingsManager, elsSettingsManager)
         {
-            rage.LogTrivialDebug("Initializing CueSDK.KeyboardSDK...");
-            _keyboard = CueSDK.KeyboardSDK;
-            rage.LogTrivialDebug("Initialization of CueSDK.KeyboardSDK done");
+            Initialize();
         }
 
         protected override void OnEffectTick(PatternRow playPattern)
         {
+            if (_keyboard == null)
+                return; //something probably went wrong during initialization, ignore this device effect playback
+
             var columnSize = _keyboard.DeviceRectangle.Width / playPattern.TotalColumns;
             var columnStartIndex = 0;
 
@@ -42,7 +43,7 @@ namespace RazerPoliceLights.Devices.Corsair
                 var drawArea = new RectangleF(columnStartIndex, 0, columnSize, _keyboard.DeviceRectangle.Height);
                 var columnColor = GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
                 var corsairColor = new CorsairColor(columnColor.R, columnColor.G, columnColor.B);
-                
+
                 foreach (var led in _keyboard[drawArea])
                 {
                     led.Color = corsairColor;
@@ -60,6 +61,25 @@ namespace RazerPoliceLights.Devices.Corsair
             foreach (var keyboardLed in _keyboard.Leds)
             {
                 keyboardLed.Color = keyboardLedColor;
+            }
+        }
+
+        private void Initialize()
+        {
+            if (IsDisabled)
+                return;
+
+            Rage.LogTrivialDebug("Initializing CueSDK.KeyboardSDK...");
+            _keyboard = CueSDK.KeyboardSDK;
+
+
+            if (_keyboard != null)
+            {
+                Rage.LogTrivialDebug("Initialization of CueSDK.KeyboardSDK done");
+            }
+            else
+            {
+                Rage.LogTrivial("CueSDK.KeyboardSDK could not be registered, do you have a Cue supported keyboard?");
             }
         }
     }

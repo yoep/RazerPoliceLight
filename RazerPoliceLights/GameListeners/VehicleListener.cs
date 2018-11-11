@@ -58,7 +58,7 @@ namespace RazerPoliceLights.GameListeners
                 if (!(exception is ThreadAbortException))
                 {
                     LogException(exception);
-                    _rage.DisplayNotification(RazerPoliceLights.Name + " plugin has crashed");
+                    _rage.DisplayNotification("plugin has crashed");
                 } //else, plugin is being unloaded
             }
         }
