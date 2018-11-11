@@ -173,7 +173,12 @@ namespace RazerPoliceLights.Effects
             int patternColumn,
             int columnEndIndex)
         {
-            return patternColumn == patternRow.TotalColumns - 1 && columnEndIndex != maxColumns;
+            return IsLastPatternColumn(patternRow, patternColumn) && columnEndIndex != maxColumns;
+        }
+
+        protected bool IsLastPatternColumn(PatternRow patternRow, int patternColumn)
+        {
+            return patternColumn == patternRow.TotalColumns - 1;
         }
 
         private EffectPattern GetEffectPattern()

@@ -28,7 +28,7 @@ namespace RazerPoliceLights.Devices.Corsair
             _rage.LogTrivialDebug("Registration done");
 
             _rage.LogTrivialDebug("Initializing CueSDK...");
-            CueSDK.Initialize();
+            CueSDK.Initialize(true);
             _rage.LogTrivialDebug("CueSDK initialization done");
             
             _rage.LogTrivial("--- CueSDK info ---");

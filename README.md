@@ -11,6 +11,7 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 
 - [RAGE Plugin Hook](http://ragepluginhook.net/)
 - [Colore Razer SDK API](https://github.com/chroma-sdk/Colore)
+- [CUE.NET SDK API](https://github.com/DarthAffe/CUE.NET)
 
 ## Currently supports
 
@@ -32,4 +33,7 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 ## Changelog features for 1.0.3
 
 - Fixed CueSDK not being recognized (moved SDK to x64 folder in the installation directory)
+- Fixed Cue keyboard LED drawing not including the last keyboard column and row
 - Added SDK info logging
+- Auto-disabled devices when they could not be registered (a message is logged in this case)
+- Prevented plugin from crashing when a device didn't register correctly and the device playback thread is being stopped

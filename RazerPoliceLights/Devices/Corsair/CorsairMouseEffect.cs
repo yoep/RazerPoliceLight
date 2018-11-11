@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using CUE.NET;
+using CUE.NET.Brushes;
 using CUE.NET.Devices.Generic;
 using CUE.NET.Devices.Mouse;
 using RazerPoliceLights.Effects;
@@ -26,7 +27,7 @@ namespace RazerPoliceLights.Devices.Corsair
         {
             if (_mouse == null)
                 return; //something probably went wrong during initialization, ignore this device effect playback
-            
+
             var maxWidth = (int) Math.Round(_mouse.DeviceRectangle.Width);
             var maxHeight = (int) Math.Round(_mouse.DeviceRectangle.Height);
             var columnSize = maxWidth / playPattern.TotalColumns;
@@ -53,10 +54,15 @@ namespace RazerPoliceLights.Devices.Corsair
                     startIndex = columnEndIndex;
                 }
             }
+
+            _mouse.Update();
         }
 
         protected override void OnEffectStop()
         {
+            if (_mouse == null)
+                return; //something probably went wrong during initialization, ignore this device effect playback
+
             var standbyColor = SettingsManager.Settings.ColorSettings.StandbyColor;
             var mouseLedColor = new CorsairColor(standbyColor.R, standbyColor.G, standbyColor.B);
 
@@ -76,11 +82,15 @@ namespace RazerPoliceLights.Devices.Corsair
 
             if (_mouse != null)
             {
+                _mouse.Brush = (SolidColorBrush) Color.Transparent;
                 Rage.LogTrivialDebug("Initialization of CueSDK.MouseSDK done");
             }
             else
             {
                 Rage.LogTrivial("CueSDK.MouseSDK could not be registered, do you have a Cue supported mouse?");
+                Rage.LogTrivialDebug("--- SDK info ---");
+                Rage.LogTrivialDebug("Last SDK error: " + CueSDK.LastError);
+                Rage.LogTrivialDebug("Devices: " + string.Join(",", CueSDK.InitializedDevices.Select(x => x.DeviceInfo.Type + "-" + x.DeviceInfo.Model)));
             }
         }
 

@@ -56,7 +56,7 @@ namespace RazerPoliceLights.Devices.Razer
 
         protected override void OnEffectStop()
         {
-            _chromaKeyboard.SetStatic(new Static(SettingsManager.Settings.ColorSettings.StandbyColor));
+            _chromaKeyboard?.SetStatic(new Static(SettingsManager.Settings.ColorSettings.StandbyColor));
         }
 
         private void Initialize()

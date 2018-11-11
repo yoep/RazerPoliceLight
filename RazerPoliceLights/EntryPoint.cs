@@ -66,6 +66,9 @@ namespace RazerPoliceLights
             
             ioC.GetInstance<IVehicleListener>().Stop();
             ioC.GetInstance<IEffectsManager>().OnUnload(isTerminating);
+            
+            if (CueSDK.IsSDKAvailable())
+                CueSDK.Reset();
         }
 
         private static void InitializeIoContainer()

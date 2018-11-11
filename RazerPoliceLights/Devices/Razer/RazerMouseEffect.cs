@@ -57,7 +57,7 @@ namespace RazerPoliceLights.Devices.Razer
 
         protected override void OnEffectStop()
         {
-            _chromaMouse.SetStatic(new Static(Led.All, SettingsManager.Settings.ColorSettings.StandbyColor));
+            _chromaMouse?.SetStatic(new Static(Led.All, SettingsManager.Settings.ColorSettings.StandbyColor));
         }
 
         private void Initialize()
