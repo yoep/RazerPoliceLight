@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Corale.Colore.Core;
 using CUE.NET;
 using Rage;
@@ -29,20 +30,42 @@ namespace RazerPoliceLights
             while (Game.IsLoading)
                 GameFiber.Yield();
 
-            InitializeIoContainer();
-            InitializeDeviceManager();
+            try
+            {
+                InitializeIoContainer();
+                InitializeDeviceManager();
 
-            var vehicleListener = IoC.Instance.GetInstance<IVehicleListener>();
-            var rage = IoC.Instance.GetInstance<IRage>();
-            rage.LogTrivialDebug("Creating a new GameFiber for IVehicleListener");
-            GameFiber.StartNew(vehicleListener.Start);
+                var vehicleListener = IoC.Instance.GetInstance<IVehicleListener>();
+                var rage = IoC.Instance.GetInstance<IRage>();
+                rage.LogTrivialDebug("Creating a new GameFiber for IVehicleListener");
+                GameFiber.StartNew(vehicleListener.Start);
+            }
+            catch (NoAvailableSdkException)
+            {
+                var rage = IoC.Instance.GetInstance<IRage>();
+                rage.DisplayNotification("no supported SDK available");
+                rage.LogTrivial("No supported SDK available");
+            }
+            catch (Exception ex)
+            {
+                //an unknown error occurred, catch it and log it or otherwise the game will crash (probably because I was testing something odd)
+                var rage = IoC.Instance.GetInstance<IRage>();
+                rage.LogTrivial("*** An unknown error occurred and the plugin has stopped working ***");
+                rage.LogTrivial(ex.Message + Environment.NewLine + ex.StackTrace);
+            }
         }
 
         public static void OnUnload(bool isTerminating)
         {
-            Game.LogTrivialDebug(RazerPoliceLights.Name + " received unload command with termination " + isTerminating);
-            IoC.Instance.GetInstance<IVehicleListener>().Stop();
-            IoC.Instance.GetInstance<IEffectsManager>().OnUnload(isTerminating);
+            var ioC = IoC.Instance;
+            ioC.GetInstance<IRage>().LogTrivialDebug("received unload command with termination " + isTerminating);
+
+            //this prevents RAGE from throwing an exception if the plugin couldn't load correctly (aka no SDK)
+            if (!ioC.InstanceExists<IVehicleListener>()) 
+                return;
+            
+            ioC.GetInstance<IVehicleListener>().Stop();
+            ioC.GetInstance<IEffectsManager>().OnUnload(isTerminating);
         }
 
         private static void InitializeIoContainer()
@@ -58,7 +81,7 @@ namespace RazerPoliceLights
         private static void InitializeDeviceManager()
         {
             var rage = IoC.Instance.GetInstance<IRage>();
-
+            
             if (Chroma.SdkAvailable)
             {
                 IoC.Instance.Register<IDeviceManager>(typeof(RazerDeviceManager));
@@ -71,9 +94,7 @@ namespace RazerPoliceLights
             }
             else
             {
-                rage.DisplayNotification("no supported SDK available");
-                rage.LogTrivial("No supported SDK available");
-                throw new NoAvailableSDKException();
+                throw new NoAvailableSdkException();
             }
         }
     }

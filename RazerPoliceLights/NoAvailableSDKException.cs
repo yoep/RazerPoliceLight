@@ -2,9 +2,9 @@ using System;
 
 namespace RazerPoliceLights
 {
-    public class NoAvailableSDKException : Exception
+    public class NoAvailableSdkException : Exception
     {
-        public NoAvailableSDKException() : base("Unable to find any supported SDK")
+        public NoAvailableSdkException() : base("Unable to find any supported SDK")
         {
         }
     }

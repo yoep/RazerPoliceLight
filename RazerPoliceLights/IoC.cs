@@ -81,6 +81,26 @@ namespace RazerPoliceLights
             return (T) GetInstance(typeof(T));
         }
 
+        /// <summary>
+        /// Verify if the given type already has an existing singleton instance.
+        /// This method will only work if the given type is a registered singleton type.
+        /// </summary>
+        /// <typeparam name="T">Set the component type.</typeparam>
+        /// <returns>Returns true if an instance already exists, else false.</returns>
+        /// <exception cref="IoCException">Is thrown when the given type is not registered or not a singleton.</exception>
+        public bool InstanceExists<T>()
+        {
+            var type = typeof(T);
+
+            if (!_components.ContainsKey(type))
+                throw new IoCException(type + " has not been registered");
+
+            if (!_components[type].IsSingleton)
+                throw new IoCException(type + " is not registered as a singleton");
+
+            return _singletons.ContainsKey(type);
+        }
+
         private void RegisterType<T>(Type implementation, bool isSingleton)
         {
             var type = typeof(T);
@@ -95,7 +115,7 @@ namespace RazerPoliceLights
             }
             else
             {
-                throw new Exception(implementation + " does not implement given type " + type);
+                throw new IoCException(implementation + " does not implement given type " + type);
             }
         }
 
@@ -129,7 +149,7 @@ namespace RazerPoliceLights
                     .ToArray());
             }
 
-            throw new Exception("Could not create instance for " + type);
+            throw new IoCException("Could not create instance for " + type);
         }
 
         private bool AreAllParametersRegistered(ConstructorInfo constructor)
