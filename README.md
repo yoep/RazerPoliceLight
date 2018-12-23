@@ -32,6 +32,7 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 
 ## Changelog features for 1.0.3
 
+- Updated Corsair SDK to v3.0.217
 - General performance optimizations (should prevent lag)
 - Reworked color configuration implementation
 - Color is now based on effect pattern columns instead of OFF(0), PRIMARY(1) and SECONDARY(2)

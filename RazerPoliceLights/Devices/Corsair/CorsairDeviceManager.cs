@@ -48,7 +48,8 @@ namespace RazerPoliceLights.Devices.Corsair
             }
             catch (Exception ex)
             {
-                _rage.LogTrivial("Failed to initialize CueSDK with error '" + ex.Message + "'");
+                _rage.LogTrivial("Failed to initialize CueSDK with exception type '" + ex.GetType() + " and error '" + ex.Message + "'");
+                _rage.LogTrivial(ex.StackTrace);
                 throw new DeviceInitializationException(ex.Message, ex);
             }
         }

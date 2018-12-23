@@ -34,7 +34,8 @@ namespace RazerPoliceLights.Devices.Razer
             }
             catch (Exception ex)
             {
-                _rage.LogTrivial("Failed to initialize Chroma SDK with error '" + ex.Message + "'");
+                _rage.LogTrivial("Failed to initialize Chroma SDK with exception type '" + ex.GetType() + " and error '" + ex.Message + "'");
+                _rage.LogTrivial(ex.StackTrace);
                 throw new DeviceInitializationException(ex.Message, ex);
             }
         }
