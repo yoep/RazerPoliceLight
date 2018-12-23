@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using Corale.Colore.Core;
+﻿using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
 using RazerPoliceLights.Effects;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
-using RazerPoliceLights.Settings.Els;
 
 namespace RazerPoliceLights.Devices.Razer
 {
@@ -16,10 +15,31 @@ namespace RazerPoliceLights.Devices.Razer
 
         #region Constructors
 
-        public RazerKeyboardEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
-            : base(rage, settingsManager, elsSettingsManager)
+        public RazerKeyboardEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, settingsManager, colorManager)
         {
-            Initialize();
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override void Initialize()
+        {
+            if (IsDisabled)
+                return;
+
+            Rage.LogTrivialDebug("Initializing Chroma.Instance.Keyboard...");
+            _chromaKeyboard = Chroma.Instance.Keyboard;
+
+            if (_chromaKeyboard != null)
+            {
+                Rage.LogTrivialDebug("Initialization Chroma.Instance.Keyboard done");
+            }
+            else
+            {
+                Rage.LogTrivial("Chroma.Instance.Keyboard could not be registered, do you have a Chroma supported keyboard?");
+            }
         }
 
         #endregion
@@ -46,7 +66,7 @@ namespace RazerPoliceLights.Devices.Razer
                     for (var column = columnStartIndex; column < columnEndIndex; column++)
                     {
                         _chromaKeyboard[row, column] =
-                            GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
+                            GetPlaybackColumnColor(playPattern, patternColumn);
                     }
                 }
 
@@ -57,24 +77,6 @@ namespace RazerPoliceLights.Devices.Razer
         protected override void OnEffectStop()
         {
             _chromaKeyboard?.SetStatic(new Static(SettingsManager.Settings.ColorSettings.StandbyColor));
-        }
-
-        private void Initialize()
-        {
-            if (IsDisabled)
-                return;
-
-            Rage.LogTrivialDebug("Initializing Chroma.Instance.Keyboard...");
-            _chromaKeyboard = Chroma.Instance.Keyboard;
-
-            if (_chromaKeyboard != null)
-            {
-                Rage.LogTrivialDebug("Initialization Chroma.Instance.Keyboard done");
-            }
-            else
-            {
-                Rage.LogTrivial("Chroma.Instance.Keyboard could not be registered, do you have a Chroma supported keyboard?");
-            }
         }
     }
 }

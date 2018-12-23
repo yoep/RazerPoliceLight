@@ -3,7 +3,6 @@
     public enum ColorType
     {
         OFF,
-        PRIMARY,
-        SECONDARY
+        ON
     }
 }

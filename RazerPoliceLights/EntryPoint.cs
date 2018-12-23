@@ -8,6 +8,7 @@ using RazerPoliceLights.Devices;
 using RazerPoliceLights.Devices.Corsair;
 using RazerPoliceLights.Devices.Razer;
 using RazerPoliceLights.Effects;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.GameListeners;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
@@ -78,6 +79,7 @@ namespace RazerPoliceLights
                 .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
                 .RegisterSingleton<IElsSettingsManager>(typeof(ElsSettingsManager))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))
+                .RegisterSingleton<IColorManager>(typeof(ColorManagerImpl))
                 .RegisterSingleton<IVehicleListener>(typeof(VehicleListener));
         }
 

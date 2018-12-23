@@ -1,3 +1,4 @@
+using System;
 using Corale.Colore.Core;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Rage;
@@ -7,7 +8,7 @@ namespace RazerPoliceLights.Devices.Razer
     public class RazerDeviceManager : IDeviceManager
     {
         private readonly IRage _rage;
-        
+
         public RazerDeviceManager(IRage rage)
         {
             _rage = rage;
@@ -24,10 +25,18 @@ namespace RazerPoliceLights.Devices.Razer
 
         private void Initialize()
         {
-            _rage.LogTrivial("--- Chroma SDK info ---");
-            _rage.LogTrivial("Version " + Chroma.Instance.SdkVersion);
-            _rage.LogTrivial("Initialization state " + Chroma.Instance.Initialized);
-            _rage.LogTrivial("---");
+            try
+            {
+                _rage.LogTrivial("--- Chroma SDK info ---");
+                _rage.LogTrivial("Version " + Chroma.Instance.SdkVersion);
+                _rage.LogTrivial("Initialization state " + Chroma.Instance.Initialized);
+                _rage.LogTrivial("---");
+            }
+            catch (Exception ex)
+            {
+                _rage.LogTrivial("Failed to initialize Chroma SDK with error '" + ex.Message + "'");
+                throw new DeviceInitializationException(ex.Message, ex);
+            }
         }
     }
 }

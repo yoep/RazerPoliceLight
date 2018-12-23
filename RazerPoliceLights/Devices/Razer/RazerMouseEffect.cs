@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using Corale.Colore.Core;
+﻿using Corale.Colore.Core;
 using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
 using RazerPoliceLights.Effects;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
-using RazerPoliceLights.Settings.Els;
 
 namespace RazerPoliceLights.Devices.Razer
 {
@@ -16,10 +15,31 @@ namespace RazerPoliceLights.Devices.Razer
 
         #region Constructors
 
-        public RazerMouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
-            : base(rage, settingsManager, elsSettingsManager)
+        public RazerMouseEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, settingsManager, colorManager)
         {
-            Initialize();
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override void Initialize()
+        {
+            if (IsDisabled)
+                return;
+            
+            Rage.LogTrivialDebug("Initializing Chroma.Instance.Mouse...");
+            _chromaMouse = Chroma.Instance.Mouse;
+
+            if (_chromaMouse != null)
+            {
+                Rage.LogTrivialDebug("Initialization of Chroma.Instance.Mouse done");
+            }
+            else
+            {
+                Rage.LogTrivial("Chroma.Instance.Mouse could not be registered, do you have a Chroma supported mouse?");
+            }
         }
 
         #endregion
@@ -60,24 +80,6 @@ namespace RazerPoliceLights.Devices.Razer
             _chromaMouse?.SetStatic(new Static(Led.All, SettingsManager.Settings.ColorSettings.StandbyColor));
         }
 
-        private void Initialize()
-        {
-            if (IsDisabled)
-                return;
-            
-            Rage.LogTrivialDebug("Initializing Chroma.Instance.Mouse...");
-            _chromaMouse = Chroma.Instance.Mouse;
-
-            if (_chromaMouse != null)
-            {
-                Rage.LogTrivialDebug("Initialization of Chroma.Instance.Mouse done");
-            }
-            else
-            {
-                Rage.LogTrivial("Chroma.Instance.Mouse could not be registered, do you have a Chroma supported mouse?");
-            }
-        }
-
         private void AnimateHorizontal(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)
         {
             for (var row = 0; row < Constants.MaxRows; row++)
@@ -85,7 +87,7 @@ namespace RazerPoliceLights.Devices.Razer
                 for (var column = startIndex; column < endIndex; column++)
                 {
                     _chromaMouse[row, column] =
-                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
+                        GetPlaybackColumnColor(playPattern, patternColumn);
                 }
             }
         }
@@ -97,7 +99,7 @@ namespace RazerPoliceLights.Devices.Razer
                 for (var row = startIndex; row < endIndex; row++)
                 {
                     _chromaMouse[row, column] =
-                        GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
+                        GetPlaybackColumnColor(playPattern, patternColumn);
                 }
             }
         }

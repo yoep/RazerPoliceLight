@@ -32,8 +32,8 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 
 ## Changelog features for 1.0.3
 
-- Fixed CueSDK not being recognized (moved SDK to x64 folder in the installation directory)
-- Fixed Cue keyboard LED drawing not including the last keyboard column and row
-- Added SDK info logging
-- Auto-disabled devices when they could not be registered (a message is logged in this case)
-- Prevented plugin from crashing when a device didn't register correctly and the device playback thread is being stopped
+- General performance optimizations (should prevent lag)
+- Reworked color configuration implementation
+- Color is now based on effect pattern columns instead of OFF(0), PRIMARY(1) and SECONDARY(2)
+    - Modified effect pattern color config to OFF(0) and ON(1) - this should make creating custom patterns a lot easier (see manual for example)
+- Reworked the way ELS colors were being used

@@ -32,5 +32,11 @@ namespace RazerPoliceLights.Effects
         /// </summary>
         /// <param name="isTerminating">Identifies if the unload is a termination.</param>
         void OnUnload(bool isTerminating);
+
+        /// <summary>
+        /// Initialize the effect.
+        /// Should be called after settings are loaded.
+        /// </summary>
+        void Initialize();
     }
 }

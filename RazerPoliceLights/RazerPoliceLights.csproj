@@ -49,6 +49,7 @@
     <Compile Include="Devices\Corsair\CorsairDeviceManager.cs" />
     <Compile Include="Devices\Corsair\CorsairKeyboardEffect.cs" />
     <Compile Include="Devices\Corsair\CorsairMouseEffect.cs" />
+    <Compile Include="Devices\DeviceInitializationException.cs" />
     <Compile Include="Devices\IDeviceManager.cs" />
     <Compile Include="Devices\Razer\RazerDeviceManager.cs" />
     <Compile Include="Devices\Razer\RazerKeyboardEffect.cs" />
@@ -56,7 +57,11 @@
     <Compile Include="Effects\AbstractEffect.cs" />
     <Compile Include="Effects\AbstractKeyboardEffect.cs" />
     <Compile Include="Effects\AbstractMouseEffect.cs" />
-    <Compile Include="Effects\CachedColorIndex.cs" />
+    <Compile Include="Effects\Colors\ColorManagerImpl.cs" />
+    <Compile Include="Effects\Colors\ElsColors.cs" />
+    <Compile Include="Effects\Colors\IColorManager.cs" />
+    <Compile Include="Effects\Colors\IColors.cs" />
+    <Compile Include="Effects\Colors\PluginConfigColors.cs" />
     <Compile Include="Effects\EffectsManager.cs" />
     <Compile Include="Effects\IEffect.cs" />
     <Compile Include="Effects\IEffectsManager.cs" />

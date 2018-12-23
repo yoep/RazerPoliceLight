@@ -4,6 +4,7 @@ using System.Linq;
 using Rage;
 using RazerPoliceLights.Devices;
 using RazerPoliceLights.Devices.Razer;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 
 namespace RazerPoliceLights.Effects
@@ -29,6 +30,8 @@ namespace RazerPoliceLights.Effects
         public bool IsPlaying => DeviceEffects.Any(e => e.IsPlaying);
 
         #endregion
+
+        #region Methods
 
         public void Play(string vehicleName)
         {
@@ -61,6 +64,19 @@ namespace RazerPoliceLights.Effects
             }
         }
 
+        public void Initialize()
+        {
+            Game.LogTrivialDebug("Initializing all device effects");
+            foreach (var deviceEffect in DeviceEffects)
+            {
+                deviceEffect.Initialize();
+            }
+        }
+
+        #endregion
+
+        #region Functions
+
         private IEffect GetDevice(DeviceType deviceType)
         {
             return deviceType == DeviceType.Keyboard
@@ -72,5 +88,7 @@ namespace RazerPoliceLights.Effects
         {
             return DeviceEffects.First(e => e.GetType() == type);
         }
+
+        #endregion
     }
 }

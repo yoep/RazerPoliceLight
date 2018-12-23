@@ -6,10 +6,10 @@ using CUE.NET.Brushes;
 using CUE.NET.Devices.Generic;
 using CUE.NET.Devices.Mouse;
 using RazerPoliceLights.Effects;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
-using RazerPoliceLights.Settings.Els;
 
 namespace RazerPoliceLights.Devices.Corsair
 {
@@ -17,11 +17,41 @@ namespace RazerPoliceLights.Devices.Corsair
     {
         private CorsairMouse _mouse;
 
-        public CorsairMouseEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
-            : base(rage, settingsManager, elsSettingsManager)
+        #region Constructors
+
+        public CorsairMouseEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, settingsManager, colorManager)
         {
-            Initialize();
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            if (IsDisabled)
+                return;
+
+            Rage.LogTrivialDebug("Initializing CueSDK.MouseSDK...");
+            _mouse = CueSDK.MouseSDK;
+
+            if (_mouse != null)
+            {
+                _mouse.Brush = (SolidColorBrush) Color.Transparent;
+                Rage.LogTrivialDebug("Initialization of CueSDK.MouseSDK done");
+            }
+            else
+            {
+                Rage.LogTrivial("CueSDK.MouseSDK could not be registered, do you have a Cue supported mouse?");
+                Rage.LogTrivialDebug("--- SDK info ---");
+                Rage.LogTrivialDebug("Last SDK error: " + CueSDK.LastError);
+                Rage.LogTrivialDebug("Devices: " + string.Join(",", CueSDK.InitializedDevices.Select(x => x.DeviceInfo.Type + "-" + x.DeviceInfo.Model)));
+            }
+        }
+
+        #endregion
 
         protected override void OnEffectTick(PatternRow playPattern)
         {
@@ -72,33 +102,11 @@ namespace RazerPoliceLights.Devices.Corsair
             }
         }
 
-        private void Initialize()
-        {
-            if (IsDisabled)
-                return;
-
-            Rage.LogTrivialDebug("Initializing CueSDK.MouseSDK...");
-            _mouse = CueSDK.MouseSDK;
-
-            if (_mouse != null)
-            {
-                _mouse.Brush = (SolidColorBrush) Color.Transparent;
-                Rage.LogTrivialDebug("Initialization of CueSDK.MouseSDK done");
-            }
-            else
-            {
-                Rage.LogTrivial("CueSDK.MouseSDK could not be registered, do you have a Cue supported mouse?");
-                Rage.LogTrivialDebug("--- SDK info ---");
-                Rage.LogTrivialDebug("Last SDK error: " + CueSDK.LastError);
-                Rage.LogTrivialDebug("Devices: " + string.Join(",", CueSDK.InitializedDevices.Select(x => x.DeviceInfo.Type + "-" + x.DeviceInfo.Model)));
-            }
-        }
-
         private void AnimateHorizontal(PatternRow playPattern, int startIndex, int endIndex, int patternColumn)
         {
             var maxHeight = (int) Math.Round(_mouse.DeviceRectangle.Height);
             var drawArea = new RectangleF(startIndex, 0, endIndex, maxHeight);
-            var columnColor = GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
+            var columnColor = GetPlaybackColumnColor(playPattern, patternColumn);
             var corsairColor = new CorsairColor(columnColor.R, columnColor.G, columnColor.B);
 
             foreach (var led in _mouse[drawArea])
@@ -111,7 +119,7 @@ namespace RazerPoliceLights.Devices.Corsair
         {
             var maxWidth = (int) Math.Round(_mouse.DeviceRectangle.Width);
             var drawArea = new RectangleF(0, startIndex, maxWidth, endIndex);
-            var columnColor = GetPlaybackColumnColor(playPattern.ColorColumns.ElementAt(patternColumn), patternColumn);
+            var columnColor = GetPlaybackColumnColor(playPattern, patternColumn);
             var corsairColor = new CorsairColor(columnColor.R, columnColor.G, columnColor.B);
 
             foreach (var led in _mouse[drawArea])

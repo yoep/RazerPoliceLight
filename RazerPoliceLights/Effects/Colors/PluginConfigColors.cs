@@ -1,0 +1,20 @@
+using Corale.Colore.Core;
+using RazerPoliceLights.Settings;
+
+namespace RazerPoliceLights.Effects.Colors
+{
+    /// <summary>
+    /// Colors based on the plugin configuration.
+    /// </summary>
+    public class PluginConfigColors : IColors
+    {
+        private readonly ColorSettings _colorSettings;
+
+        public PluginConfigColors(ColorSettings colorSettings)
+        {
+            _colorSettings = colorSettings;
+        }
+
+        public Color this[int index, int max] => index < max / 2 ? _colorSettings.PrimaryColor : _colorSettings.SecondaryColor;
+    }
+}

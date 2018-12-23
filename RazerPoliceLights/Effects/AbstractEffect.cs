@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading;
 using Corale.Colore.Core;
 using Rage;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
-using RazerPoliceLights.Settings.Els;
 
 namespace RazerPoliceLights.Effects
 {
@@ -15,21 +15,19 @@ namespace RazerPoliceLights.Effects
     {
         protected readonly IRage Rage;
         protected readonly ISettingsManager SettingsManager;
-        private readonly IElsSettingsManager _elsSettingsManager;
-        private readonly Dictionary<CachedColorIndex, Color> _cachedColors = new Dictionary<CachedColorIndex, Color>();
+        private readonly IColorManager _colorManager;
 
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
-        private bool _isVehicleInfoLogged;
         private int _effectCursor;
         private int _playbackCount;
         private string _vehicleName;
 
-        protected AbstractEffect(IRage rage, ISettingsManager settingsManager, IElsSettingsManager elsSettingsManager)
+        protected AbstractEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
         {
             Rage = rage;
             SettingsManager = settingsManager;
-            _elsSettingsManager = elsSettingsManager;
+            _colorManager = colorManager;
         }
 
         #region Properties
@@ -52,7 +50,6 @@ namespace RazerPoliceLights.Effects
             if (IsDisabled)
                 return;
 
-            _cachedColors.Clear();
             IsPlaying = true;
             _vehicleName = vehicleName;
             _effectThread = new Thread(() =>
@@ -81,8 +78,6 @@ namespace RazerPoliceLights.Effects
         {
             //End the thread by killing the infinite loop running in the thread
             IsPlaying = false;
-            _isVehicleInfoLogged = false;
-            _cachedColors.Clear();
             OnEffectStop();
         }
 
@@ -94,77 +89,18 @@ namespace RazerPoliceLights.Effects
                 _effectThread.Abort();
         }
 
+        /// <inheritdoc />
+        public abstract void Initialize();
+
         #endregion
 
         #region Functions
 
-        protected Color GetPlaybackColumnColor(ColorType colorType, int index)
+        protected Color GetPlaybackColumnColor(PatternRow playPattern, int index)
         {
-            var cachedColorIndex = new CachedColorIndex(colorType, index);
+            var colorType = playPattern.ColorColumns.ElementAt(index);
 
-            //check cache
-            if (_cachedColors.ContainsKey(cachedColorIndex))
-                return _cachedColors[cachedColorIndex];
-
-            // ReSharper disable InvertIf
-            if (SettingsManager.Settings.ColorSettings.ElsEnabled && !string.IsNullOrEmpty(_vehicleName))
-            {
-                var elsVehicleSettings = _elsSettingsManager.GetByName(_vehicleName);
-
-                if (elsVehicleSettings != null)
-                {
-                    if (!_isVehicleInfoLogged)
-                    {
-                        _isVehicleInfoLogged = true;
-                        Rage.LogTrivialDebug("Using ELS configuration for " + _vehicleName);
-                    }
-
-                    var columnColor = GetColorFromElsSettings(colorType, elsVehicleSettings, index);
-
-                    _cachedColors.Add(cachedColorIndex, columnColor);
-                    return columnColor;
-                }
-
-                if (!_isVehicleInfoLogged)
-                {
-                    _isVehicleInfoLogged = true;
-                    Rage.LogTrivialDebug("Falling back to settings colors as the ELS configuration does not exist for " + _vehicleName);
-                }
-            }
-
-            var colorSettings = GetColorFromColorSettings(colorType);
-
-            _cachedColors.Add(cachedColorIndex, colorSettings);
-            return colorSettings;
-        }
-
-        private Color GetColorFromElsSettings(ColorType colorType, ElsVehicleSettings elsVehicleSettings, int index)
-        {
-            switch (colorType)
-            {
-                case ColorType.OFF:
-                    return Color.Black;
-                case ColorType.PRIMARY:
-                case ColorType.SECONDARY:
-                    return elsVehicleSettings.ElsSettings.LightingSettings.GetColorForIndex(index);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(colorType), colorType, null);
-            }
-        }
-
-        private Color GetColorFromColorSettings(ColorType colorType)
-        {
-            switch (colorType)
-            {
-                case ColorType.OFF:
-                    return Color.Black;
-                case ColorType.PRIMARY:
-                    return SettingsManager.Settings.ColorSettings.PrimaryColor;
-                case ColorType.SECONDARY:
-                    return SettingsManager.Settings.ColorSettings.SecondaryColor;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(colorType), colorType, null);
-            }
+            return colorType == ColorType.OFF ? Color.Black : _colorManager[index, playPattern.TotalColumns];
         }
 
         protected bool IsMismatchingLastEndIndex(

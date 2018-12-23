@@ -60,9 +60,7 @@ namespace RazerPoliceLights.Xml.Deserializers
                 case "0":
                     return ColorType.OFF;
                 case "1":
-                    return ColorType.PRIMARY;
-                case "2":
-                    return ColorType.SECONDARY;
+                    return ColorType.ON;
                 default:
                     throw new ColorTypeException("Pattern type '" + patternType +
                                                  "' is invalid, see manual for allowed values");

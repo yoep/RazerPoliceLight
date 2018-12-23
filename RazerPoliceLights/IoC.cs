@@ -105,18 +105,16 @@ namespace RazerPoliceLights
         {
             var type = typeof(T);
 
-            if (type.IsAssignableFrom(implementation))
-            {
-                _components.Add(type, new ImplementationType
-                {
-                    Type = implementation,
-                    IsSingleton = isSingleton
-                });
-            }
-            else
-            {
+            if (!type.IsAssignableFrom(implementation))
                 throw new IoCException(implementation + " does not implement given type " + type);
-            }
+            if (_components.ContainsKey(type))
+                throw new IoCException(type + " has already been registered");
+
+            _components.Add(type, new ImplementationType
+            {
+                Type = implementation,
+                IsSingleton = isSingleton
+            });
         }
 
         private object GetInstance(Type type)

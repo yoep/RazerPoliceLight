@@ -69,11 +69,11 @@ namespace RazerPoliceLightsTests.Xml
                 Assert.Equal(expectedColorSettings, result.ColorSettings);
                 Assert.True(result.DeviceSettings.KeyboardSettings.IsEnabled);
                 Assert.True(result.DeviceSettings.KeyboardSettings.IsScanEnabled);
-                Assert.Equal(7, result.DeviceSettings.KeyboardSettings.Patterns.Count);
+                Assert.Equal(11, result.DeviceSettings.KeyboardSettings.Patterns.Count);
                 Assert.True(result.DeviceSettings.MouseSettings.IsEnabled);
                 Assert.True(result.DeviceSettings.MouseSettings.IsScanEnabled);
                 Assert.Equal(6, result.DeviceSettings.MouseSettings.Patterns.Count);
-                Assert.Equal(7, result.EffectPatterns[DeviceType.Keyboard].Count);
+                Assert.Equal(11, result.EffectPatterns[DeviceType.Keyboard].Count);
                 Assert.Equal(6, result.EffectPatterns[DeviceType.Mouse].Count);
             }
 

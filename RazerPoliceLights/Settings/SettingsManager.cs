@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using RazerPoliceLights.Effects;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings.Els;
@@ -15,23 +17,29 @@ namespace RazerPoliceLights.Settings
 
         private readonly IRage _rage;
         private readonly IElsSettingsManager _elsSettingsManager;
+        private readonly IEffectsManager _effectsManager;
+        private readonly IColorManager _colorManager;
 
         private Settings _settings;
         private string _fileName;
 
         #region Constructors
 
-        public SettingsManager(IRage rage, IElsSettingsManager elsSettingsManager)
+        public SettingsManager(IRage rage, IElsSettingsManager elsSettingsManager, IEffectsManager effectsManager, IColorManager colorManager)
         {
             _rage = rage;
             _elsSettingsManager = elsSettingsManager;
+            _effectsManager = effectsManager;
+            _colorManager = colorManager;
             _fileName = FileName;
         }
 
-        public SettingsManager(IRage rage, IElsSettingsManager elsSettingsManager, string fileName)
+        public SettingsManager(IRage rage, IElsSettingsManager elsSettingsManager, string fileName, IEffectsManager effectsManager, IColorManager colorManager)
         {
             _rage = rage;
             _fileName = fileName;
+            _effectsManager = effectsManager;
+            _colorManager = colorManager;
             _elsSettingsManager = elsSettingsManager;
         }
 
@@ -52,7 +60,7 @@ namespace RazerPoliceLights.Settings
             try
             {
                 _settings = objectMapper.ReadValue<Settings>(_fileName);
-                UpdateEffectManager();
+                UpdateEffectPatternManager();
 
                 //try loading the ELS configuration files, if something goes wrong, disable the els option
                 if (_settings.ColorSettings.ElsEnabled)
@@ -60,6 +68,10 @@ namespace RazerPoliceLights.Settings
 
                 _rage.DisplayNotification("configuration loaded");
                 _rage.LogTrivial(Settings.ToString());
+                
+                //initialize/reinitialize the effect devices and color manager
+                _effectsManager.Initialize();
+                _colorManager.Initialize(_settings);
             }
             catch (FileNotFoundException)
             {
@@ -87,10 +99,10 @@ namespace RazerPoliceLights.Settings
         private void LoadDefaults()
         {
             _settings = Settings.Defaults;
-            UpdateEffectManager();
+            UpdateEffectPatternManager();
         }
 
-        private void UpdateEffectManager()
+        private void UpdateEffectPatternManager()
         {
             var effectPatternManager = EffectPatternManager.Instance;
             effectPatternManager.Clear();
