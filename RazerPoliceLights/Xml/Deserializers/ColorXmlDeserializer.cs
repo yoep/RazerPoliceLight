@@ -58,6 +58,10 @@ namespace RazerPoliceLights.Xml.Deserializers
                     return Color.Yellow;
                 case "white":
                     return Color.White;
+                case "green":
+                    return Color.Green;
+                case "purple":
+                    return Color.Purple;
                 default:
                     throw new SettingsException(nodeInnerText + " is not a valid color value");
             }

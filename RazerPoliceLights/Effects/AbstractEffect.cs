@@ -21,7 +21,6 @@ namespace RazerPoliceLights.Effects
         private EffectPattern _currentPlayingEffect;
         private int _effectCursor;
         private int _playbackCount;
-        private string _vehicleName;
 
         protected AbstractEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
         {
@@ -51,8 +50,8 @@ namespace RazerPoliceLights.Effects
                 return;
 
             IsPlaying = true;
-            _vehicleName = vehicleName;
-            _effectThread = new Thread(() =>
+            _colorManager.VehicleName = vehicleName;
+            _effectThread = new Thread(async () =>
             {
                 try
                 {
@@ -62,7 +61,7 @@ namespace RazerPoliceLights.Effects
                         var patternRow = GetPatternRow(pattern);
                         OnEffectTick(patternRow);
                         UpdateEffectCursor(pattern);
-                        Thread.Sleep((int) (100 * SettingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed));
+                        await System.Threading.Tasks.Task.Delay((int) (100 * SettingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed));
                     }
                 }
                 catch (Exception exception)

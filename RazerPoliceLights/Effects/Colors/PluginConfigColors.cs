@@ -15,6 +15,10 @@ namespace RazerPoliceLights.Effects.Colors
             _colorSettings = colorSettings;
         }
 
+        /// <inheritdoc />
+        public string VehicleName { get; set; }
+
+        /// <inheritdoc />
         public Color this[int index, int max] => index < max / 2 ? _colorSettings.PrimaryColor : _colorSettings.SecondaryColor;
     }
 }

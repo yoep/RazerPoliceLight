@@ -12,6 +12,11 @@ namespace RazerPoliceLights.Effects.Colors
         Color this[int index, int max] { get; }
 
         /// <summary>
+        /// Get or set the current vehicle name.
+        /// </summary>
+        string VehicleName { get; set; }
+
+        /// <summary>
         /// Initialize the color manager with the given Settings.
         /// </summary>
         /// <param name="settings">Set the settings to use for initialization.</param>

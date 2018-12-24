@@ -13,12 +13,24 @@ namespace RazerPoliceLights.Effects.Colors
         public ElsColors(IElsSettingsManager elsSettingsManager)
         {
             _elsSettingsManager = elsSettingsManager;
-            _elsSettingsManager.Load();
         }
 
+        /// <inheritdoc />
         public Color this[int index, int max]
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                var vehicleSettings = _elsSettingsManager.GetByName(VehicleName);
+                var lightingSettings = vehicleSettings.ElsSettings.LightingSettings;
+                var average = max / 2;
+
+                return index < average
+                    ? lightingSettings.GetColorForIndex(index)
+                    : lightingSettings.GetColorForIndex(index - average + 3);
+            }
         }
+
+        /// <inheritdoc />
+        public string VehicleName { get; set; }
     }
 }

@@ -17,6 +17,8 @@
          - amber
          - yellow
          - white
+         - green
+         - purple
         -->
     </Colors>
     <Devices>
@@ -135,42 +137,42 @@
             <Effect Speed="1.0">0,0,0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="Alternate" Device="Mouse">
-            <Effect Speed="2.0">1,1,0,0</Effect>
-            <Effect Speed="2.0">0,0,1,1</Effect>
+            <Effect Speed="2.0">1,0</Effect>
+            <Effect Speed="2.0">0,1</Effect>
         </EffectPattern>
         <EffectPattern Name="AlternateFlash" Device="Mouse">
-            <Effect Speed="1.0">1,1,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,0,0</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,1,1</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
-            <Effect Speed="1.0">0,0,1,1</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,1</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,1</Effect>
+            <Effect Speed="1.0">0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="EvenOdd" Device="Mouse">
-            <Effect Speed="2.0">1,0,1,0</Effect>
-            <Effect Speed="2.0">0,1,0,1</Effect>
+            <Effect Speed="2.0">1,0</Effect>
+            <Effect Speed="2.0">0,1</Effect>
         </EffectPattern>
         <EffectPattern Name="EvenOddFlash" Device="Mouse">
-            <Effect Speed="1.0">1,0,1,0</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
-            <Effect Speed="1.0">1,0,1,0</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
-            <Effect Speed="1.0">0,1,0,1</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
-            <Effect Speed="1.0">0,1,0,1</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,1</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,1</Effect>
+            <Effect Speed="1.0">0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="Full" Device="Mouse">
-            <Effect Speed="2.0">1,1,1,1</Effect>
-            <Effect Speed="2.0">0,0,0,0</Effect>
+            <Effect Speed="2.0">1,1</Effect>
+            <Effect Speed="2.0">0,0</Effect>
         </EffectPattern>
         <EffectPattern Name="FullFlash" Device="Mouse">
-            <Effect Speed="1.0">1,1,1,1</Effect>
-            <Effect Speed="1.0">0,0,0,0</Effect>
-            <Effect Speed="1.0">1,1,1,1</Effect>
-            <Effect Speed="2.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,1</Effect>
+            <Effect Speed="2.0">0,0</Effect>
         </EffectPattern>
     </Patterns>
 </RazerPoliceLights>

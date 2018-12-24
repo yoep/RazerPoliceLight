@@ -38,3 +38,4 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 - Color is now based on effect pattern columns instead of OFF(0), PRIMARY(1) and SECONDARY(2)
     - Modified effect pattern color config to OFF(0) and ON(1) - this should make creating custom patterns a lot easier (see manual for example)
 - Reworked the way ELS colors were being used
+- Added 'green' and 'purple' as predefined color 

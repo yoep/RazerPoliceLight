@@ -17,6 +17,13 @@ namespace RazerPoliceLights.Effects.Colors
         public Color this[int index, int max] => _colors[index, max];
 
         /// <inheritdoc />
+        public string VehicleName
+        {
+            get { return _colors.VehicleName; }
+            set { _colors.VehicleName = value; }
+        }
+
+        /// <inheritdoc />
         public void Initialize(Settings.Settings settings)
         {
             if (settings.ColorSettings.ElsEnabled)
