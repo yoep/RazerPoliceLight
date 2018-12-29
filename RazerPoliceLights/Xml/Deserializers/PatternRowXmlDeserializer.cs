@@ -61,6 +61,9 @@ namespace RazerPoliceLights.Xml.Deserializers
                     return ColorType.OFF;
                 case "1":
                     return ColorType.ON;
+                case "2":
+                    //TODO: remove deprecated value, but still support it currently for backwards compatibility 
+                    return ColorType.ON;
                 default:
                     throw new ColorTypeException("Pattern type '" + patternType +
                                                  "' is invalid, see manual for allowed values");
