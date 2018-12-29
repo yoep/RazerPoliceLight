@@ -6,9 +6,9 @@ namespace RazerPoliceLights.Settings
 {
     public class EffectPatternSettings
     {
-        [XmlAttribute] public string Name { get; set; }
+        [Xml] public string Name { get; set; }
 
-        [XmlAttribute] public DeviceType Device { get; set; }
+        [Xml] public DeviceType Device { get; set; }
 
         [XmlElement(Name = "Effect")] public List<EffectSettings> Effects { get; set; }
 

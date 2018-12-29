@@ -4,7 +4,6 @@ using System.Linq;
 using Rage;
 using RazerPoliceLights.Devices;
 using RazerPoliceLights.Devices.Razer;
-using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 
 namespace RazerPoliceLights.Effects
