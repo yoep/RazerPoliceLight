@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Corale.Colore.Core;
-using Rage;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
 using RazerPoliceLights.Rage;
@@ -13,14 +13,18 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
+        private const double DelayMargin = 1.2;
+
         protected readonly IRage Rage;
         protected readonly ISettingsManager SettingsManager;
         private readonly IColorManager _colorManager;
 
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
+        private DateTime _threadMonitor;
         private int _effectCursor;
         private int _playbackCount;
+        private int _delay;
 
         protected AbstractEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
         {
@@ -51,26 +55,44 @@ namespace RazerPoliceLights.Effects
 
             IsPlaying = true;
             _colorManager.VehicleName = vehicleName;
+            _threadMonitor = DateTime.Now;
             _effectThread = new Thread(async () =>
             {
                 try
                 {
                     while (IsPlaying)
                     {
+                        MonitorThreadLag();
                         var pattern = effectPattern ?? GetEffectPattern();
                         var patternRow = GetPatternRow(pattern);
+                        _delay = (int) (100 * SettingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed);
                         OnEffectTick(patternRow);
                         UpdateEffectCursor(pattern);
-                        await System.Threading.Tasks.Task.Delay((int) (100 * SettingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed));
+                        await Task.Delay(_delay);
                     }
                 }
                 catch (Exception exception)
                 {
-                    Game.LogTrivial(exception.Message + Environment.NewLine + exception.StackTrace);
-                    Game.DisplayNotification(RazerPoliceLights.Name + " plugin thread stopped responding");
+                    Rage.LogTrivial(exception.Message + Environment.NewLine + exception.StackTrace);
+                    Rage.DisplayNotification("plugin thread stopped responding");
                 }
             }) {IsBackground = true};
             _effectThread.Start();
+        }
+
+        private void MonitorThreadLag()
+        {
+            //ignore first tick
+            if (_delay == 0)
+                return;
+            
+            var actualDelay = DateTime.Now - _threadMonitor;
+            _threadMonitor = DateTime.Now;
+
+            if (actualDelay.TotalMilliseconds > _delay * DelayMargin)
+            {
+                Rage.LogTrivial("Detected thread lag with a delay of " + (int) actualDelay.TotalMilliseconds + " while it should be " + _delay);
+            }
         }
 
         public void Stop()
@@ -82,7 +104,7 @@ namespace RazerPoliceLights.Effects
 
         public void OnUnload(bool isTerminating)
         {
-            Game.LogTrivialDebug("Device effect thread is being " + (isTerminating ? "forcefully aborted" : "stopped"));
+            Rage.LogTrivialDebug("Device effect thread is being " + (isTerminating ? "forcefully aborted" : "stopped"));
             IsPlaying = false;
             if (isTerminating)
                 _effectThread.Abort();

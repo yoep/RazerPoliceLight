@@ -2,7 +2,7 @@ using System;
 
 namespace RazerPoliceLights
 {
-    public class Assert
+    public static class Assert
     {
         public static void NotNull(object value, string message)
         {
