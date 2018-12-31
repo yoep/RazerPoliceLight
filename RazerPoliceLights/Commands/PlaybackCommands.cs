@@ -4,6 +4,7 @@ using Rage;
 using Rage.Attributes;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Pattern;
+using RazerPoliceLights.Utils;
 
 namespace RazerPoliceLights.Commands
 {

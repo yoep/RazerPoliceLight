@@ -1,6 +1,7 @@
 using RazerPoliceLights;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Settings;
+using RazerPoliceLights.Utils;
 using Xunit;
 using Assert = Xunit.Assert;
 

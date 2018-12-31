@@ -1,12 +1,12 @@
 using Moq;
-using RazerPoliceLights;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Settings.Els;
+using RazerPoliceLights.Utils;
+using RazerPoliceLightsTests.Model;
 using Xunit;
-using Assert = Xunit.Assert;
 
 namespace RazerPoliceLightsTests
 {
@@ -51,6 +51,23 @@ namespace RazerPoliceLightsTests
                 var result = ioC.GetInstance<ISettingsManager>();
 
                 Assert.Equal(expectedResult, result);
+            }
+        }
+
+        public class PostConstruct
+        {
+            [Fact]
+            public void ShouldInvokePostConstructMethod()
+            {
+                var ioC = IoC.Instance;
+                ioC
+                    .UnregisterAll()
+                    .RegisterSingleton<IPostConstructModel>(typeof(PostConstructModel));
+
+                var result = ioC.GetInstance<IPostConstructModel>();
+                
+                Assert.NotNull(result);
+                Assert.True(result.IsInitialized);
             }
         }
     }

@@ -1,6 +1,6 @@
 using System;
 
-namespace RazerPoliceLights
+namespace RazerPoliceLights.Utils
 {
     public class IoCException : Exception
     {

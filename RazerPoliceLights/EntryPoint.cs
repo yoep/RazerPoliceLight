@@ -13,6 +13,7 @@ using RazerPoliceLights.GameListeners;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Settings.Els;
+using RazerPoliceLights.Utils;
 
 [assembly:
     Plugin(RazerPoliceLights.RazerPoliceLights.Name,
@@ -31,9 +32,11 @@ namespace RazerPoliceLights
             while (Game.IsLoading)
                 GameFiber.Yield();
 
+            //Start with initializing the IoC container before doing anything else
+            InitializeIoContainer();
+            
             try
             {
-                InitializeIoContainer();
                 InitializeDeviceManager();
 
                 var vehicleListener = IoC.Instance.GetInstance<IVehicleListener>();

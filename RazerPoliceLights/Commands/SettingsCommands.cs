@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Rage.Attributes;
 using RazerPoliceLights.Settings;
+using RazerPoliceLights.Utils;
 
 namespace RazerPoliceLights.Commands
 {

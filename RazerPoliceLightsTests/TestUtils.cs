@@ -8,6 +8,7 @@ using RazerPoliceLights.GameListeners;
 using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Settings.Els;
+using RazerPoliceLights.Utils;
 
 namespace RazerPoliceLightsTests
 {

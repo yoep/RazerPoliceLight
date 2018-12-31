@@ -87,6 +87,8 @@
     <Compile Include="Effects\EffectManagerTests.cs" />
     <Compile Include="EntryPointTests.cs" />
     <Compile Include="IoCTests.cs" />
+    <Compile Include="Model\IPostConstructModel.cs" />
+    <Compile Include="Model\PostConstructModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Els\ElsSettingsManagerTests.cs" />
     <Compile Include="Settings\Els\ElsSettingsTests.cs" />

@@ -10,7 +10,7 @@ namespace RazerPoliceLights.Rage
     {
         public void DisplayNotification(string message)
         {
-            Game.DisplayNotification(RazerPoliceLights.Name + " " + message.Trim());
+            Game.DisplayNotification("~b~" + RazerPoliceLights.Name + " ~s~" + message.Trim());
         }
 
         public void LogTrivial(string message)
