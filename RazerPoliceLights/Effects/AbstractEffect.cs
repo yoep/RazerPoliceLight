@@ -13,15 +13,12 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
-        private const double DelayMargin = 1.2;
-
         protected readonly IRage Rage;
         protected readonly ISettingsManager SettingsManager;
         private readonly IColorManager _colorManager;
 
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
-        private DateTime _threadMonitor;
         private int _effectCursor;
         private int _playbackCount;
         private int _delay;
@@ -55,14 +52,12 @@ namespace RazerPoliceLights.Effects
 
             IsPlaying = true;
             _colorManager.VehicleName = vehicleName;
-            _threadMonitor = DateTime.Now;
             _effectThread = new Thread(async () =>
             {
                 try
                 {
                     while (IsPlaying)
                     {
-                        MonitorThreadLag();
                         var pattern = effectPattern ?? GetEffectPattern();
                         var patternRow = GetPatternRow(pattern);
                         _delay = (int) (100 * SettingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed);
@@ -78,21 +73,6 @@ namespace RazerPoliceLights.Effects
                 }
             }) {IsBackground = true};
             _effectThread.Start();
-        }
-
-        private void MonitorThreadLag()
-        {
-            //ignore first tick
-            if (_delay == 0)
-                return;
-            
-            var actualDelay = DateTime.Now - _threadMonitor;
-            _threadMonitor = DateTime.Now;
-
-            if (actualDelay.TotalMilliseconds > _delay * DelayMargin)
-            {
-                Rage.LogTrivial("Detected thread lag with a delay of " + (int) actualDelay.TotalMilliseconds + " while it should be " + _delay);
-            }
         }
 
         public void Stop()
