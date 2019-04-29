@@ -1,7 +1,7 @@
 using Moq;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Settings.Els;
 using RazerPoliceLights.Utils;

@@ -1,7 +1,7 @@
 using System;
 using Corale.Colore.Core;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Utils;
 
 namespace RazerPoliceLights.Devices.Razer

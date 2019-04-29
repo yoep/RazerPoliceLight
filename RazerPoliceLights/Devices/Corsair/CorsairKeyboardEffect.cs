@@ -5,10 +5,10 @@ using CUE.NET;
 using CUE.NET.Brushes;
 using CUE.NET.Devices.Generic;
 using CUE.NET.Devices.Keyboard;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Devices.Corsair
@@ -19,10 +19,9 @@ namespace RazerPoliceLights.Devices.Corsair
 
         #region Constructors
 
-        public CorsairKeyboardEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
-            : base(rage, settingsManager, colorManager)
+        public CorsairKeyboardEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, logger, settingsManager, colorManager)
         {
-           
         }
 
         #endregion
@@ -35,28 +34,28 @@ namespace RazerPoliceLights.Devices.Corsair
             if (IsDisabled)
                 return;
 
-            Rage.LogTrivialDebug("Initializing CueSDK.KeyboardSDK...");
+            Logger.Debug("Initializing CueSDK.KeyboardSDK...");
             _keyboard = CueSDK.KeyboardSDK;
 
             if (_keyboard != null)
             {
-                Rage.LogTrivialDebug("Setting keyboard brush to Color.Transparent");
+                Logger.Debug("Setting keyboard brush to Color.Transparent");
                 _keyboard.Brush = (SolidColorBrush) Color.Transparent;
-                Rage.LogTrivialDebug("Initialization of CueSDK.KeyboardSDK done");
+                Logger.Debug("Initialization of CueSDK.KeyboardSDK done");
             }
             else
             {
-                Rage.LogTrivial("CueSDK.KeyboardSDK could not be registered, do you have a Cue supported keyboard?");
-                Rage.LogTrivialDebug("--- SDK info ---");
-                Rage.LogTrivialDebug("Last SDK error: " + CueSDK.LastError);
-                Rage.LogTrivialDebug("Devices: " + string.Join(",", CueSDK.InitializedDevices.Select(x => x.DeviceInfo.Type + "-" + x.DeviceInfo.Model)));
+                Logger.Info("CueSDK.KeyboardSDK could not be registered, do you have a Cue supported keyboard?");
+                Logger.Warn("--- SDK info ---");
+                Logger.Warn("Last SDK error: " + CueSDK.LastError);
+                Logger.Warn("Devices: " + string.Join(",", CueSDK.InitializedDevices.Select(x => x.DeviceInfo.Type + "-" + x.DeviceInfo.Model)));
             }
         }
 
         #endregion
 
         #region Functions
-        
+
         protected override void OnEffectTick(PatternRow playPattern)
         {
             if (_keyboard == null)
@@ -101,7 +100,7 @@ namespace RazerPoliceLights.Devices.Corsair
                 keyboardLed.Color = keyboardLedColor;
             }
         }
-        
+
         #endregion
     }
 }

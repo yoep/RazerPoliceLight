@@ -5,10 +5,10 @@ using CUE.NET;
 using CUE.NET.Brushes;
 using CUE.NET.Devices.Generic;
 using CUE.NET.Devices.Mouse;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Devices.Corsair
@@ -19,8 +19,8 @@ namespace RazerPoliceLights.Devices.Corsair
 
         #region Constructors
 
-        public CorsairMouseEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
-            : base(rage, settingsManager, colorManager)
+        public CorsairMouseEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, logger, settingsManager, colorManager)
         {
         }
 
@@ -34,20 +34,20 @@ namespace RazerPoliceLights.Devices.Corsair
             if (IsDisabled)
                 return;
 
-            Rage.LogTrivialDebug("Initializing CueSDK.MouseSDK...");
+            Logger.Debug("Initializing CueSDK.MouseSDK...");
             _mouse = CueSDK.MouseSDK;
 
             if (_mouse != null)
             {
                 _mouse.Brush = (SolidColorBrush) Color.Transparent;
-                Rage.LogTrivialDebug("Initialization of CueSDK.MouseSDK done");
+                Logger.Debug("Initialization of CueSDK.MouseSDK done");
             }
             else
             {
-                Rage.LogTrivial("CueSDK.MouseSDK could not be registered, do you have a Cue supported mouse?");
-                Rage.LogTrivialDebug("--- SDK info ---");
-                Rage.LogTrivialDebug("Last SDK error: " + CueSDK.LastError);
-                Rage.LogTrivialDebug("Devices: " + string.Join(",", CueSDK.InitializedDevices.Select(x => x.DeviceInfo.Type + "-" + x.DeviceInfo.Model)));
+                Logger.Warn("CueSDK.MouseSDK could not be registered, do you have a Cue supported mouse?");
+                Logger.Debug("--- SDK info ---");
+                Logger.Debug("Last SDK error: " + CueSDK.LastError);
+                Logger.Debug("Devices: " + string.Join(",", CueSDK.InitializedDevices.Select(x => x.DeviceInfo.Type + "-" + x.DeviceInfo.Model)));
             }
         }
 

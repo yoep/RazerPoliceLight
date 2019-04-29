@@ -1,19 +1,19 @@
 using System;
 using CUE.NET;
 using CUE.NET.Devices.Generic.Enums;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Utils;
 
 namespace RazerPoliceLights.Devices.Corsair
 {
     public class CorsairDeviceManager : IDeviceManager
     {
-        private readonly IRage _rage;
+        private readonly ILogger _logger;
 
-        public CorsairDeviceManager(IRage rage)
+        public CorsairDeviceManager(ILogger logger)
         {
-            _rage = rage;
+            _logger = logger;
             Initialize();
         }
 
@@ -25,32 +25,31 @@ namespace RazerPoliceLights.Devices.Corsair
         {
             try
             {
-                _rage.LogTrivialDebug("Starting registration of CUE devices in IoC...");
+                _logger.Debug("Starting registration of CUE devices in IoC...");
                 IoC.Instance
                     .RegisterSingleton<IKeyboardEffect>(typeof(CorsairKeyboardEffect))
                     .RegisterSingleton<IMouseEffect>(typeof(CorsairMouseEffect));
-                _rage.LogTrivialDebug("Registration done");
+                _logger.Debug("Registration done");
 
-                _rage.LogTrivialDebug("Initializing CueSDK...");
+                _logger.Debug("Initializing CueSDK...");
                 CueSDK.Initialize(true);
-                _rage.LogTrivialDebug("CueSDK initialization done");
+                _logger.Debug("CueSDK initialization done");
 
-                _rage.LogTrivial("--- CueSDK info ---");
-                _rage.LogTrivial("Architecture " + CueSDK.LoadedArchitecture);
-                _rage.LogTrivial("Version " + CueSDK.ProtocolDetails.SdkVersion);
-                _rage.LogTrivial("Server version " + CueSDK.ProtocolDetails.ServerVersion);
-                _rage.LogTrivial("Protocol version " + CueSDK.ProtocolDetails.SdkProtocolVersion);
-                _rage.LogTrivial("Breaking changes " + CueSDK.ProtocolDetails.BreakingChanges);
-                _rage.LogTrivial("---");
+                _logger.Info("--- CueSDK info ---");
+                _logger.Info("Architecture " + CueSDK.LoadedArchitecture);
+                _logger.Info("Version " + CueSDK.ProtocolDetails.SdkVersion);
+                _logger.Info("Server version " + CueSDK.ProtocolDetails.ServerVersion);
+                _logger.Info("Protocol version " + CueSDK.ProtocolDetails.SdkProtocolVersion);
+                _logger.Info("Breaking changes " + CueSDK.ProtocolDetails.BreakingChanges);
+                _logger.Info("---");
 
-                _rage.LogTrivialDebug("Updating CueSDK mode to 'Continuous'...");
+                _logger.Debug("Updating CueSDK mode to 'Continuous'...");
                 CueSDK.UpdateMode = UpdateMode.Continuous;
-                _rage.LogTrivialDebug("CueSDK mode update done");
+                _logger.Debug("CueSDK mode update done");
             }
             catch (Exception ex)
             {
-                _rage.LogTrivial("Failed to initialize CueSDK with exception type '" + ex.GetType() + " and error '" + ex.Message + "'");
-                _rage.LogTrivial(ex.StackTrace);
+                _logger.Error("Failed to initialize CueSDK with exception type '" + ex.GetType() + " and error '" + ex.Message + "'", ex);
                 throw new DeviceInitializationException(ex.Message, ex);
             }
         }

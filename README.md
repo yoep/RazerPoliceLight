@@ -30,12 +30,8 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 - Selection of active Chroma devices
 - Color configuration based on ELS configuration
 
-## Changelog features for 1.0.3
+## Changelog features for 1.0.4
 
-- Updated Corsair SDK to v3.0.217
-- General performance optimizations (should reduce changes of lag on device(s))
-- Reworked color configuration implementation
-- Color is now based on effect pattern columns instead of OFF(0), PRIMARY(1) and SECONDARY(2)
-    - Modified effect pattern color config to OFF(0) and ON(1) - this should make creating custom patterns a lot easier (see manual for example)
-- Reworked the way ELS colors were being used
-- Added 'green' and 'purple' as predefined colors 
+- Updated Cue SDK to v3.0.237
+- Fixed "Unknown (1168)" issue in Chroma SDK response
+- Added levels to logging for easier troubleshooting

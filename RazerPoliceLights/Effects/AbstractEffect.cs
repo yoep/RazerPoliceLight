@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Corale.Colore.Core;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
@@ -14,6 +14,7 @@ namespace RazerPoliceLights.Effects
     public abstract class AbstractEffect : IEffect
     {
         protected readonly IRage Rage;
+        protected readonly ILogger Logger;
         protected readonly ISettingsManager SettingsManager;
         private readonly IColorManager _colorManager;
 
@@ -23,9 +24,10 @@ namespace RazerPoliceLights.Effects
         private int _playbackCount;
         private int _delay;
 
-        protected AbstractEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
+        protected AbstractEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager)
         {
             Rage = rage;
+            Logger = logger;
             SettingsManager = settingsManager;
             _colorManager = colorManager;
         }
@@ -68,7 +70,7 @@ namespace RazerPoliceLights.Effects
                 }
                 catch (Exception exception)
                 {
-                    Rage.LogTrivial(exception.Message + Environment.NewLine + exception.StackTrace);
+                    Logger.Error("Device thread has stopped working with error: " + exception.Message, exception);
                     Rage.DisplayNotification("plugin thread stopped responding");
                 }
             }) {IsBackground = true};
@@ -84,7 +86,7 @@ namespace RazerPoliceLights.Effects
 
         public void OnUnload(bool isTerminating)
         {
-            Rage.LogTrivialDebug("Device effect thread is being " + (isTerminating ? "forcefully aborted" : "stopped"));
+            Logger.Debug("Device effect thread is being " + (isTerminating ? "forcefully aborted" : "stopped"));
             IsPlaying = false;
             if (isTerminating)
                 _effectThread.Abort();

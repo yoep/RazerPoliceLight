@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using Rage;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.GameListeners
@@ -10,6 +10,7 @@ namespace RazerPoliceLights.GameListeners
     public class VehicleListener : IVehicleListener
     {
         private readonly IRage _rage;
+        private readonly ILogger _log;
         private readonly ISettingsManager _settingsManager;
         private readonly IEffectsManager _effectsManager;
 
@@ -21,11 +22,12 @@ namespace RazerPoliceLights.GameListeners
 
         #region Constructors
 
-        public VehicleListener(IRage rage, ISettingsManager settingsManager, IEffectsManager effectsManager)
+        public VehicleListener(IRage rage, ISettingsManager settingsManager, IEffectsManager effectsManager, ILogger log)
         {
             _rage = rage;
             _settingsManager = settingsManager;
             _effectsManager = effectsManager;
+            _log = log;
             _oldPlayerState = PlayerState;
         }
 
@@ -57,7 +59,7 @@ namespace RazerPoliceLights.GameListeners
             {
                 if (!(exception is ThreadAbortException))
                 {
-                    LogException(exception);
+                    _log.Error("has encountered an issue, " + exception.Message, exception);
                     _rage.DisplayNotification("plugin has crashed");
                 } //else, plugin is being unloaded
             }
@@ -65,7 +67,7 @@ namespace RazerPoliceLights.GameListeners
 
         public void Stop()
         {
-            _rage.LogTrivialDebug("Stopping vehicle listener");
+            _log.Debug("Stopping vehicle listener");
             _keepAlive = false;
         }
 
@@ -103,8 +105,8 @@ namespace RazerPoliceLights.GameListeners
         private void StartEffects()
         {
             var vehicleName = GetPlayerVehicle().Model.Name;
-            
-            _rage.LogTrivialDebug("playing effects for vehicle " + vehicleName);
+
+            _log.Debug("playing effects for vehicle " + vehicleName);
             _effectsManager.Play(vehicleName);
         }
 
@@ -135,7 +137,7 @@ namespace RazerPoliceLights.GameListeners
             }
             catch (Exception e)
             {
-                _rage.LogTrivialDebug("Vehicle retrieval failed with " + e.Message + Environment.NewLine + e);
+                _log.Warn("Vehicle retrieval failed with " + e.Message, e);
                 //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
@@ -149,15 +151,10 @@ namespace RazerPoliceLights.GameListeners
             }
             catch (Exception e)
             {
-                _rage.LogTrivialDebug("Player retrieval failed with " + e.Message + Environment.NewLine + e);
+                _log.Warn("Player retrieval failed with " + e.Message, e);
                 //catch exception when character model is changed but was found right before it's disposed in memory
                 return null;
             }
-        }
-
-        private void LogException(Exception e)
-        {
-            _rage.LogTrivial("has encountered an issue" + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace);
         }
     }
 }

@@ -1,15 +1,15 @@
 using System.Collections.Generic;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractMouseEffect : AbstractEffect, IMouseEffect
     {
-        protected AbstractMouseEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager) 
-            : base(rage, settingsManager, colorManager)
+        protected AbstractMouseEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, logger, settingsManager, colorManager)
         {
         }
 

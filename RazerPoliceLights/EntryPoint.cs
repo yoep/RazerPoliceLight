@@ -4,13 +4,14 @@ using Corale.Colore.Core;
 using CUE.NET;
 using Rage;
 using Rage.Attributes;
+using RazerPoliceLights.AbstractionLayer;
+using RazerPoliceLights.AbstractionLayer.Implementation;
 using RazerPoliceLights.Devices;
 using RazerPoliceLights.Devices.Corsair;
 using RazerPoliceLights.Devices.Razer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.GameListeners;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 using RazerPoliceLights.Settings.Els;
 using RazerPoliceLights.Utils;
@@ -79,6 +80,7 @@ namespace RazerPoliceLights
         {
             IoC.Instance
                 .Register<IRage>(typeof(RageImpl))
+                .RegisterSingleton<ILogger>(typeof(Logger))
                 .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
                 .RegisterSingleton<IElsSettingsManager>(typeof(ElsSettingsManager))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))

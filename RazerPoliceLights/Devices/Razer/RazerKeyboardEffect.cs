@@ -1,10 +1,11 @@
-﻿using Corale.Colore.Core;
+﻿using Corale.Colore;
+using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Devices.Razer
@@ -15,8 +16,8 @@ namespace RazerPoliceLights.Devices.Razer
 
         #region Constructors
 
-        public RazerKeyboardEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
-            : base(rage, settingsManager, colorManager)
+        public RazerKeyboardEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, logger, settingsManager, colorManager)
         {
         }
 
@@ -29,16 +30,16 @@ namespace RazerPoliceLights.Devices.Razer
             if (IsDisabled)
                 return;
 
-            Rage.LogTrivialDebug("Initializing Chroma.Instance.Keyboard...");
+            Logger.Debug("Initializing Chroma.Instance.Keyboard...");
             _chromaKeyboard = Chroma.Instance.Keyboard;
 
             if (_chromaKeyboard != null)
             {
-                Rage.LogTrivialDebug("Initialization Chroma.Instance.Keyboard done");
+                Logger.Debug("Initialization Chroma.Instance.Keyboard done");
             }
             else
             {
-                Rage.LogTrivial("Chroma.Instance.Keyboard could not be registered, do you have a Chroma supported keyboard?");
+                Logger.Warn("Chroma.Instance.Keyboard could not be registered, do you have a Chroma supported keyboard?");
             }
         }
 
@@ -48,7 +49,7 @@ namespace RazerPoliceLights.Devices.Razer
         {
             if (_chromaKeyboard == null)
                 return; //something probably went wrong during initialization, ignore this device effect playback
-            
+
             var columnSize = Constants.MaxColumns / playPattern.TotalColumns;
             var columnStartIndex = 0;
 
@@ -65,8 +66,15 @@ namespace RazerPoliceLights.Devices.Razer
                 {
                     for (var column = columnStartIndex; column < columnEndIndex; column++)
                     {
-                        _chromaKeyboard[row, column] =
-                            GetPlaybackColumnColor(playPattern, patternColumn);
+                        try
+                        {
+                            _chromaKeyboard[row, column] =
+                                GetPlaybackColumnColor(playPattern, patternColumn);
+                        }
+                        catch (ColoreException ex)
+                        {
+                            Logger.Warn("Chroma SDK has raised an issue for the keyboard: " + ex.Message, ex);
+                        }
                     }
                 }
 

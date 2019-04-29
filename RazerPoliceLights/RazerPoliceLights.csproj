@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractionLayer\ILogger.cs" />
+    <Compile Include="AbstractionLayer\Implementation\Logger.cs" />
+    <Compile Include="AbstractionLayer\Implementation\RageImpl.cs" />
+    <Compile Include="AbstractionLayer\IRage.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="Commands\PlaybackCommands.cs" />
     <Compile Include="Commands\SettingsCommands.cs" />
@@ -87,8 +91,6 @@
     <Compile Include="Pattern\Predefined\Mouse\AlternateFlash.cs" />
     <Compile Include="PlayerState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rage\IRage.cs" />
-    <Compile Include="Rage\RageImpl.cs" />
     <Compile Include="RazerPoliceLights.cs" />
     <Compile Include="NoAvailableSdkException.cs" />
     <Compile Include="Settings\ColorSettings.cs" />

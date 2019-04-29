@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings.Els;
 using RazerPoliceLights.Settings.Exceptions;
 using RazerPoliceLights.Xml;

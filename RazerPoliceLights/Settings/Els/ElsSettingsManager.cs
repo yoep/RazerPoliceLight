@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RazerPoliceLights.Rage;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Xml;
 
 namespace RazerPoliceLights.Settings.Els

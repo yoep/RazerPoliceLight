@@ -1,10 +1,11 @@
-﻿using Corale.Colore.Core;
+﻿using Corale.Colore;
+using Corale.Colore.Core;
 using Corale.Colore.Razer.Mouse;
 using Corale.Colore.Razer.Mouse.Effects;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Devices.Razer
@@ -15,8 +16,8 @@ namespace RazerPoliceLights.Devices.Razer
 
         #region Constructors
 
-        public RazerMouseEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager)
-            : base(rage, settingsManager, colorManager)
+        public RazerMouseEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager)
+            : base(rage, logger, settingsManager, colorManager)
         {
         }
 
@@ -28,17 +29,17 @@ namespace RazerPoliceLights.Devices.Razer
         {
             if (IsDisabled)
                 return;
-            
-            Rage.LogTrivialDebug("Initializing Chroma.Instance.Mouse...");
+
+            Logger.Debug("Initializing Chroma.Instance.Mouse...");
             _chromaMouse = Chroma.Instance.Mouse;
 
             if (_chromaMouse != null)
             {
-                Rage.LogTrivialDebug("Initialization of Chroma.Instance.Mouse done");
+                Logger.Debug("Initialization of Chroma.Instance.Mouse done");
             }
             else
             {
-                Rage.LogTrivial("Chroma.Instance.Mouse could not be registered, do you have a Chroma supported mouse?");
+                Logger.Warn("Chroma.Instance.Mouse could not be registered, do you have a Chroma supported mouse?");
             }
         }
 
@@ -48,7 +49,7 @@ namespace RazerPoliceLights.Devices.Razer
         {
             if (_chromaMouse == null)
                 return; //something probably went wrong during initialization, ignore this device effect playback
-            
+
             var columnSize = Constants.MaxColumns / playPattern.TotalColumns;
             var startIndex = 0;
 
@@ -86,8 +87,15 @@ namespace RazerPoliceLights.Devices.Razer
             {
                 for (var column = startIndex; column < endIndex; column++)
                 {
-                    _chromaMouse[row, column] =
-                        GetPlaybackColumnColor(playPattern, patternColumn);
+                    try
+                    {
+                        _chromaMouse[row, column] =
+                            GetPlaybackColumnColor(playPattern, patternColumn);
+                    }
+                    catch (ColoreException ex)
+                    {
+                        Logger.Warn("Chroma SDK has raised an issue the mouse: " + ex.Message, ex);
+                    }
                 }
             }
         }
@@ -98,8 +106,15 @@ namespace RazerPoliceLights.Devices.Razer
             {
                 for (var row = startIndex; row < endIndex; row++)
                 {
-                    _chromaMouse[row, column] =
-                        GetPlaybackColumnColor(playPattern, patternColumn);
+                    try
+                    {
+                        _chromaMouse[row, column] =
+                            GetPlaybackColumnColor(playPattern, patternColumn);
+                    }
+                    catch (ColoreException ex)
+                    {
+                        Logger.Warn("Chroma SDK has raised an issue the mouse: " + ex.Message, ex);
+                    }
                 }
             }
         }

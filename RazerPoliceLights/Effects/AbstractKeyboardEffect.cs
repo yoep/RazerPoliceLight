@@ -1,15 +1,15 @@
 using System.Collections.Generic;
+using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Rage;
 using RazerPoliceLights.Settings;
 
 namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractKeyboardEffect : AbstractEffect, IKeyboardEffect
     {
-        protected AbstractKeyboardEffect(IRage rage, ISettingsManager settingsManager, IColorManager colorManager) 
-            : base(rage, settingsManager, colorManager)
+        protected AbstractKeyboardEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager) 
+            : base(rage, logger, settingsManager, colorManager)
         {
         }
 
