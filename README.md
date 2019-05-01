@@ -33,5 +33,5 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 ## Changelog features for 1.0.4
 
 - Updated Cue SDK to v3.0.237
-- Fixed "Unknown (1168)" issue in Chroma SDK response
+- Fixed Chroma SDK issue "Unknown (1168)"
 - Added levels to logging for easier troubleshooting
