@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Corale.Colore.Core;
 using RazerPoliceLights.AbstractionLayer;
 using RazerPoliceLights.Effects.Colors;
@@ -13,6 +12,8 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
+        private const int DelayFloorLimit = 24;
+
         protected readonly ILogger Logger;
         protected readonly ISettingsManager SettingsManager;
         private readonly IRage _rage;
@@ -34,7 +35,11 @@ namespace RazerPoliceLights.Effects
 
         #region Properties
 
+        /// <inheritdoc />
         public bool IsPlaying { get; private set; }
+
+        /// <inheritdoc />
+        public abstract bool IsDisabled { get; }
 
         #endregion
 
@@ -53,8 +58,9 @@ namespace RazerPoliceLights.Effects
                 return;
 
             IsPlaying = true;
+            Logger.Trace("Playing effect on " + this);
             _colorManager.VehicleName = vehicleName;
-            _effectThread = new Thread(async () =>
+            _effectThread = new Thread(() =>
             {
                 try
                 {
@@ -62,10 +68,10 @@ namespace RazerPoliceLights.Effects
                     {
                         var pattern = effectPattern ?? GetEffectPattern();
                         var patternRow = GetPatternRow(pattern);
-                        _delay = (int) (100 * SettingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed);
+                        _delay = CalculateDelay(patternRow);
                         OnEffectTick(patternRow);
                         UpdateEffectCursor(pattern);
-                        await Task.Delay(_delay);
+                        Thread.Sleep(_delay);
                     }
 
                     // Fix for multithreading issue "Unknown (1168)" by running the stop effect in the same thread
@@ -177,6 +183,14 @@ namespace RazerPoliceLights.Effects
             }
         }
 
+        private int CalculateDelay(PatternRow patternRow)
+        {
+            var calculatedDelay = (int) (100 * SettingsManager.Settings.PlaybackSettings.SpeedModifier * patternRow.Speed);
+
+            //The animation effect speed cannot be lower than 24 millis as it will cause issues in the device playbacks
+            return calculatedDelay < DelayFloorLimit ? DelayFloorLimit : calculatedDelay;
+        }
+
         #endregion
 
         /// <summary>
@@ -196,11 +210,6 @@ namespace RazerPoliceLights.Effects
         /// Get the activated effect patterns.
         /// </summary>
         protected abstract List<EffectPattern> EffectPatterns { get; }
-
-        /// <summary>
-        /// Get if this effect device is disabled.
-        /// </summary>
-        protected abstract bool IsDisabled { get; }
 
         /// <summary>
         /// Get if the scan mode for the device is enabled.
