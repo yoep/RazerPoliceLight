@@ -13,11 +13,10 @@ namespace RazerPoliceLights.Effects
 {
     public abstract class AbstractEffect : IEffect
     {
-        protected readonly IRage Rage;
         protected readonly ILogger Logger;
         protected readonly ISettingsManager SettingsManager;
+        private readonly IRage _rage;
         private readonly IColorManager _colorManager;
-        private readonly object _stateLocker = new object();
 
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
@@ -27,7 +26,7 @@ namespace RazerPoliceLights.Effects
 
         protected AbstractEffect(IRage rage, ILogger logger, ISettingsManager settingsManager, IColorManager colorManager)
         {
-            Rage = rage;
+            _rage = rage;
             Logger = logger;
             SettingsManager = settingsManager;
             _colorManager = colorManager;
@@ -59,14 +58,7 @@ namespace RazerPoliceLights.Effects
             {
                 try
                 {
-                    bool playing;
-
-                    lock (_stateLocker)
-                    {
-                        playing = IsPlaying;
-                    }
-
-                    while (playing)
+                    while (IsPlaying)
                     {
                         var pattern = effectPattern ?? GetEffectPattern();
                         var patternRow = GetPatternRow(pattern);
@@ -102,11 +94,8 @@ namespace RazerPoliceLights.Effects
         public void Stop()
         {
             //End the thread by killing the infinite loop running in the thread
-            lock (_stateLocker)
-            {
-                IsPlaying = false;
-                Logger.Trace("Stopped playing effect on " + this);
-            }
+            IsPlaying = false;
+            Logger.Trace("Stopped playing effect on " + this);
         }
 
         public void OnUnload(bool isTerminating)

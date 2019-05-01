@@ -48,7 +48,7 @@ namespace RazerPoliceLights
             catch (NoAvailableSdkException)
             {
                 var rage = IoC.Instance.GetInstance<IRage>();
-                rage.DisplayNotification("no supported SDK available");
+                rage.DisplayPluginNotification("no supported SDK available");
                 rage.LogTrivial("No supported SDK available");
             }
             catch (Exception ex)

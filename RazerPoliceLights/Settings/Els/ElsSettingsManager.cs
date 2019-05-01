@@ -63,7 +63,7 @@ namespace RazerPoliceLights.Settings.Els
             catch (Exception e)
             {
                 _rage.LogTrivial(e.Message + Environment.NewLine + e.StackTrace);
-                _rage.DisplayNotification("an error occurred while loading the ELS configuration");
+                _rage.DisplayPluginNotification("an error occurred while loading the ELS configuration");
             }
 
             return false;

@@ -26,7 +26,7 @@ namespace RazerPoliceLightsTests.Settings
                 settingsManager.Load();
 
                 Assert.NotNull(settingsManager.Settings);
-                rage.Verify(x => x.DisplayNotification("configuration loaded"));
+                rage.Verify(x => x.DisplayPluginNotification("configuration loaded"));
             }
 
             [Fact]

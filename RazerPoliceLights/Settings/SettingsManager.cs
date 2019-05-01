@@ -66,7 +66,7 @@ namespace RazerPoliceLights.Settings
                 if (_settings.ColorSettings.ElsEnabled)
                     _settings.ColorSettings.ElsEnabled = _elsSettingsManager.Load();
 
-                _rage.DisplayNotification("configuration loaded");
+                _rage.DisplayPluginNotification("configuration loaded");
                 _rage.LogTrivial(Settings.ToString());
                 
                 //initialize/reinitialize the effect devices and color manager
@@ -75,13 +75,13 @@ namespace RazerPoliceLights.Settings
             }
             catch (FileNotFoundException)
             {
-                _rage.DisplayNotification("configuration file not found, using defaults instead");
+                _rage.DisplayPluginNotification("configuration file not found, using defaults instead");
                 LoadDefaults();
             }
             catch (Exception e)
             {
                 _rage.LogTrivial(e.Message + Environment.NewLine + e.StackTrace);
-                _rage.DisplayNotification("configuration file is not valid, using defaults instead");
+                _rage.DisplayPluginNotification("configuration file is not valid, using defaults instead");
                 LoadDefaults();
             }
         }
