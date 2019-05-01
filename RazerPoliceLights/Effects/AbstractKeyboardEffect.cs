@@ -16,10 +16,10 @@ namespace RazerPoliceLights.Effects
         #region Properties
 
         /// <inheritdoc />
-        protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Keyboard);
+        public override bool IsDisabled => !SettingsManager.Settings.DeviceSettings.KeyboardSettings.IsEnabled;
 
         /// <inheritdoc />
-        protected override bool IsDisabled => !SettingsManager.Settings.DeviceSettings.KeyboardSettings.IsEnabled;
+        protected override List<EffectPattern> EffectPatterns => EffectPatternManager.Instance.GetByDevice(DeviceType.Keyboard);
 
         /// <inheritdoc />
         protected override bool IsScanModeEnabled => SettingsManager.Settings.DeviceSettings.KeyboardSettings.IsScanEnabled;
