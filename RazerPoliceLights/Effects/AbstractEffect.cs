@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -17,6 +17,7 @@ namespace RazerPoliceLights.Effects
         protected readonly ILogger Logger;
         protected readonly ISettingsManager SettingsManager;
         private readonly IColorManager _colorManager;
+        private readonly object _stateLocker = new object();
 
         private Thread _effectThread;
         private EffectPattern _currentPlayingEffect;
@@ -58,7 +59,14 @@ namespace RazerPoliceLights.Effects
             {
                 try
                 {
-                    while (IsPlaying)
+                    bool playing;
+
+                    lock (_stateLocker)
+                    {
+                        playing = IsPlaying;
+                    }
+
+                    while (playing)
                     {
                         var pattern = effectPattern ?? GetEffectPattern();
                         var patternRow = GetPatternRow(pattern);
@@ -67,11 +75,25 @@ namespace RazerPoliceLights.Effects
                         UpdateEffectCursor(pattern);
                         await Task.Delay(_delay);
                     }
+
+                    // Fix for multithreading issue "Unknown (1168)" by running the stop effect in the same thread
+                    // https://gitter.im/CoraleStudios/Colore/archives/2015/12/02
+                    Logger.Trace("Calling OnEffectStop for " + this);
+                    OnEffectStop();
+                    Logger.Trace("Exited playback loop gracefully");
                 }
-                catch (Exception exception)
+                catch (ThreadAbortException ex)
                 {
-                    Logger.Error("Device thread has stopped working with error: " + exception.Message, exception);
-                    Rage.DisplayNotification("plugin thread stopped responding");
+                    Logger.Warn("Device thread is being aborted, " + ex.Message, ex);
+                }
+                catch (ThreadInterruptedException ex)
+                {
+                    Logger.Warn("Device thread is being interrupted, " + ex.Message, ex);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("Device thread has stopped working with error: " + ex.Message, ex);
+                    _rage.DisplayPluginNotification("~r~plugin thread stopped responding");
                 }
             }) {IsBackground = true};
             _effectThread.Start();
@@ -80,8 +102,11 @@ namespace RazerPoliceLights.Effects
         public void Stop()
         {
             //End the thread by killing the infinite loop running in the thread
-            IsPlaying = false;
-            OnEffectStop();
+            lock (_stateLocker)
+            {
+                IsPlaying = false;
+                Logger.Trace("Stopped playing effect on " + this);
+            }
         }
 
         public void OnUnload(bool isTerminating)
