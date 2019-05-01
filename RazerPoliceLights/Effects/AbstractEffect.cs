@@ -57,6 +57,9 @@ namespace RazerPoliceLights.Effects
             if (IsDisabled)
                 return;
 
+            if (IsThreadAlive())
+                KillRunningThread();
+
             IsPlaying = true;
             Logger.Trace("Playing effect on " + this);
             _colorManager.VehicleName = vehicleName;
@@ -189,6 +192,17 @@ namespace RazerPoliceLights.Effects
 
             //The animation effect speed cannot be lower than 24 millis as it will cause issues in the device playbacks
             return calculatedDelay < DelayFloorLimit ? DelayFloorLimit : calculatedDelay;
+        }
+
+        private bool IsThreadAlive()
+        {
+            return _effectThread != null && _effectThread.IsAlive;
+        }
+
+        private void KillRunningThread()
+        {
+            Logger.Warn("Effect thread is still running while starting a new effect playback, forcefully aborting thread");
+            _effectThread.Abort();
         }
 
         #endregion
