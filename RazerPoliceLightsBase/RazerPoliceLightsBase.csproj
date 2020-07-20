@@ -71,7 +71,10 @@
         <Compile Include="Effects\IEffectsManager.cs" />
         <Compile Include="Effects\IKeyboardEffect.cs" />
         <Compile Include="Effects\IMouseEffect.cs" />
+        <Compile Include="GameListeners\AbstractVehicleListener.cs" />
         <Compile Include="GameListeners\IVehicleListener.cs" />
+        <Compile Include="IoC.cs" />
+        <Compile Include="IoCException.cs" />
         <Compile Include="NoAvailableSdkException.cs" />
         <Compile Include="Pattern\ColorType.cs" />
         <Compile Include="Pattern\DeviceType.cs" />
@@ -112,8 +115,6 @@
         <Compile Include="Settings\PlaybackSettings.cs" />
         <Compile Include="Settings\Settings.cs" />
         <Compile Include="Settings\SettingsManager.cs" />
-        <Compile Include="Utils\IoC.cs" />
-        <Compile Include="Utils\IoCException.cs" />
         <Compile Include="Xml\Attributes\AbstractXmlAnnotationInfo.cs" />
         <Compile Include="Xml\Attributes\XmlAttribute.cs" />
         <Compile Include="Xml\Attributes\XmlElement.cs" />

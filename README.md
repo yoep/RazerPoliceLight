@@ -30,7 +30,8 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 - Selection of active Chroma devices
 - Color configuration based on ELS configuration
 
-## Changelog features for 1.0.5
+## Changelog features for 2.0.0
 
+- FiveM support
 - Updated Cue SDK to v3.0.301
 - Updated .NET framework to v4.8

@@ -1,4 +1,5 @@
 using Moq;
+using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Devices;
 using RazerPoliceLightsBase.Devices.Razer;
@@ -7,7 +8,6 @@ using RazerPoliceLightsBase.Effects.Colors;
 using RazerPoliceLightsBase.GameListeners;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
-using RazerPoliceLightsBase.Utils;
 using RazerPoliceLightsRage.Effects.Colors;
 
 namespace RazerPoliceLightsTests

@@ -14,7 +14,6 @@ using RazerPoliceLightsBase.Effects.Colors;
 using RazerPoliceLightsBase.GameListeners;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
-using RazerPoliceLightsBase.Utils;
 using RazerPoliceLightsRage.AbstractionLayer.Implementation;
 using RazerPoliceLightsRage.Effects.Colors;
 using RazerPoliceLightsRage.GameListeners;
@@ -85,7 +84,7 @@ namespace RazerPoliceLightsRage
             IoC.Instance
                 .RegisterSingleton<INotification>(typeof(RageNotification))
                 .RegisterSingleton<IGameFiber>(typeof(RageFiber))
-                .RegisterSingleton<ILogger>(typeof(Logger))
+                .RegisterSingleton<ILogger>(typeof(RageLogger))
                 .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
                 .RegisterSingleton<IElsSettingsManager>(typeof(ElsSettingsManager))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))

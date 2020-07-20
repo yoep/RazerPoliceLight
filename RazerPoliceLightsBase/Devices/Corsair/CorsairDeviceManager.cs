@@ -3,7 +3,6 @@ using CUE.NET;
 using CUE.NET.Devices.Generic.Enums;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Effects;
-using RazerPoliceLightsBase.Utils;
 
 namespace RazerPoliceLightsBase.Devices.Corsair
 {

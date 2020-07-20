@@ -1,47 +1,46 @@
 using System;
-using Rage;
 using RazerPoliceLightsBase.AbstractionLayer;
 
-namespace RazerPoliceLightsRage.AbstractionLayer.Implementation
+namespace RazerPoliceLightsFiveM.AbstractionLayer.Implementation
 {
-    public class Logger : ILogger
+    public class FiveMLogger : ILogger
     {
-        private const string LevelWarn = "WARN";
-        private const string LevelError = "ERROR";
-
+        const string LevelWarn = "WARN";
+        const string LevelError = "ERROR";
+        
         public void Trace(string message)
         {
-            Game.LogTrivialDebug(BuildMessage("TRACE", message));
+            CitizenFX.Core.Debug.WriteLine(BuildMessage("TRACE", message));
         }
 
         public void Debug(string message)
         {
-            Game.LogTrivialDebug(BuildMessage("DEBUG", message));
+            CitizenFX.Core.Debug.WriteLine(BuildMessage("DEBUG", message));
         }
 
         public void Info(string message)
         {
-            Game.LogTrivial(BuildMessage("INFO", message));
+            CitizenFX.Core.Debug.WriteLine(BuildMessage("INFO", message));
         }
 
         public void Warn(string message)
         {
-            Game.LogTrivial(BuildMessage(LevelWarn, message));
+            CitizenFX.Core.Debug.WriteLine(BuildMessage(LevelWarn, message));
         }
 
         public void Warn(string message, Exception exception)
         {
-            Game.LogTrivial(BuildMessage(LevelWarn, message, exception));
+            CitizenFX.Core.Debug.WriteLine(BuildMessage(LevelWarn, message, exception));
         }
 
         public void Error(string message)
         {
-            Game.LogTrivial(BuildMessage(LevelError, message));
+            CitizenFX.Core.Debug.WriteLine(BuildMessage(LevelError, message));
         }
 
         public void Error(string message, Exception exception)
         {
-            Game.LogTrivial(BuildMessage(LevelError, message, exception));
+            CitizenFX.Core.Debug.WriteLine(BuildMessage(LevelError, message, exception));
         }
 
         private static string BuildMessage(string level, string message, Exception exception = null)

@@ -41,6 +41,10 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="AbstractionLayer\Implementation\FiveMFiber.cs" />
+        <Compile Include="AbstractionLayer\Implementation\FiveMLogger.cs" />
+        <Compile Include="AbstractionLayer\Implementation\FiveMNotification.cs" />
+        <Compile Include="Commands\ICommand.cs" />
         <Compile Include="Commands\SettingsCommands.cs" />
         <Compile Include="EntryPoint.cs" />
         <Compile Include="GameListeners\VehicleListener.cs" />

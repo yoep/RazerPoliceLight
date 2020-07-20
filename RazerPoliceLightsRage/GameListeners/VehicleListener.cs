@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Rage;
 using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
@@ -9,73 +8,32 @@ using RazerPoliceLightsBase.Settings;
 
 namespace RazerPoliceLightsRage.GameListeners
 {
-    public class VehicleListener : IVehicleListener
+    public class VehicleListener : AbstractVehicleListener
     {
-        private readonly INotification _notification;
-        private readonly IGameFiber _gameFiber;
-        private readonly ILogger _log;
-        private readonly ISettingsManager _settingsManager;
-        private readonly IEffectsManager _effectsManager;
-
-        private PlayerState _oldPlayerState;
-        private bool _oldSirenStateOn;
-        private bool _sirenStateChanged;
-        private bool _playerStateChanged;
-        private bool _keepAlive = true;
-
         #region Constructors
 
         public VehicleListener(INotification notification, ILogger log, IGameFiber gameFiber, ISettingsManager settingsManager, IEffectsManager effectsManager)
+            : base(notification, gameFiber, log, settingsManager, effectsManager)
         {
-            _notification = notification;
-            _log = log;
-            _gameFiber = gameFiber;
-            _settingsManager = settingsManager;
-            _effectsManager = effectsManager;
-            _oldPlayerState = PlayerState;
         }
 
         #endregion
 
-        #region Getters & Setters
+        #region Functions
 
-        private PlayerState PlayerState => IsPlayerDriving() ? PlayerState.DRIVING : PlayerState.WALKING;
-
-        private bool IsSirenOn
+        protected override bool IsPlayerDriving()
         {
-            get
-            {
-                var playerVehicle = GetPlayerVehicle();
-                return playerVehicle != null && playerVehicle.IsSirenOn;
-            }
+            var playerLastVehicle = GetPlayerVehicle();
+            return playerLastVehicle != null && playerLastVehicle.Driver == GetPlayer();
         }
 
-        #endregion
-
-        public void Start()
+        protected override bool IsSirenOn()
         {
-            try
-            {
-                _settingsManager.Load();
-                Listen();
-            }
-            catch (Exception exception)
-            {
-                if (!(exception is ThreadAbortException))
-                {
-                    _log.Error("has encountered an issue, " + exception.Message, exception);
-                    _notification.DisplayPluginNotification("plugin has crashed");
-                } //else, plugin is being unloaded
-            }
+            var playerVehicle = GetPlayerVehicle();
+            return playerVehicle != null && playerVehicle.IsSirenOn;
         }
 
-        public void Stop()
-        {
-            _log.Debug("Stopping vehicle listener");
-            _keepAlive = false;
-        }
-
-        private void Listen()
+        protected override void Listen()
         {
             while (_keepAlive)
             {
@@ -83,11 +41,11 @@ namespace RazerPoliceLightsRage.GameListeners
 
                 if (PlayerState == PlayerState.DRIVING)
                 {
-                    if (_sirenStateChanged && IsSirenOn && !_effectsManager.IsPlaying)
+                    if (_sirenStateChanged && IsSirenOn() && !_effectsManager.IsPlaying)
                     {
                         StartEffects();
                     }
-                    else if (_sirenStateChanged && !IsSirenOn && _effectsManager.IsPlaying)
+                    else if (_sirenStateChanged && !IsSirenOn() && _effectsManager.IsPlaying)
                     {
                         StopEffects();
                     }
@@ -96,7 +54,7 @@ namespace RazerPoliceLightsRage.GameListeners
                 {
                     if (!_settingsManager.Settings.PlaybackSettings.LeaveLightsOn)
                     {
-                        if (!IsSirenOn)
+                        if (!IsSirenOn())
                             StopEffects();
                     }
                 }
@@ -110,27 +68,7 @@ namespace RazerPoliceLightsRage.GameListeners
         {
             var vehicleName = GetPlayerVehicle().Model.Name;
 
-            _log.Debug("playing effects for vehicle " + vehicleName);
-            _effectsManager.Play(vehicleName);
-        }
-
-        private void StopEffects()
-        {
-            _effectsManager.Stop();
-        }
-
-        private void UpdateStates()
-        {
-            _sirenStateChanged = IsSirenOn != _oldSirenStateOn;
-            _playerStateChanged = PlayerState != _oldPlayerState;
-            _oldSirenStateOn = IsSirenOn;
-            _oldPlayerState = PlayerState;
-        }
-
-        private bool IsPlayerDriving()
-        {
-            var playerLastVehicle = GetPlayerVehicle();
-            return playerLastVehicle != null && playerLastVehicle.Driver == GetPlayer();
+            StartEffects(vehicleName);
         }
 
         private Vehicle GetPlayerVehicle()
@@ -160,5 +98,7 @@ namespace RazerPoliceLightsRage.GameListeners
                 return null;
             }
         }
+
+        #endregion
     }
 }

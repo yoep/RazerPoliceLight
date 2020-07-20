@@ -1,12 +1,13 @@
 using Moq;
+using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
-using RazerPoliceLightsBase.Utils;
 using RazerPoliceLightsRage.Effects.Colors;
 using RazerPoliceLightsTests.Model;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace RazerPoliceLightsTests
 {

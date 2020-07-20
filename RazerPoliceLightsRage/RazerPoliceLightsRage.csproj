@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="AbstractionLayer\Implementation\RageFiber.cs" />
     <Compile Include="AbstractionLayer\Implementation\RageNotification.cs" />
-    <Compile Include="AbstractionLayer\Implementation\Logger.cs" />
+    <Compile Include="AbstractionLayer\Implementation\RageLogger.cs" />
     <Compile Include="Commands\PlaybackCommands.cs" />
     <Compile Include="Commands\SettingsCommands.cs" />
     <Compile Include="EntryPoint.cs" />

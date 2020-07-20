@@ -1,7 +1,8 @@
+using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.Settings;
-using RazerPoliceLightsBase.Utils;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace RazerPoliceLightsTests
 {

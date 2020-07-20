@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Rage;
 using Rage.Attributes;
+using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.Pattern;
-using RazerPoliceLightsBase.Utils;
 
 namespace RazerPoliceLightsRage.Commands
 {
