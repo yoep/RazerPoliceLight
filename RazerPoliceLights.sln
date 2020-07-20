@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLights", "RazerPoliceLights\RazerPoliceLights.csproj", "{8CA8561A-F2BA-4709-B9E0-BAC4E8012467}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLightsRage", "RazerPoliceLightsRage\RazerPoliceLightsRage.csproj", "{8CA8561A-F2BA-4709-B9E0-BAC4E8012467}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLightsTests", "RazerPoliceLightsTests\RazerPoliceLightsTests.csproj", "{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLightsFiveM", "RazerPoliceLightsFiveM\RazerPoliceLightsFiveM.csproj", "{8EAD9B4D-0AA8-46FC-9C21-39299F7DE3D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLightsBase", "RazerPoliceLightsBase\RazerPoliceLightsBase.csproj", "{7933D0FF-14CE-482E-BB08-25E5F8B83E6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,14 @@ Global
 		{8CA8561A-F2BA-4709-B9E0-BAC4E8012467}.Release|x64.Build.0 = Release|x64
 		{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}.Debug|x64.ActiveCfg = Debug|x64
 		{EE8208F6-D28A-4FE7-B638-B3B3502A0C7B}.Debug|x64.Build.0 = Debug|x64
+		{8EAD9B4D-0AA8-46FC-9C21-39299F7DE3D0}.Release|x64.ActiveCfg = Release|Any CPU
+		{8EAD9B4D-0AA8-46FC-9C21-39299F7DE3D0}.Release|x64.Build.0 = Release|Any CPU
+		{8EAD9B4D-0AA8-46FC-9C21-39299F7DE3D0}.Debug|x64.ActiveCfg = Debug|x64
+		{8EAD9B4D-0AA8-46FC-9C21-39299F7DE3D0}.Debug|x64.Build.0 = Debug|x64
+		{7933D0FF-14CE-482E-BB08-25E5F8B83E6C}.Release|x64.ActiveCfg = Release|Any CPU
+		{7933D0FF-14CE-482E-BB08-25E5F8B83E6C}.Release|x64.Build.0 = Release|Any CPU
+		{7933D0FF-14CE-482E-BB08-25E5F8B83E6C}.Debug|x64.ActiveCfg = Debug|x64
+		{7933D0FF-14CE-482E-BB08-25E5F8B83E6C}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

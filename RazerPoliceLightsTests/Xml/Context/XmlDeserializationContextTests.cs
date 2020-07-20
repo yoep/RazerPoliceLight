@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.XPath;
 using Moq;
-using RazerPoliceLights.Xml;
-using RazerPoliceLights.Xml.Context;
-using RazerPoliceLights.Xml.Parser;
+using RazerPoliceLightsBase.Xml;
+using RazerPoliceLightsBase.Xml.Parser;
+using RazerPoliceLightsRage.Xml.Context;
 using Xunit;
 
 namespace RazerPoliceLightsTests.Xml.Context

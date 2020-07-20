@@ -1,6 +1,7 @@
 using Moq;
-using RazerPoliceLights.Devices;
-using RazerPoliceLights.Effects;
+using RazerPoliceLightsBase.AbstractionLayer;
+using RazerPoliceLightsBase.Devices;
+using RazerPoliceLightsBase.Effects;
 using Xunit;
 
 namespace RazerPoliceLightsTests.Effects
@@ -8,13 +9,14 @@ namespace RazerPoliceLightsTests.Effects
     public class EffectManagerTests
     {
         private readonly Mock<IDeviceManager> _deviceManager = new Mock<IDeviceManager>();
+        private readonly Mock<ILogger> _logger = new Mock<ILogger>();
         private readonly Mock<IKeyboardEffect> _keyboardEffect = new Mock<IKeyboardEffect>();
         private readonly Mock<IMouseEffect> _mouseEffect = new Mock<IMouseEffect>();
         private readonly IEffectsManager _effectsManager;
 
         public EffectManagerTests()
         {
-            _effectsManager = new EffectsManager(_deviceManager.Object);
+            _effectsManager = new EffectsManager(_deviceManager.Object, _logger.Object);
 
             _deviceManager.Setup(x => x.KeyboardDevice).Returns(_keyboardEffect.Object);
             _deviceManager.Setup(x => x.MouseDevice).Returns(_mouseEffect.Object);

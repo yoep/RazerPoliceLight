@@ -98,12 +98,6 @@
     <Compile Include="Xml\ObjectMapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RazerPoliceLights\RazerPoliceLights.csproj">
-      <Project>{8ca8561a-f2ba-4709-b9e0-bac4e8012467}</Project>
-      <Name>RazerPoliceLights</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +110,16 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RazerPoliceLightsBase\RazerPoliceLightsBase.csproj">
+      <Project>{7933d0ff-14ce-482e-bb08-25e5f8b83e6c}</Project>
+      <Name>RazerPoliceLightsBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RazerPoliceLightsRage\RazerPoliceLightsRage.csproj">
+      <Project>{8ca8561a-f2ba-4709-b9e0-bac4e8012467}</Project>
+      <Name>RazerPoliceLightsRage</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

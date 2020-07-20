@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using Corale.Colore.Core;
-using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Settings;
-using RazerPoliceLights.Xml;
+using RazerPoliceLightsBase.Pattern;
+using RazerPoliceLightsBase.Settings;
+using RazerPoliceLightsBase.Xml;
 using Xunit;
 
 namespace RazerPoliceLightsTests.Xml
@@ -62,7 +62,7 @@ namespace RazerPoliceLightsTests.Xml
                     StandbyColor = Color.Red
                 };
 
-                var result = _objectMapper.ReadValue<RazerPoliceLights.Settings.Settings>(GetResourceFile("RazerPoliceLights.xml"));
+                var result = _objectMapper.ReadValue<RazerPoliceLightsBase.Settings.Settings>(GetResourceFile("RazerPoliceLights.xml"));
 
                 Assert.NotNull(result);
                 Assert.Equal(expectedPlaybackSettings, result.PlaybackSettings);

@@ -1,14 +1,14 @@
 using Moq;
-using RazerPoliceLights;
-using RazerPoliceLights.AbstractionLayer;
-using RazerPoliceLights.Devices;
-using RazerPoliceLights.Devices.Razer;
-using RazerPoliceLights.Effects;
-using RazerPoliceLights.Effects.Colors;
-using RazerPoliceLights.GameListeners;
-using RazerPoliceLights.Settings;
-using RazerPoliceLights.Settings.Els;
-using RazerPoliceLights.Utils;
+using RazerPoliceLightsBase.AbstractionLayer;
+using RazerPoliceLightsBase.Devices;
+using RazerPoliceLightsBase.Devices.Razer;
+using RazerPoliceLightsBase.Effects;
+using RazerPoliceLightsBase.Effects.Colors;
+using RazerPoliceLightsBase.GameListeners;
+using RazerPoliceLightsBase.Settings;
+using RazerPoliceLightsBase.Settings.Els;
+using RazerPoliceLightsBase.Utils;
+using RazerPoliceLightsRage.Effects.Colors;
 
 namespace RazerPoliceLightsTests
 {
@@ -18,7 +18,8 @@ namespace RazerPoliceLightsTests
         {
             IoC.Instance
                 .UnregisterAll()
-                .RegisterInstance<IRage>(Mock.Of<IRage>())
+                .RegisterInstance<INotification>(Mock.Of<INotification>())
+                .RegisterInstance<IGameFiber>(Mock.Of<IGameFiber>())
                 .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
                 .RegisterSingleton<IElsSettingsManager>(typeof(ElsSettingsManager))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))

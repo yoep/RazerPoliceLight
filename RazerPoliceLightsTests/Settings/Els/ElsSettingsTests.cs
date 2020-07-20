@@ -1,6 +1,6 @@
 using Corale.Colore.Core;
-using RazerPoliceLights.Settings.Els;
-using RazerPoliceLights.Xml;
+using RazerPoliceLightsBase.Settings.Els;
+using RazerPoliceLightsBase.Xml;
 using Xunit;
 
 namespace RazerPoliceLightsTests.Settings.Els
@@ -8,7 +8,7 @@ namespace RazerPoliceLightsTests.Settings.Els
     public class ElsSettingsTests
     {
         public static string FILE = @"AMBULANCE.xml";
-        
+
         [Fact]
         public void ShouldLoadElsFile()
         {
@@ -57,7 +57,7 @@ namespace RazerPoliceLightsTests.Settings.Els
             var objectMapper = ObjectMapperFactory.CreateInstance();
 
             var result = objectMapper.ReadValue<ElsSettings>(FILE);
-            
+
             Assert.NotNull(result);
             Assert.Equal(elsSettings, result);
         }

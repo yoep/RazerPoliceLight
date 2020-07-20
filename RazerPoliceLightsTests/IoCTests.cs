@@ -1,10 +1,10 @@
 using Moq;
-using RazerPoliceLights.AbstractionLayer;
-using RazerPoliceLights.Effects;
-using RazerPoliceLights.Effects.Colors;
-using RazerPoliceLights.Settings;
-using RazerPoliceLights.Settings.Els;
-using RazerPoliceLights.Utils;
+using RazerPoliceLightsBase.AbstractionLayer;
+using RazerPoliceLightsBase.Effects;
+using RazerPoliceLightsBase.Settings;
+using RazerPoliceLightsBase.Settings.Els;
+using RazerPoliceLightsBase.Utils;
+using RazerPoliceLightsRage.Effects.Colors;
 using RazerPoliceLightsTests.Model;
 using Xunit;
 
@@ -20,7 +20,8 @@ namespace RazerPoliceLightsTests
                 var ioC = IoC.Instance;
                 ioC
                     .UnregisterAll()
-                    .RegisterInstance<IRage>(Mock.Of<IRage>())
+                    .RegisterInstance<INotification>(Mock.Of<INotification>())
+                    .RegisterInstance<ILogger>(Mock.Of<ILogger>())
                     .RegisterInstance<IElsSettingsManager>(Mock.Of<IElsSettingsManager>())
                     .RegisterInstance<IEffectsManager>(Mock.Of<IEffectsManager>())
                     .RegisterInstance<IColorManager>(Mock.Of<IColorManager>())
@@ -41,7 +42,8 @@ namespace RazerPoliceLightsTests
                 var ioC = IoC.Instance;
                 ioC
                     .UnregisterAll()
-                    .RegisterInstance<IRage>(Mock.Of<IRage>())
+                    .RegisterInstance<INotification>(Mock.Of<INotification>())
+                    .RegisterInstance<ILogger>(Mock.Of<ILogger>())
                     .RegisterInstance<IElsSettingsManager>(Mock.Of<IElsSettingsManager>())
                     .RegisterInstance<IEffectsManager>(Mock.Of<IEffectsManager>())
                     .RegisterInstance<IColorManager>(Mock.Of<IColorManager>())
@@ -65,7 +67,7 @@ namespace RazerPoliceLightsTests
                     .RegisterSingleton<IPostConstructModel>(typeof(PostConstructModel));
 
                 var result = ioC.GetInstance<IPostConstructModel>();
-                
+
                 Assert.NotNull(result);
                 Assert.True(result.IsInitialized);
             }

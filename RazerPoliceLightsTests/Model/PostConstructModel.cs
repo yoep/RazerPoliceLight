@@ -1,4 +1,4 @@
-using RazerPoliceLights.Utils;
+using RazerPoliceLightsBase.Utils;
 
 namespace RazerPoliceLightsTests.Model
 {
