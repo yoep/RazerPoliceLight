@@ -1,5 +1,6 @@
 ﻿using System;
 using CitizenFX.Core;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Effects;
@@ -10,7 +11,6 @@ using RazerPoliceLightsBase.Settings.Els;
 using RazerPoliceLightsFiveM.AbstractionLayer.Implementation;
 using RazerPoliceLightsFiveM.Commands;
 using RazerPoliceLightsFiveM.GameListeners;
-using RazerPoliceLightsRage.Effects.Colors;
 using static CitizenFX.Core.Native.API;
 
 namespace RazerPoliceLightsFiveM
@@ -19,6 +19,7 @@ namespace RazerPoliceLightsFiveM
     {
         public EntryPoint()
         {
+            Debug.WriteLine("Starting RazerPoliceLightsFiveM");
             EventHandlers["onClientResourceStart"] += new Action<string>(OnClientResourceStart);
             EventHandlers["onClientResourceStop"] += new Action<string>(OnClientResourceStop);
         }
@@ -55,8 +56,11 @@ namespace RazerPoliceLightsFiveM
 
         private void RegisterCommands()
         {
-            var commands = IoC.Instance.GetInstances<ICommand>();
+            var ioC = IoC.Instance;
+            var logger = ioC.GetInstance<ILogger>();
+            var commands = ioC.GetInstances<ICommand>();
 
+            logger.Debug("Registering " + commands.Count + " command(s)");
             foreach (var command in commands)
             {
                 command.Register();
@@ -73,7 +77,7 @@ namespace RazerPoliceLightsFiveM
         private void StopListener()
         {
             var vehicleListener = IoC.Instance.GetInstance<IVehicleListener>();
-            
+
             vehicleListener.Stop();
         }
     }

@@ -25,6 +25,9 @@ namespace RazerPoliceLightsFiveM.Commands
 
         private static void ReloadSettings()
         {
+            var logger = IoC.Instance.GetInstance<ILogger>();
+            
+            logger.Debug("Reload settings command invoked");
             IoC.Instance.GetInstance<ISettingsManager>().Load();
         }
     }

@@ -1,4 +1,4 @@
-using Corale.Colore.Core;
+using System.Drawing;
 using RazerPoliceLightsBase.Settings.Els;
 using RazerPoliceLightsBase.Xml;
 using Xunit;

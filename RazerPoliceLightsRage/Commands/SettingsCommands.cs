@@ -3,7 +3,7 @@ using Rage.Attributes;
 using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.Settings;
 
-namespace RazerPoliceLightsRage.Commands
+namespace RazerPoliceLights.Commands
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class SettingsCommands

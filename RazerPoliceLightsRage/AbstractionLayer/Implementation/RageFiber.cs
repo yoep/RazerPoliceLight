@@ -3,7 +3,7 @@ using System.Threading;
 using Rage;
 using RazerPoliceLightsBase.AbstractionLayer;
 
-namespace RazerPoliceLightsRage.AbstractionLayer.Implementation
+namespace RazerPoliceLights.AbstractionLayer.Implementation
 {
     public class RageFiber : IGameFiber
     {

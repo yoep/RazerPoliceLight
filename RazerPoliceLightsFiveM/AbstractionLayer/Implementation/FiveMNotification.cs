@@ -13,7 +13,7 @@ namespace RazerPoliceLightsFiveM.AbstractionLayer.Implementation
             {
                 color = new[] {0, 0, 255},
                 multiline = true,
-                args = new[] {RazerPoliceLights.Name, message.Trim()}
+                args = new[] {RazerPoliceLightsPlugin.Name, message.Trim()}
             });
         }
 

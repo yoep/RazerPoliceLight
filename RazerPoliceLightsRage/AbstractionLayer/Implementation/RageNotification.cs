@@ -1,15 +1,14 @@
 using Rage;
-using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
 
-namespace RazerPoliceLightsRage.AbstractionLayer.Implementation
+namespace RazerPoliceLights.AbstractionLayer.Implementation
 {
     public class RageNotification : INotification
     {
         /// <inheritdoc />
         public void DisplayPluginNotification(string message)
         {
-            Game.DisplayNotification("~b~" + RazerPoliceLights.Name + " ~s~" + message.Trim());
+            Game.DisplayNotification("~b~" + RazerPoliceLightsBase.RazerPoliceLightsPlugin.Name + " ~s~" + message.Trim());
         }
 
         /// <inheritdoc />

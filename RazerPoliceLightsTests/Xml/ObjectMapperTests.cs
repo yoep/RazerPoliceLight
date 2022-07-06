@@ -1,7 +1,7 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
-using Corale.Colore.Core;
 using RazerPoliceLightsBase.Pattern;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Xml;
@@ -57,9 +57,9 @@ namespace RazerPoliceLightsTests.Xml
                 };
                 var expectedColorSettings = new ColorSettings
                 {
-                    PrimaryColor = Color.Blue,
-                    SecondaryColor = Color.Red,
-                    StandbyColor = Color.Red
+                    PrimaryColor = Color.FromArgb(0, 0, 255),
+                    SecondaryColor = Color.FromArgb(255, 0, 0),
+                    StandbyColor = Color.FromArgb(255, 0, 0)
                 };
 
                 var result = _objectMapper.ReadValue<RazerPoliceLightsBase.Settings.Settings>(GetResourceFile("RazerPoliceLights.xml"));

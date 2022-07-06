@@ -6,7 +6,7 @@ using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.Pattern;
 
-namespace RazerPoliceLightsRage.Commands
+namespace RazerPoliceLights.Commands
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class PlaybackCommands
@@ -19,7 +19,7 @@ namespace RazerPoliceLightsRage.Commands
             [ConsoleCommandParameter(Description = "Name of the effect")]
             string effectName = null)
         {
-            if (!string.IsNullOrEmpty(effectName))
+            if (!string.IsNullOrEmpty(device) && !string.IsNullOrEmpty(effectName))
             {
                 PlayEffect(device, effectName);
             }

@@ -6,7 +6,7 @@ using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.GameListeners;
 using RazerPoliceLightsBase.Settings;
 
-namespace RazerPoliceLightsRage.GameListeners
+namespace RazerPoliceLights.GameListeners
 {
     public class VehicleListener : AbstractVehicleListener
     {

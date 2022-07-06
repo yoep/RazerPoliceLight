@@ -2,7 +2,7 @@ using System;
 using Rage;
 using RazerPoliceLightsBase.AbstractionLayer;
 
-namespace RazerPoliceLightsRage.AbstractionLayer.Implementation
+namespace RazerPoliceLights.AbstractionLayer.Implementation
 {
     public class RageLogger : ILogger
     {

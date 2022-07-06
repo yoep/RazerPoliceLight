@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Corale.Colore.Core;
 using CUE.NET;
 using Rage;
 using Rage.Attributes;
+using RazerPoliceLights.AbstractionLayer.Implementation;
+using RazerPoliceLights.Effects.Colors;
+using RazerPoliceLights.GameListeners;
 using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Devices;
@@ -14,18 +16,16 @@ using RazerPoliceLightsBase.Effects.Colors;
 using RazerPoliceLightsBase.GameListeners;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
-using RazerPoliceLightsRage.AbstractionLayer.Implementation;
-using RazerPoliceLightsRage.Effects.Colors;
-using RazerPoliceLightsRage.GameListeners;
 
 [assembly:
-    Plugin(RazerPoliceLights.Name,
+    Plugin(RazerPoliceLightsPlugin.Name,
         PrefersSingleInstance = true,
         Description = "Razer Keyboard & Mouse lighting effects",
         Author = "yoep",
         ExitPoint = "RazerPoliceLights.EntryPoint.OnUnload")]
 
-namespace RazerPoliceLightsRage
+// ReSharper disable once CheckNamespace
+namespace RazerPoliceLights
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class EntryPoint
@@ -96,12 +96,12 @@ namespace RazerPoliceLightsRage
         {
             var logger = IoC.Instance.GetInstance<ILogger>();
 
-            if (Chroma.SdkAvailable)
+            if (IsChromaSdkAvailable())
             {
                 IoC.Instance.Register<IDeviceManager>(typeof(RazerDeviceManager));
                 logger.Info("Found Chroma supported SDK");
             }
-            else if (CueSDK.IsSDKAvailable())
+            else if (IsCueSdkAvailable())
             {
                 IoC.Instance.Register<IDeviceManager>(typeof(CorsairDeviceManager));
                 logger.Info("Found CueSDK supported SDK");
@@ -109,6 +109,30 @@ namespace RazerPoliceLightsRage
             else
             {
                 throw new NoAvailableSdkException();
+            }
+        }
+
+        public static bool IsChromaSdkAvailable()
+        {
+            var logger = IoC.Instance.GetInstance<ILogger>();
+            
+            logger.Debug("Checking if the Chroma SDK is available on the device");
+            return RazerUtils.Instance().Initialized;
+        }
+
+        public static bool IsCueSdkAvailable()
+        {
+            var logger = IoC.Instance.GetInstance<ILogger>();
+
+            try
+            {
+                logger.Debug("Checking if the iCue SDK is available on the device");
+                return CueSDK.IsSDKAvailable();
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failed to check the iCue SDK availability, " + ex.Message, ex);
+                return false;
             }
         }
     }

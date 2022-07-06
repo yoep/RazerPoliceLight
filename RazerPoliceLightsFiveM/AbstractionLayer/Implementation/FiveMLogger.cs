@@ -5,8 +5,8 @@ namespace RazerPoliceLightsFiveM.AbstractionLayer.Implementation
 {
     public class FiveMLogger : ILogger
     {
-        const string LevelWarn = "WARN";
-        const string LevelError = "ERROR";
+        private const string LevelWarn = "WARN";
+        private const string LevelError = "ERROR";
         
         public void Trace(string message)
         {

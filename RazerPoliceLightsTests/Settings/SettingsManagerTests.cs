@@ -1,10 +1,10 @@
 using Moq;
+using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.Pattern;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
-using RazerPoliceLightsRage.Effects.Colors;
 using Xunit;
 
 namespace RazerPoliceLightsTests.Settings
