@@ -1,4 +1,5 @@
-﻿using RazerPoliceLights.Xml.Attributes;
+﻿using System.Drawing;
+using RazerPoliceLights.Xml.Attributes;
 
 namespace RazerPoliceLightsBase.Settings
 {

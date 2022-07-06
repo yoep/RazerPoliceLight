@@ -5,7 +5,7 @@ using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Settings;
 
-namespace RazerPoliceLightsFiveM.Commands
+namespace RazerPoliceLightsFiveM.Client.Commands
 {
     public class SettingsCommands : ICommand
     {

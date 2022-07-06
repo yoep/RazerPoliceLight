@@ -1,7 +1,7 @@
 using System;
 using RazerPoliceLightsBase.AbstractionLayer;
 
-namespace RazerPoliceLightsFiveM.AbstractionLayer.Implementation
+namespace RazerPoliceLightsFiveM.Client.AbstractionLayer.Implementation
 {
     public class FiveMLogger : ILogger
     {

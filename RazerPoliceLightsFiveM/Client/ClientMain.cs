@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLightsBase;
@@ -9,13 +10,14 @@ using RazerPoliceLightsBase.GameListeners;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
 using RazerPoliceLightsFiveM.AbstractionLayer.Implementation;
-using RazerPoliceLightsFiveM.Commands;
-using RazerPoliceLightsFiveM.GameListeners;
+using RazerPoliceLightsFiveM.Client.AbstractionLayer.Implementation;
+using RazerPoliceLightsFiveM.Client.Commands;
+using RazerPoliceLightsFiveM.Client.GameListeners;
 using static CitizenFX.Core.Native.API;
 
-namespace RazerPoliceLightsFiveM
+namespace RazerPoliceLightsFiveM.Client
 {
-    public class EntryPoint : BaseScript
+    public class ClientMain : BaseScript
     {
         public EntryPoint()
         {

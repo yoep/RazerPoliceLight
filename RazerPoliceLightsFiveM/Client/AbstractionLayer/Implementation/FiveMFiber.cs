@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using RazerPoliceLightsBase.AbstractionLayer;
 
-namespace RazerPoliceLightsFiveM.AbstractionLayer.Implementation
+namespace RazerPoliceLightsFiveM.Client.AbstractionLayer.Implementation
 {
     public class FiveMFiber : IGameFiber
     {

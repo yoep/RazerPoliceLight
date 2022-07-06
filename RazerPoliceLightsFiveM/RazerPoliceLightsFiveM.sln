@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{C888460F-1041-4E47-8939-2B2FF8504BDC}") = "RazerPoliceLightsFiveM.Client", "Client\RazerPoliceLightsFiveM.Client.csproj", "{7FDED5CA-C2A6-43A3-BE4B-D0668BFCB209}"
+EndProject
+Global
+  GlobalSection(SolutionConfigurationPlatforms) = preSolution
+    Debug|Any CPU = Debug|Any CPU
+    Release|Any CPU = Release|Any CPU
+  EndGlobalSection
+  GlobalSection(SolutionProperties) = preSolution
+    HideSolutionNode = FALSE
+  EndGlobalSection
+  GlobalSection(ProjectConfigurationPlatforms) = postSolution
+    {7FDED5CA-C2A6-43A3-BE4B-D0668BFCB209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    {7FDED5CA-C2A6-43A3-BE4B-D0668BFCB209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    {7FDED5CA-C2A6-43A3-BE4B-D0668BFCB209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    {7FDED5CA-C2A6-43A3-BE4B-D0668BFCB209}.Release|Any CPU.Build.0 = Release|Any CPU
+    {73ACC38B-E390-45E2-9E30-99E75F428144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    {73ACC38B-E390-45E2-9E30-99E75F428144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    {73ACC38B-E390-45E2-9E30-99E75F428144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    {73ACC38B-E390-45E2-9E30-99E75F428144}.Release|Any CPU.Build.0 = Release|Any CPU
+  EndGlobalSection
+EndGlobal

@@ -1,4 +1,4 @@
-namespace RazerPoliceLightsFiveM.Commands
+namespace RazerPoliceLightsFiveM.Client.Commands
 {
     public interface ICommand
     {

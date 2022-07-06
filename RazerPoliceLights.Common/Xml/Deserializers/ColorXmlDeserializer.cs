@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using RazerPoliceLights.Xml.Context;
 using RazerPoliceLightsBase.Settings.Exceptions;
 using RazerPoliceLightsBase.Xml;

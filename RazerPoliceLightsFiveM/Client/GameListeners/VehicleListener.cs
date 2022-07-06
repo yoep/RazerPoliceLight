@@ -1,12 +1,10 @@
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using RazerPoliceLightsBase;
+using System;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.GameListeners;
 using RazerPoliceLightsBase.Settings;
 
-namespace RazerPoliceLightsFiveM.GameListeners
+namespace RazerPoliceLightsFiveM.Client.GameListeners
 {
     public class VehicleListener : AbstractVehicleListener
     {

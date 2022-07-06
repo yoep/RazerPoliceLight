@@ -1,3 +1,4 @@
+using System.Drawing;
 using RazerPoliceLightsBase.Settings.Els;
 
 namespace RazerPoliceLights.Effects.Colors
