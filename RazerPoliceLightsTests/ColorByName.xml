@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<RazerPoliceLights>
+    <Playback>
+        <Speed>1.0</Speed> <!-- This is the speed factor, lower will speed up, higher will slow down -->
+        <LeaveLightsOn>false</LeaveLightsOn>
+    </Playback>
+    <Colors ElsEnabled="false">
+        <Standby>red</Standby> <!-- Or you can use <Standby>red</Standby> -->
+        <Primary>blue</Primary> <!-- Or you can use <Primary>blue</Primary> -->
+        <Secondary>orange</Secondary> <!-- Or you can use <Secondary>red</Secondary> -->
+        <!-- 
+        Valid values are (case-insensitive):
+         - black
+         - blue
+         - red
+         - orange
+         - yellow
+         - white
+        -->
+    </Colors>
+    <Devices>
+        <!-- EnableScanMode allows the plugin to switch automatically between the patterns -->
+        <!-- Otherwise, the plugin will only use the first defined pattern -->
+        <Keyboard Enabled="true" EnableScanMode="true">
+            <Patterns>
+                <Pattern>Alternate</Pattern>
+                <Pattern>AlternateFlash</Pattern>
+                <Pattern>AlternateAndFullFlash</Pattern>
+                <Pattern>EvenOdd</Pattern>
+                <Pattern>EvenOddFlash</Pattern>
+                <Pattern>Full</Pattern>
+                <Pattern>FullFlash</Pattern>
+            </Patterns>
+        </Keyboard>
+        <Mouse Enabled="true" EnableScanMode="true" AnimateVertically="false">
+            <Patterns>
+                <Pattern>Alternate</Pattern>
+                <Pattern>AlternateFlash</Pattern>
+                <Pattern>EvenOdd</Pattern>
+                <Pattern>EvenOddFlash</Pattern>
+                <Pattern>Full</Pattern>
+                <Pattern>FullFlash</Pattern>
+            </Patterns>
+        </Mouse>
+    </Devices>
+    <Patterns>
+        <!-- See manual.pdf for info on how to use and create your own -->
+        <EffectPattern Name="Alternate" Device="Keyboard">
+            <Effect Speed="2.0">1,1,0,0</Effect>
+            <Effect Speed="2.0">0,0,2,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="AlternateFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="AlternateAndFullFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,0,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,0,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,2,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,1,2,2</Effect>
+            <Effect Speed="2.0">0,0,0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOdd" Device="Keyboard">
+            <Effect Speed="2.0">1,0,2,0</Effect>
+            <Effect Speed="2.0">0,1,0,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOddFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="Full" Device="Keyboard">
+            <Effect Speed="2.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="FullFlash" Device="Keyboard">
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="Alternate" Device="Mouse">
+            <Effect Speed="2.0">1,0</Effect>
+            <Effect Speed="2.0">0,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="AlternateFlash" Device="Mouse">
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,0</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">0,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOdd" Device="Mouse">
+            <Effect Speed="2.0">1,0,2,0</Effect>
+            <Effect Speed="2.0">0,1,0,2</Effect>
+        </EffectPattern>
+        <EffectPattern Name="EvenOddFlash" Device="Mouse">
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">1,0,2,0</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+            <Effect Speed="1.0">0,1,0,2</Effect>
+            <Effect Speed="1.0">0,0,0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="Full" Device="Mouse">
+            <Effect Speed="2.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
+        </EffectPattern>
+        <EffectPattern Name="FullFlash" Device="Mouse">
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="1.0">0,0</Effect>
+            <Effect Speed="1.0">1,2</Effect>
+            <Effect Speed="2.0">0,0</Effect>
+        </EffectPattern>
+    </Patterns>
+</RazerPoliceLights>

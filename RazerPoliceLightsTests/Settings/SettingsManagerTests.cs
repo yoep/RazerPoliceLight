@@ -1,10 +1,11 @@
+using System.Drawing;
 using Moq;
-using RazerPoliceLights.AbstractionLayer;
-using RazerPoliceLights.Effects;
 using RazerPoliceLights.Effects.Colors;
-using RazerPoliceLights.Pattern;
-using RazerPoliceLights.Settings;
-using RazerPoliceLights.Settings.Els;
+using RazerPoliceLightsBase.AbstractionLayer;
+using RazerPoliceLightsBase.Effects;
+using RazerPoliceLightsBase.Pattern;
+using RazerPoliceLightsBase.Settings;
+using RazerPoliceLightsBase.Settings.Els;
 using Xunit;
 
 namespace RazerPoliceLightsTests.Settings
@@ -16,27 +17,29 @@ namespace RazerPoliceLightsTests.Settings
             [Fact]
             public void ShouldLoadExpectedSettings()
             {
-                var rage = new Mock<IRage>();
+                var logger = new Mock<ILogger>();
+                var notification = new Mock<INotification>();
                 var elsSettingsManager = new Mock<IElsSettingsManager>();
                 var effectManager = new Mock<IEffectsManager>();
                 var colorManager = new Mock<IColorManager>();
-                var settingsManager = new SettingsManager(rage.Object, elsSettingsManager.Object, "RazerPoliceLights.xml", effectManager.Object,
+                var settingsManager = new SettingsManager(logger.Object, notification.Object, elsSettingsManager.Object, "RazerPoliceLights.xml", effectManager.Object,
                     colorManager.Object);
 
                 settingsManager.Load();
 
                 Assert.NotNull(settingsManager.Settings);
-                rage.Verify(x => x.DisplayPluginNotification("configuration loaded"));
+                notification.Verify(x => x.DisplayPluginNotification("configuration loaded"));
             }
 
             [Fact]
             public void ShouldUpdateEffectPatternManager()
             {
-                var rage = new Mock<IRage>();
+                var logger = new Mock<ILogger>();
+                var notification = new Mock<INotification>();
                 var elsSettingsManager = new Mock<IElsSettingsManager>();
                 var effectManager = new Mock<IEffectsManager>();
                 var colorManager = new Mock<IColorManager>();
-                var settingsManager = new SettingsManager(rage.Object, elsSettingsManager.Object, "RazerPoliceLights.xml", effectManager.Object,
+                var settingsManager = new SettingsManager(logger.Object, notification.Object, elsSettingsManager.Object, "RazerPoliceLights.xml", effectManager.Object,
                     colorManager.Object);
 
                 settingsManager.Load();
@@ -50,11 +53,12 @@ namespace RazerPoliceLightsTests.Settings
             [Fact]
             public void ShouldNotCallLoadOnElsSettingsManagerWhenElsIsDisabled()
             {
-                var rage = new Mock<IRage>();
+                var logger = new Mock<ILogger>();
+                var notification = new Mock<INotification>();
                 var elsSettingsManager = new Mock<IElsSettingsManager>();
                 var effectManager = new Mock<IEffectsManager>();
                 var colorManager = new Mock<IColorManager>();
-                var settingsManager = new SettingsManager(rage.Object, elsSettingsManager.Object, "RazerPoliceLights.xml", effectManager.Object,
+                var settingsManager = new SettingsManager(logger.Object, notification.Object, elsSettingsManager.Object, "RazerPoliceLights.xml", effectManager.Object,
                     colorManager.Object);
 
                 settingsManager.Load();
@@ -65,15 +69,34 @@ namespace RazerPoliceLightsTests.Settings
             [Fact]
             public void ShouldCallLoadOnElsSettingsManagerWhenElsIsEnabled()
             {
-                var rage = new Mock<IRage>();
+                var logger = new Mock<ILogger>();
+                var notification = new Mock<INotification>();
                 var elsSettingsManager = new Mock<IElsSettingsManager>();
                 var effectManager = new Mock<IEffectsManager>();
                 var colorManager = new Mock<IColorManager>();
-                var settingsManager = new SettingsManager(rage.Object, elsSettingsManager.Object, "ElsEnabled.xml", effectManager.Object, colorManager.Object);
+                var settingsManager = new SettingsManager(logger.Object, notification.Object, elsSettingsManager.Object, "ElsEnabled.xml", effectManager.Object, colorManager.Object);
 
                 settingsManager.Load();
 
                 elsSettingsManager.Verify(x => x.Load());
+            }
+
+            [Fact]
+            public void ShouldCallLoadColorByNameWhenColorNamesAreGiven()
+            {
+                var logger = new Mock<ILogger>();
+                var notification = new Mock<INotification>();
+                var elsSettingsManager = new Mock<IElsSettingsManager>();
+                var effectManager = new Mock<IEffectsManager>();
+                var colorManager = new Mock<IColorManager>();
+                var settingsManager = new SettingsManager(logger.Object, notification.Object, elsSettingsManager.Object, "ColorByName.xml", effectManager.Object, colorManager.Object);
+
+                settingsManager.Load();
+                var result = settingsManager.Settings;
+                
+                Assert.Equal(Color.Red, result.ColorSettings.StandbyColor);
+                Assert.Equal(Color.Blue, result.ColorSettings.PrimaryColor);
+                Assert.Equal(Color.Orange, result.ColorSettings.SecondaryColor);
             }
         }
     }
