@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLightsTests", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazerPoliceLights.Common", "RazerPoliceLights.Common\RazerPoliceLights.Common.csproj", "{7933D0FF-14CE-482E-BB08-25E5F8B83E6C}"
 EndProject
-Project("{C888460F-1041-4E47-8939-2B2FF8504BDC}") = "RazerPoliceLightsFiveM.Client", "RazerPoliceLightsFiveM\Client\RazerPoliceLightsFiveM.Client.csproj", "{7FDED5CA-C2A6-43A3-BE4B-D0668BFCB209}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

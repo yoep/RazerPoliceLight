@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RazerPoliceLightsRage</RootNamespace>
     <AssemblyName>RazerPoliceLights</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>6</LangVersion>
   </PropertyGroup>
@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\RazerPoliceLights.Common\**\*.cs" Exclude="..\RazerPoliceLights.Common\Properties\AssemblyInfo.cs;..\RazerPoliceLights.Common\bin\**\*.*;..\RazerPoliceLights.Common\obj\**\*.*" />
+    <Content Include="..\RazerPoliceLights.Common\**\*.xml" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

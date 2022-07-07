@@ -32,6 +32,6 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 
 ## Changelog features for 2.0.0
 
-- FiveM support
+- LML support
 - Updated Cue SDK to v3.0.464
 - Updated .NET framework to v4.8

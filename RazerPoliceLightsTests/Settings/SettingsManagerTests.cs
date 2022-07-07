@@ -1,3 +1,4 @@
+using System.Drawing;
 using Moq;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLightsBase.AbstractionLayer;
@@ -78,6 +79,24 @@ namespace RazerPoliceLightsTests.Settings
                 settingsManager.Load();
 
                 elsSettingsManager.Verify(x => x.Load());
+            }
+
+            [Fact]
+            public void ShouldCallLoadColorByNameWhenColorNamesAreGiven()
+            {
+                var logger = new Mock<ILogger>();
+                var notification = new Mock<INotification>();
+                var elsSettingsManager = new Mock<IElsSettingsManager>();
+                var effectManager = new Mock<IEffectsManager>();
+                var colorManager = new Mock<IColorManager>();
+                var settingsManager = new SettingsManager(logger.Object, notification.Object, elsSettingsManager.Object, "ColorByName.xml", effectManager.Object, colorManager.Object);
+
+                settingsManager.Load();
+                var result = settingsManager.Settings;
+                
+                Assert.Equal(Color.Red, result.ColorSettings.StandbyColor);
+                Assert.Equal(Color.Blue, result.ColorSettings.PrimaryColor);
+                Assert.Equal(Color.Orange, result.ColorSettings.SecondaryColor);
             }
         }
     }

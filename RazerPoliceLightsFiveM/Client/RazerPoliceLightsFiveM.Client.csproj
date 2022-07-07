@@ -41,13 +41,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="..\..\RazerPoliceLights.Common\**\*.cs" Exclude="..\..\RazerPoliceLights.Common\Properties\AssemblyInfo.cs;..\..\RazerPoliceLights.Common\bin\**\*.*;..\..\RazerPoliceLights.Common\obj\**\*.*" />
-        <Compile Include="AbstractionLayer\Implementation\FiveMFiber.cs" />
-        <Compile Include="AbstractionLayer\Implementation\FiveMLogger.cs" />
-        <Compile Include="AbstractionLayer\Implementation\FiveMNotification.cs" />
-        <Compile Include="ClientMain.cs" />
-        <Compile Include="Commands\ICommand.cs" />
-        <Compile Include="Commands\SettingsCommands.cs" />
-        <Compile Include="GameListeners\VehicleListener.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="packages.config" />
