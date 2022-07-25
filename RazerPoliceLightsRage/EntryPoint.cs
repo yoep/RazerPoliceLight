@@ -75,7 +75,7 @@ namespace RazerPoliceLights
             ioC.GetInstance<IVehicleListener>().Stop();
             ioC.GetInstance<IEffectsManager>().OnUnload(isTerminating);
 
-            if (CueSDK.IsSDKAvailable())
+            if (IsCueSdkAvailable())
                 CueSDK.Reset();
         }
 
@@ -115,9 +115,25 @@ namespace RazerPoliceLights
         public static bool IsChromaSdkAvailable()
         {
             var logger = IoC.Instance.GetInstance<ILogger>();
-            
-            logger.Debug("Checking if the Chroma SDK is available on the device");
-            return RazerUtils.Instance().Initialized;
+            var error = false;
+
+            try
+            {
+                logger.Debug("Checking if the Chroma SDK is available on the device");
+                var instance = RazerUtils.Instance();
+
+                if (instance != null)
+                    return instance.Initialized;
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Failed to check the Chroma SDK availability, {ex.Message}", ex);
+                error = true;
+            }
+
+            var reason = error ? "error occurred while initializing the Chroma SDK" : "Chroma SDK is not available on the system";
+            logger.Debug($"Chroma SDK is unavailable, {reason}");
+            return false;
         }
 
         public static bool IsCueSdkAvailable()
@@ -131,7 +147,7 @@ namespace RazerPoliceLights
             }
             catch (Exception ex)
             {
-                logger.Error("Failed to check the iCue SDK availability, " + ex.Message, ex);
+                logger.Error($"Failed to check the iCue SDK availability, {ex.Message}", ex);
                 return false;
             }
         }
