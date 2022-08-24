@@ -8,6 +8,8 @@ namespace RazerPoliceLightsTests.Devices.Razer
         [Fact]
         public void WhenInstanceIsRequested_ShouldReturnChromaInstance()
         {
+            TestUtils.InitializeIoC();
+            
             var result = RazerUtils.Instance();
             
             Assert.NotNull(result);

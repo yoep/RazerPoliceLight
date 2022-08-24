@@ -8,7 +8,6 @@ using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLights.GameListeners;
 using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
-using RazerPoliceLightsBase.Devices;
 using RazerPoliceLightsBase.Devices.Corsair;
 using RazerPoliceLightsBase.Devices.Razer;
 using RazerPoliceLightsBase.Effects;
@@ -20,7 +19,7 @@ using RazerPoliceLightsBase.Settings.Els;
 [assembly:
     Plugin(RazerPoliceLightsPlugin.Name,
         PrefersSingleInstance = true,
-        Description = "Razer Keyboard & Mouse lighting effects",
+        Description = "Razer & Corsair Keyboard Police Lights",
         Author = "yoep",
         ExitPoint = "RazerPoliceLights.EntryPoint.OnUnload")]
 
@@ -92,21 +91,26 @@ namespace RazerPoliceLights
                 .RegisterSingleton<IVehicleListener>(typeof(VehicleListener));
         }
 
-        private static void InitializeDeviceManager()
+        public static void InitializeDeviceManager()
         {
             var logger = IoC.Instance.GetInstance<ILogger>();
+            var sdkAvailable = false;
 
             if (IsChromaSdkAvailable())
             {
-                IoC.Instance.Register<IDeviceManager>(typeof(RazerDeviceManager));
+                IoC.Instance.RegisterSingleton<IRazerDeviceManager>(typeof(RazerDeviceManager));
                 logger.Info("Found Chroma supported SDK");
+                sdkAvailable = true;
             }
-            else if (IsCueSdkAvailable())
+
+            if (IsCueSdkAvailable())
             {
-                IoC.Instance.Register<IDeviceManager>(typeof(CorsairDeviceManager));
+                IoC.Instance.RegisterSingleton<ICorsairDeviceManager>(typeof(CorsairDeviceManager));
                 logger.Info("Found CueSDK supported SDK");
+                sdkAvailable = true;
             }
-            else
+
+            if (!sdkAvailable)
             {
                 throw new NoAvailableSdkException();
             }

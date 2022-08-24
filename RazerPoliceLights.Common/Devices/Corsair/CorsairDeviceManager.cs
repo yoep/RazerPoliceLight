@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using CUE.NET;
 using CUE.NET.Devices.Generic.Enums;
 using RazerPoliceLightsBase.AbstractionLayer;
@@ -6,7 +9,8 @@ using RazerPoliceLightsBase.Effects;
 
 namespace RazerPoliceLightsBase.Devices.Corsair
 {
-    public class CorsairDeviceManager : IDeviceManager
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
+    public class CorsairDeviceManager : ICorsairDeviceManager
     {
         private readonly ILogger _logger;
 
@@ -16,23 +20,19 @@ namespace RazerPoliceLightsBase.Devices.Corsair
             Initialize();
         }
 
-        public IKeyboardEffect KeyboardDevice => IoC.Instance.GetInstance<IKeyboardEffect>();
-
-        public IMouseEffect MouseDevice => IoC.Instance.GetInstance<IMouseEffect>();
+        public IEnumerable<IEffect> Devices => IoC.Instance.GetInstances<IEffect>()
+            .Where(x => x.DeviceSdk == DeviceSdk.ICue)
+            .ToList();
 
         private void Initialize()
         {
             try
             {
-                _logger.Debug("Starting registration of CUE devices in IoC...");
-                IoC.Instance
-                    .RegisterSingleton<IKeyboardEffect>(typeof(CorsairKeyboardEffect))
-                    .RegisterSingleton<IMouseEffect>(typeof(CorsairMouseEffect));
-                _logger.Debug("Registration done");
-
                 _logger.Debug("Initializing CueSDK...");
                 CueSDK.Initialize(true);
                 _logger.Debug("CueSDK initialization done");
+                
+                RegisterCueDevices();
 
                 _logger.Info("--- CueSDK info ---");
                 _logger.Info("Architecture " + CueSDK.LoadedArchitecture);
@@ -53,6 +53,31 @@ namespace RazerPoliceLightsBase.Devices.Corsair
                     "'", ex);
                 throw new DeviceInitializationException(ex.Message, ex);
             }
+        }
+
+        private void RegisterCueDevices()
+        {
+            var numberOfDevices = 0;
+            
+            _logger.Debug("Starting registration of CUE devices in IoC...");
+            foreach (var device in CueSDK.InitializedDevices)
+            {
+                switch (device.DeviceInfo.Type)
+                {
+                    case CorsairDeviceType.Keyboard:
+                        _logger.Debug("CUE keyboard device detected");
+                        IoC.Instance.RegisterSingleton<IKeyboardEffect>(typeof(CorsairKeyboardEffect));
+                        numberOfDevices++;
+                        break;
+                    case CorsairDeviceType.Mouse:
+                        _logger.Debug("CUE mouse device detected");
+                        IoC.Instance.RegisterSingleton<IMouseEffect>(typeof(CorsairMouseEffect));
+                        numberOfDevices++;
+                        break;
+                }
+            }
+            _logger.Debug("CUE device registration done");
+            _logger.Info($"Found a total of {numberOfDevices} CUE devices");
         }
     }
 }

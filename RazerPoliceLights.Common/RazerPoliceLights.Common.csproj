@@ -36,8 +36,8 @@
         <Reference Include="Colore, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\Colore.6.0.0\lib\net452\Colore.dll</HintPath>
         </Reference>
-        <Reference Include="CUE.NET, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\packages\CUE.NET.1.2.0.1\lib\net45\CUE.NET.dll</HintPath>
+        <Reference Include="CUE.NET">
+          <HintPath>..\Libs\CUE.NET.dll</HintPath>
         </Reference>
         <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
           <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
@@ -74,8 +74,11 @@
         <Compile Include="Devices\Corsair\CorsairDeviceManager.cs" />
         <Compile Include="Devices\Corsair\CorsairKeyboardEffect.cs" />
         <Compile Include="Devices\Corsair\CorsairMouseEffect.cs" />
+        <Compile Include="Devices\Corsair\ICorsairDeviceManager.cs" />
         <Compile Include="Devices\DeviceInitializationException.cs" />
+        <Compile Include="Devices\DeviceSdk.cs" />
         <Compile Include="Devices\IDeviceManager.cs" />
+        <Compile Include="Devices\Razer\IRazerDeviceManager.cs" />
         <Compile Include="Devices\Razer\RazerDeviceManager.cs" />
         <Compile Include="Devices\Razer\RazerKeyboardEffect.cs" />
         <Compile Include="Devices\Razer\RazerMouseEffect.cs" />

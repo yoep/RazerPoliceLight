@@ -3,13 +3,12 @@ using Moq;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
-using RazerPoliceLightsBase.Devices;
-using RazerPoliceLightsBase.Devices.Razer;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.Effects.Colors;
 using RazerPoliceLightsBase.GameListeners;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
+using Xunit.Abstractions;
 
 namespace RazerPoliceLightsTests
 {
@@ -25,47 +24,66 @@ namespace RazerPoliceLightsTests
                 .RegisterSingleton<ISettingsManager>(typeof(SettingsManager))
                 .RegisterSingleton<IElsSettingsManager>(typeof(ElsSettingsManager))
                 .RegisterSingleton<IEffectsManager>(typeof(EffectsManager))
-                .RegisterSingleton<IDeviceManager>(typeof(RazerDeviceManager))
                 .RegisterSingleton<IColorManager>(typeof(ColorManagerImpl))
                 .RegisterInstance<IVehicleListener>(Mock.Of<IVehicleListener>());
+        }
+
+        public static void SetLogger(ITestOutputHelper testOutputHelper)
+        {
+            var logger = (ConsoleLogger) IoC.Instance.GetInstance<ILogger>();
+            logger.SetTestLogger(testOutputHelper);
         }
     }
 
     public class ConsoleLogger : ILogger
     {
+        private ITestOutputHelper _testOutputHelper;
+
+        public void SetTestLogger(ITestOutputHelper testOutputHelper)
+        {
+            _testOutputHelper = testOutputHelper;
+        }
+        
         public void Trace(string message)
         {
-            Console.WriteLine("[TRACE]" + message);
+            _testOutputHelper?.WriteLine("[TRACE] " + message);
+            Console.WriteLine("[TRACE] " + message);
         }
 
         public void Debug(string message)
         {
-            Console.WriteLine("[DEBUG]" + message);
+            _testOutputHelper?.WriteLine("[DEBUG] " + message);
+            Console.WriteLine("[DEBUG] " + message);
         }
 
         public void Info(string message)
         {
-            Console.WriteLine("[INFO]" + message);
+            _testOutputHelper?.WriteLine("[INFO] " + message);
+            Console.WriteLine("[INFO] " + message);
         }
 
         public void Warn(string message)
         {
-            Console.WriteLine("[WARN]" + message);
+            _testOutputHelper?.WriteLine("[WARN] " + message);
+            Console.WriteLine("[WARN] " + message);
         }
 
         public void Warn(string message, Exception exception)
         {
-            Console.WriteLine("[WARN]" + message + Environment.NewLine + exception.StackTrace);
+            _testOutputHelper?.WriteLine("[WARN] " + message + Environment.NewLine + exception.StackTrace);
+            Console.WriteLine("[WARN] " + message + Environment.NewLine + exception.StackTrace);
         }
 
         public void Error(string message)
         {
-            Console.WriteLine("[ERROR]" + message);
+            _testOutputHelper?.WriteLine("[ERROR] " + message);
+            Console.WriteLine("[ERROR] " + message);
         }
 
         public void Error(string message, Exception exception)
         {
-            Console.WriteLine("[ERROR]" + message + Environment.NewLine + exception.StackTrace);
+            _testOutputHelper?.WriteLine("[ERROR] " + message + Environment.NewLine + exception.StackTrace);
+            Console.WriteLine("[ERROR] " + message + Environment.NewLine + exception.StackTrace);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Drawing;
+using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
 
 namespace RazerPoliceLights.Effects.Colors
@@ -9,10 +10,17 @@ namespace RazerPoliceLights.Effects.Colors
     public class ElsColors : IColors
     {
         private readonly IElsSettingsManager _elsSettingsManager;
+        private readonly ColorSettings _colorSettings;
 
-        public ElsColors(IElsSettingsManager elsSettingsManager)
+        /// <summary>
+        /// Initialize a new instance of ElsColor.
+        /// </summary>
+        /// <param name="elsSettingsManager">The ELS settings manager to use for loading ELS vehicle data.</param>
+        /// <param name="colorSettings">The fallback color settings to use for when no vehicle data could be found.</param>
+        public ElsColors(IElsSettingsManager elsSettingsManager, ColorSettings colorSettings)
         {
             _elsSettingsManager = elsSettingsManager;
+            _colorSettings = colorSettings;
         }
 
         /// <inheritdoc />
@@ -21,8 +29,14 @@ namespace RazerPoliceLights.Effects.Colors
             get
             {
                 var vehicleSettings = _elsSettingsManager.GetByName(VehicleName);
-                var lightingSettings = vehicleSettings.ElsSettings.LightingSettings;
                 var average = max / 2;
+
+                // verify if the vehicle settings could be found
+                // otherwise, use the default configured colors
+                if (vehicleSettings == null)
+                    return index < average ? _colorSettings.PrimaryColor : _colorSettings.SecondaryColor;
+
+                var lightingSettings = vehicleSettings.ElsSettings.LightingSettings;
 
                 return index < average
                     ? lightingSettings.GetColorForIndex(index)

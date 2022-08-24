@@ -7,6 +7,7 @@ namespace RazerPoliceLightsBase.Settings.Els
 
         public ElsVehicleSettings(string name, ElsSettings elsSettings, ElsSettings defaultElsSettings)
         {
+            Assert.NotNull(defaultElsSettings, "defaultElsSettings cannot be null");
             _elsSettings = elsSettings;
             _defaultElsSettings = defaultElsSettings;
             Name = name;
@@ -14,6 +15,7 @@ namespace RazerPoliceLightsBase.Settings.Els
 
         public ElsVehicleSettings(string name, ElsSettings defaultElsSettings)
         {
+            Assert.NotNull(defaultElsSettings, "defaultElsSettings cannot be null");
             _defaultElsSettings = defaultElsSettings;
             Name = name;
         }
@@ -23,9 +25,6 @@ namespace RazerPoliceLightsBase.Settings.Els
         /// <summary>
         /// Get ELS settings which are available in the ELS configuration directory for the given vehicle.
         /// </summary>
-        public ElsSettings ElsSettings
-        {
-            get { return _elsSettings ?? _defaultElsSettings; }
-        }
+        public ElsSettings ElsSettings => _elsSettings ?? _defaultElsSettings;
     }
 }

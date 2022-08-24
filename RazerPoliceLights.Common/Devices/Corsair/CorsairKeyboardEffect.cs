@@ -25,6 +25,12 @@ namespace RazerPoliceLightsBase.Devices.Corsair
         }
 
         #endregion
+        
+        #region Properties
+
+        public override DeviceSdk DeviceSdk => DeviceSdk.ICue;
+
+        #endregion
 
         #region Methods
 

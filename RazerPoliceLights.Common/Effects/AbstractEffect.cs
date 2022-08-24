@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLightsBase.AbstractionLayer;
+using RazerPoliceLightsBase.Devices;
 using RazerPoliceLightsBase.Pattern;
 using RazerPoliceLightsBase.Settings;
 
@@ -40,6 +41,9 @@ namespace RazerPoliceLightsBase.Effects
         public bool IsPlaying { get; private set; }
 
         /// <inheritdoc />
+        public abstract DeviceSdk DeviceSdk { get; }
+
+        /// <inheritdoc />
         public abstract bool IsDisabled { get; }
 
         #endregion
@@ -62,7 +66,7 @@ namespace RazerPoliceLightsBase.Effects
                 KillRunningThread();
 
             IsPlaying = true;
-            Logger.Trace("Playing effect on " + this);
+            Logger.Trace($"Playing effect on {this} for vehicle {vehicleName}");
             _colorManager.VehicleName = vehicleName;
             _effectThread = new Thread(() =>
             {
@@ -80,7 +84,7 @@ namespace RazerPoliceLightsBase.Effects
 
                     // Fix for multithreading issue "Unknown (1168)" by running the stop effect in the same thread
                     // https://gitter.im/CoraleStudios/Colore/archives/2015/12/02
-                    Logger.Trace("Calling OnEffectStop for " + this);
+                    Logger.Trace($"Calling OnEffectStop for {this}");
                     OnEffectStop();
                     Logger.Trace("Exited playback loop gracefully");
                 }

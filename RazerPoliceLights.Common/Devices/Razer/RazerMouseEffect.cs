@@ -22,7 +22,13 @@ namespace RazerPoliceLightsBase.Devices.Razer
         }
 
         #endregion
+        
+        #region Properties
 
+        public override DeviceSdk DeviceSdk => DeviceSdk.Chroma;
+
+        #endregion
+        
         #region Methods
 
         public override void Initialize()

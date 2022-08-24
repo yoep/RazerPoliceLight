@@ -29,7 +29,7 @@ namespace RazerPoliceLightsBase.Effects.Colors
         {
             if (settings.ColorSettings.ElsEnabled)
             {
-                _colors = new ElsColors(_elsSettingsManager);
+                _colors = new ElsColors(_elsSettingsManager, settings.ColorSettings);
             }
             else
             {

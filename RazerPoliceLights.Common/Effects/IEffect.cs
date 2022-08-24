@@ -1,4 +1,5 @@
-﻿using RazerPoliceLightsBase.Pattern;
+﻿using RazerPoliceLightsBase.Devices;
+using RazerPoliceLightsBase.Pattern;
 
 namespace RazerPoliceLightsBase.Effects
 {
@@ -8,6 +9,11 @@ namespace RazerPoliceLightsBase.Effects
         /// Get if the effect is already playing.
         /// </summary>
         bool IsPlaying { get; }
+        
+        /// <summary>
+        /// Get the device SDK of this effect.
+        /// </summary>
+        DeviceSdk DeviceSdk { get; }
 
         /// <summary>
         /// Start the playback of effects on the device.

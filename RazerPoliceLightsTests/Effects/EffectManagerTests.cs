@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Moq;
 using RazerPoliceLightsBase.AbstractionLayer;
 using RazerPoliceLightsBase.Devices;
@@ -16,10 +17,9 @@ namespace RazerPoliceLightsTests.Effects
 
         public EffectManagerTests()
         {
-            _effectsManager = new EffectsManager(_deviceManager.Object, _logger.Object);
+            _effectsManager = new EffectsManager(new List<IDeviceManager> { _deviceManager.Object }, _logger.Object);
 
-            _deviceManager.Setup(x => x.KeyboardDevice).Returns(_keyboardEffect.Object);
-            _deviceManager.Setup(x => x.MouseDevice).Returns(_mouseEffect.Object);
+            _deviceManager.Setup(x => x.Devices).Returns(new List<IEffect> { _keyboardEffect.Object, _mouseEffect.Object });
         }
 
         [Fact]

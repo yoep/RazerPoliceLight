@@ -40,6 +40,9 @@
     <Reference Include="Colore, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Colore.6.0.0\lib\net452\Colore.dll</HintPath>
     </Reference>
+    <Reference Include="CUE.NET">
+      <HintPath>..\Libs\CUE.NET.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
@@ -101,8 +104,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Devices\Razer\RazerDeviceManagerTests.cs" />
     <Compile Include="Devices\Razer\RazerUtilsTests.cs" />
     <Compile Include="Effects\EffectManagerTests.cs" />
+    <Compile Include="Effects\EffectTests.cs" />
     <Compile Include="EntryPointTests.cs" />
     <Compile Include="IoCTests.cs" />
     <Compile Include="Model\IPostConstructModel.cs" />

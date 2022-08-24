@@ -30,8 +30,8 @@ This plugin uses RAGE plugin hook & Colore API for Razer Synapse SDK.
 - Selection of active Chroma devices
 - Color configuration based on ELS configuration
 
-## Changelog features for 2.0.0
+## Changelog features for 2.0.1
 
-- LML support
-- Updated Cue SDK to v3.0.464
-- Updated .NET framework to v4.8
+- Chroma SDK & iCue SDK can now be used together
+- Captured Chroma SDK errors when checking the availability of the SDK
+- Fixed a crash when ELS colors are enabled and the vehicle XML file doesn't exist

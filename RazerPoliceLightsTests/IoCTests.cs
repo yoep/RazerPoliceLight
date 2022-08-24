@@ -2,6 +2,8 @@ using Moq;
 using RazerPoliceLights.Effects.Colors;
 using RazerPoliceLightsBase;
 using RazerPoliceLightsBase.AbstractionLayer;
+using RazerPoliceLightsBase.Devices;
+using RazerPoliceLightsBase.Devices.Razer;
 using RazerPoliceLightsBase.Effects;
 using RazerPoliceLightsBase.Settings;
 using RazerPoliceLightsBase.Settings.Els;
@@ -33,6 +35,18 @@ namespace RazerPoliceLightsTests
 
                 Assert.NotEqual(expectedResult, result);
             }
+
+            [Fact]
+            public void WhenUnregisterAllIsInvokedShouldRemoveAllKnownTypes()
+            {
+                var ioC = IoC.Instance;
+
+                ioC.RegisterInstance<INotification>(Mock.Of<INotification>());
+                Assert.True(ioC.TypeExists<INotification>());
+
+                ioC.UnregisterAll();
+                Assert.False(ioC.TypeExists<INotification>());
+            }
         }
 
         public class RegisterSingleton
@@ -54,6 +68,21 @@ namespace RazerPoliceLightsTests
                 var result = ioC.GetInstance<ISettingsManager>();
 
                 Assert.Equal(expectedResult, result);
+            }
+
+            [Fact]
+            public void WhenListContainsSingleton_ShouldAlwaysReturnTheSameSingletonInstance()
+            {
+                var ioC = IoC.Instance;
+                ioC
+                    .UnregisterAll()
+                    .RegisterInstance<ILogger>(Mock.Of<ILogger>())
+                    .RegisterSingleton<IRazerDeviceManager>(typeof(RazerDeviceManager));
+                var deviceManager = ioC.GetInstance<IRazerDeviceManager>();
+                var deviceManagers = ioC.GetInstances<IDeviceManager>();
+                
+                Assert.Single(deviceManagers);
+                Assert.Equal(deviceManager, deviceManagers[0]);
             }
         }
 

@@ -10,15 +10,15 @@ namespace RazerPoliceLightsBase.Effects
 {
     public class EffectsManager : IEffectsManager
     {
-        private readonly IDeviceManager _deviceManager;
+        private readonly IEnumerable<IDeviceManager> _deviceManagers;
         private readonly ILogger _logger;
 
         #region Constructors
 
         // ReSharper disable SuggestBaseTypeForParameter
-        public EffectsManager(IDeviceManager deviceManager, ILogger logger)
+        public EffectsManager(IEnumerable<IDeviceManager> deviceManagers, ILogger logger)
         {
-            _deviceManager = deviceManager;
+            _deviceManagers = deviceManagers;
             _logger = logger;
         }
 
@@ -26,9 +26,13 @@ namespace RazerPoliceLightsBase.Effects
 
         #region Properties
 
-        private IEnumerable<IEffect> DeviceEffects => new List<IEffect> {_deviceManager.KeyboardDevice, _deviceManager.MouseDevice};
+        private IEnumerable<IEffect> DeviceEffects => RetrieveDeviceEffects();
 
+        /// <inheritdoc />
         public bool IsPlaying => DeviceEffects.Any(e => e.IsPlaying);
+
+        /// <inheritdoc />
+        public DeviceSdk DeviceSdk => DeviceSdk.None;
 
         #endregion
 
@@ -88,6 +92,18 @@ namespace RazerPoliceLightsBase.Effects
         private IEffect GetByType(Type type)
         {
             return DeviceEffects.First(e => e.GetType() == type);
+        }
+
+        private IEnumerable<IEffect> RetrieveDeviceEffects()
+        {
+            var effects = new List<IEffect>();
+
+            foreach (var deviceManager in _deviceManagers)
+            {
+                effects.AddRange(deviceManager.Devices);
+            }
+
+            return effects;
         }
 
         #endregion
