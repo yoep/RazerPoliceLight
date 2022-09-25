@@ -47,8 +47,9 @@ namespace RazerPoliceLights.AbstractionLayer.Implementation
         private static string BuildMessage(string level, string message, Exception exception = null)
         {
             var stacktrace = exception?.StackTrace;
+            var newline = string.IsNullOrWhiteSpace(stacktrace) ? "" : "\n";
 
-            return $"[{level}] {message}\n{stacktrace}";
+            return $"[{level}] {message}{newline}{stacktrace}";
         }
     }
 }

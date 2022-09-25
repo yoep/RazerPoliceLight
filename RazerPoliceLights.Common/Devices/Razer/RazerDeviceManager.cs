@@ -23,6 +23,17 @@ namespace RazerPoliceLightsBase.Devices.Razer
         public IEnumerable<IEffect> Devices => IoC.Instance.GetInstances<IEffect>()
             .Where(x => x.DeviceSdk == DeviceSdk.Chroma)
             .ToList();
+        
+        #region IDisposable
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            var instance = IoC.Instance.GetInstance<IChroma>();
+            instance.Dispose();
+        }
+
+        #endregion
 
         private void Initialize()
         {

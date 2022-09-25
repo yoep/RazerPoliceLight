@@ -20,9 +20,24 @@ namespace RazerPoliceLightsBase.Devices.Corsair
             Initialize();
         }
 
+        #region IDeviceManager
+
+        /// <inheritdoc />
         public IEnumerable<IEffect> Devices => IoC.Instance.GetInstances<IEffect>()
             .Where(x => x.DeviceSdk == DeviceSdk.ICue)
             .ToList();
+
+        #endregion
+
+        #region IDisposable
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            CueSDK.Reset();
+        }
+
+        #endregion
 
         private void Initialize()
         {
